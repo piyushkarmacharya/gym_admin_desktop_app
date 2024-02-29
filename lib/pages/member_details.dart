@@ -60,24 +60,54 @@ class _MemberDetailsState extends State<MemberDetails> {
     return Scaffold(
         body: FutureBuilder(
             future: getMembersDetail(),
-            builder: (context, AsyncSnapshot ss) {
-              if (ss.connectionState == ConnectionState.waiting) {
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
-              } else if (ss.hasError) {
-                return Text(ss.error.toString());
+              } else if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
               } else {
                 return SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: DataTable(
-                      columns: List.generate(
-                        keys.length,
-                        (index) => DataColumn(
-                          label: Text(keys[index]),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Text("Quick search : "),
+                              SizedBox(
+                                width: 300,
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 0),
+                                    label: Text("Email"),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    )
+                                  ),
+                                  
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ElevatedButton(onPressed: (){}, child:Text("Search"),),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      rows: getAbc(ss.data),
+                        DataTable(
+                          columns: List.generate(
+                            keys.length,
+                            (index) => DataColumn(
+                              label: Text(keys[index]),
+                            ),
+                          ),
+                          rows: getAbc(snapshot.data),
+                        ),
+                      ],
                     ),
                   ),
                 );
