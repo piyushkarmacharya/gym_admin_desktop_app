@@ -23,7 +23,11 @@ class _MemberDetailsState extends State<MemberDetails> {
     'weight',
     'height'
   ];
-  List<DataRow> getAbc(List obj) {
+
+  TextEditingController ctr=TextEditingController();
+  String email = "";
+  //Return datarow for datatable using list.generate
+  List<DataRow> getDataRow(List obj) {
     return List.generate(
       obj.length,
       (i) {
@@ -40,9 +44,11 @@ class _MemberDetailsState extends State<MemberDetails> {
   }
 
   Future<List> getMembersDetail() async {
-    try {
+    
+      //setting condition if user uses quick search i.e email!=""
+      String url=(email=="")?'http://127.0.0.1:8000/api/Member/details':'http://127.0.0.1:8000/api/Member/details/$email';
       final res =
-          await http.get(Uri.parse('http://127.0.0.1:8000/api/Member/details'));
+          await http.get(Uri.parse(url));
       if (res.statusCode == 200) {
         List data = jsonDecode(res.body);
         await Future.delayed(Duration(seconds: 2));
@@ -50,9 +56,7 @@ class _MemberDetailsState extends State<MemberDetails> {
       } else {
         throw res.statusCode;
       }
-    } catch (e) {
-      rethrow;
-    }
+    
   }
 
   @override
@@ -81,32 +85,43 @@ class _MemberDetailsState extends State<MemberDetails> {
                               SizedBox(
                                 width: 300,
                                 child: TextField(
+                                  controller: ctr,
                                   decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 0),
-                                    label: Text("Email"),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    )
-                                  ),
-                                  
+                                      contentPadding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 0),
+                                      label: Text("Email"),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      )),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: ElevatedButton(onPressed: (){}, child:Text("Search"),),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      email=ctr.text;
+                                    });
+                                  },
+                                  child: Text("Search"),
+                                ),
                               ),
                             ],
                           ),
                         ),
-                        DataTable(
-                          columns: List.generate(
-                            keys.length,
-                            (index) => DataColumn(
-                              label: Text(keys[index]),
-                            ),
-                          ),
-                          rows: getAbc(snapshot.data),
-                        ),
+
+                        
+                        
+                             DataTable(
+                                columns: List.generate(
+                                  keys.length,
+                                  (index) => DataColumn(
+                                    label: Text(keys[index]),
+                                  ),
+                                ),
+                                rows: getDataRow(snapshot.data),
+                              )
+                            
                       ],
                     ),
                   ),
