@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:gymmanagementsystem/pages/create_staff_acc.dart";
 import "package:gymmanagementsystem/pages/login_page.dart";
 import "package:gymmanagementsystem/pages/member_details.dart";
 import 'package:gymmanagementsystem/pages/register_member.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'PlayFairDisplay',
           useMaterial3: true,
         ),
-        home: MemberDetails(),
+        home: CreateStaffAcc(),
       ),
     );
   }

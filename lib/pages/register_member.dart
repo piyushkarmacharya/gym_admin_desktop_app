@@ -60,9 +60,9 @@ class _RegisterMemberState extends State<RegisterMember> {
       body: jsonEncode(data),
     );
     if (Response.statusCode == 200) {
-      print("Success");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Success")));
     } else {
-      print("Failed");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed")));
     }
   }
 
