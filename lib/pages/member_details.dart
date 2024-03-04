@@ -21,7 +21,8 @@ class _MemberDetailsState extends State<MemberDetails> {
     'contact_number',
     'address',
     'weight',
-    'height'
+    'height',
+    'photo'
   ];
 
   TextEditingController ctr=TextEditingController();
@@ -35,7 +36,8 @@ class _MemberDetailsState extends State<MemberDetails> {
           cells: List.generate(
             keys.length,
             (j) => DataCell(
-              Text(obj[i][keys[j]].toString()),
+
+              keys[j]!="photo"?Text(obj[i][keys[j]].toString()):Image.memory(base64Decode(obj[i][keys[j]].toString())),
             ),
           ),
         );

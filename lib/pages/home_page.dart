@@ -3,6 +3,9 @@ import "package:gymmanagementsystem/pages/dashboard.dart";
 import "package:gymmanagementsystem/pages/members.dart";
 import 'package:gymmanagementsystem/pages/register_member.dart';
 import "package:gymmanagementsystem/pages/trainers.dart";
+import "package:gymmanagementsystem/pages/member_details.dart";
+import 'package:gymmanagementsystem/pages/create_staff_acc.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,8 +16,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selected = 0;
-  List<String> heading = ["Dashboard", "Trainers", "Members", "Registration"];
-  List<Widget> pages = [Dashboard(), Trainers(), Members(), RegisterMember()];
+  List<String> heading = ["Dashboard", "Trainers", "Members", "Register Member","New Staff"];
+  List<Widget> pages = [Dashboard(), Trainers(), MemberDetails(), RegisterMember(),CreateStaffAcc()];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -62,10 +65,19 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              title: Text("Registration"),
+              title: Text("Register Member"),
               onTap: () {
                 setState(() {
                   selected = 3;
+                  Navigator.of(context).pop();
+                });
+              },
+            ),
+            ListTile(
+              title: Text("New Staff"),
+              onTap: () {
+                setState(() {
+                  selected = 4;
                   Navigator.of(context).pop();
                 });
               },

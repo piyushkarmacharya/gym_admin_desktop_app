@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RegisterMember extends StatefulWidget {
   @override
@@ -14,6 +16,7 @@ class _RegisterMemberState extends State<RegisterMember> {
   String? _selectedGender;
   DateTime? _dob;
   bool genderError = false;
+  bool imgSizeExceed = false;
   bool ageError = false;
   final List<TextEditingController> ctr = [
     TextEditingController(),
@@ -43,6 +46,36 @@ class _RegisterMemberState extends State<RegisterMember> {
     }
   }
 
+  //For image
+  XFile? img;
+  String? imgstr;
+
+  Future<void> getImage() async {
+    final temp = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (temp != null) {
+      setState(
+        () {
+          img = temp;
+          if (getImageSize(img!) < 500) {
+            imgstr = base64Encode(File(img!.path).readAsBytesSync());
+            imgSizeExceed=false;
+          }else{
+            imgstr=null;
+            imgSizeExceed=true;
+          }
+        },
+      );
+    } else {
+      print("select img");
+    }
+  }
+
+  double getImageSize(XFile temp) {
+    final File imgfile = File(temp.path);
+    int fileSizeInByte = imgfile.lengthSync();
+    return (fileSizeInByte / 1024);
+  }
+
   Future<void> registerMember() async {
     final Map<String, dynamic> data = {
       "name": ctr[0].text,
@@ -52,7 +85,8 @@ class _RegisterMemberState extends State<RegisterMember> {
       "contact_number": ctr[2].text,
       "address": ctr[3].text,
       "weight": ctr[4].text,
-      "height": ctr[5].text
+      "height": ctr[5].text,
+      'photo': imgstr
     };
     final Response = await http.post(
       Uri.parse("http://127.0.0.1:8000/api/Member/register"),
@@ -60,9 +94,11 @@ class _RegisterMemberState extends State<RegisterMember> {
       body: jsonEncode(data),
     );
     if (Response.statusCode == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Success")));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Success")));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed")));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Failed")));
     }
   }
 
@@ -252,6 +288,32 @@ class _RegisterMemberState extends State<RegisterMember> {
                               return null;
                             },
                           ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Expanded(child: Text("Select image :")),
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      getImage();
+                                    },
+                                    child: Text("Open gallery"),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: SizedBox(
+                                    height: 100,
+                                    child: imgstr == null
+                                        ? Text("no img")
+                                        : Image.memory(base64Decode(imgstr!)),
+                                  ),
+                                ),
+                              ],
+                            
+                            ),
+                          ),
+                          imgSizeExceed==true?Center(child: Text("File size exceed 500Kb",style: Theme.of(context).textTheme.bodySmall,)):Text(""),
                           ElevatedButton(
                               onPressed: () {
                                 setState(() {});
@@ -267,8 +329,11 @@ class _RegisterMemberState extends State<RegisterMember> {
                                 }
                                 if (_formKey.currentState!.validate() &&
                                     genderError == false &&
-                                    ageError == false) {
+                                    ageError == false&&imgstr!=null) {
                                   registerMember();
+                                }
+                                else{
+                                  print("Error");
                                 }
                               },
                               child: Text("Submit")),
