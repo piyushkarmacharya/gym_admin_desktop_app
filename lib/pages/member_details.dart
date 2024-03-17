@@ -38,29 +38,43 @@ class _MemberDetailsState extends State<MemberDetails> {
             (j) => DataCell(
               keys[j] != "photo"
                   ? Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(obj[i][keys[j]].toString()),
-                  )
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(obj[i][keys[j]].toString()),
+                    )
                   : GestureDetector(
-                    onTap: (){
-                      showDialog(context: context, builder: (context){return Dialog(child:Text(obj[i][keys[j+1]].toString()));});
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: Container(
-                            width: 60,
-                            height: 60,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40)),
-                            child: ClipOval(
-                              child: Image.memory(
-                                  base64Decode(obj[i][keys[j]].toString())),
-                            )),
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                child: ListView(
+                                  children: List.generate(
+                                    keys.length - 1,
+                                    (index) => ListTile(
+                                      title: Text("${keys[index + 1].toString()} : ${obj[i][keys[index + 1]].toString()}"
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: Container(
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40)),
+                              child: ClipOval(
+                                child: Image.memory(
+                                    base64Decode(obj[i][keys[j]].toString())),
+                              )),
+                        ),
                       ),
                     ),
-                  ),
             ),
           ),
         );
@@ -135,7 +149,6 @@ class _MemberDetailsState extends State<MemberDetails> {
                         ),
                         DataTable(
                           border: TableBorder.all(),
-                          
                           columns: List.generate(
                             3,
                             (index) => DataColumn(
