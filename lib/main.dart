@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
       create: (context)=>UserProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        darkTheme: ThemeData.dark(),
         theme: ThemeData(
           textTheme: TextTheme(
             bodySmall: TextStyle(
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'PlayFairDisplay',
           useMaterial3: true,
         ),
-        home: MemberDetails(),
+        home: HomePage(),
       ),
     );
   }

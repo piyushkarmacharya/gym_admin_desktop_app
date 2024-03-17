@@ -13,19 +13,19 @@ class MemberDetails extends StatefulWidget {
 
 class _MemberDetailsState extends State<MemberDetails> {
   List<String> keys = [
-    'mid',
+    'photo',
     'name',
+    'email',
+    'mid',
     'dob',
     'gender',
-    'email',
     'contact_number',
     'address',
     'weight',
     'height',
-    'photo'
   ];
 
-  TextEditingController ctr=TextEditingController();
+  TextEditingController ctr = TextEditingController();
   String email = "";
   //Return datarow for datatable using list.generate
   List<DataRow> getDataRow(List obj) {
@@ -34,10 +34,33 @@ class _MemberDetailsState extends State<MemberDetails> {
       (i) {
         return DataRow(
           cells: List.generate(
-            keys.length,
+            3,
             (j) => DataCell(
-
-              keys[j]!="photo"?Text(obj[i][keys[j]].toString()):Image.memory(base64Decode(obj[i][keys[j]].toString())),
+              keys[j] != "photo"
+                  ? Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(obj[i][keys[j]].toString()),
+                  )
+                  : GestureDetector(
+                    onTap: (){
+                      showDialog(context: context, builder: (context){return Dialog(child:Text(obj[i][keys[j+1]].toString()));});
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(40)),
+                            child: ClipOval(
+                              child: Image.memory(
+                                  base64Decode(obj[i][keys[j]].toString())),
+                            )),
+                      ),
+                    ),
+                  ),
             ),
           ),
         );
@@ -46,19 +69,18 @@ class _MemberDetailsState extends State<MemberDetails> {
   }
 
   Future<List> getMembersDetail() async {
-    
-      //setting condition if user uses quick search i.e email!=""
-      String url=(email=="")?'http://127.0.0.1:8000/api/Member/details':'http://127.0.0.1:8000/api/Member/details/$email';
-      final res =
-          await http.get(Uri.parse(url));
-      if (res.statusCode == 200) {
-        List data = jsonDecode(res.body);
-        await Future.delayed(Duration(seconds: 2));
-        return data;
-      } else {
-        throw res.statusCode;
-      }
-    
+    //setting condition if user uses quick search i.e email!=""
+    String url = (email == "")
+        ? 'http://127.0.0.1:8000/api/Member/details'
+        : 'http://127.0.0.1:8000/api/Member/details/$email';
+    final res = await http.get(Uri.parse(url));
+    if (res.statusCode == 200) {
+      List data = jsonDecode(res.body);
+      await Future.delayed(Duration(seconds: 2));
+      return data;
+    } else {
+      throw res.statusCode;
+    }
   }
 
   @override
@@ -77,7 +99,7 @@ class _MemberDetailsState extends State<MemberDetails> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -102,7 +124,7 @@ class _MemberDetailsState extends State<MemberDetails> {
                                 child: ElevatedButton(
                                   onPressed: () {
                                     setState(() {
-                                      email=ctr.text;
+                                      email = ctr.text;
                                     });
                                   },
                                   child: Text("Search"),
@@ -111,19 +133,17 @@ class _MemberDetailsState extends State<MemberDetails> {
                             ],
                           ),
                         ),
-
-                        
-                        
-                             DataTable(
-                                columns: List.generate(
-                                  keys.length,
-                                  (index) => DataColumn(
-                                    label: Text(keys[index]),
-                                  ),
-                                ),
-                                rows: getDataRow(snapshot.data),
-                              )
-                            
+                        DataTable(
+                          border: TableBorder.all(),
+                          
+                          columns: List.generate(
+                            3,
+                            (index) => DataColumn(
+                              label: Text(keys[index]),
+                            ),
+                          ),
+                          rows: getDataRow(snapshot.data),
+                        )
                       ],
                     ),
                   ),
