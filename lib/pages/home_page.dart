@@ -3,7 +3,7 @@ import "package:gymmanagementsystem/pages/dashboard.dart";
 import "package:gymmanagementsystem/pages/members.dart";
 import 'package:gymmanagementsystem/pages/register_member.dart';
 import "package:gymmanagementsystem/pages/trainers.dart";
-import "package:gymmanagementsystem/pages/member_details.dart";
+import 'package:gymmanagementsystem/pages/member_pages/member_details.dart';
 import 'package:gymmanagementsystem/pages/create_staff_acc.dart';
 
 

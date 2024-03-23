@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:gymmanagementsystem/pages/create_staff_acc.dart";
 import "package:gymmanagementsystem/pages/dashboard.dart";
 import "package:gymmanagementsystem/pages/login_page.dart";
-import "package:gymmanagementsystem/pages/member_details.dart";
+import 'package:gymmanagementsystem/pages/member_pages/member_details.dart';
 import 'package:gymmanagementsystem/pages/register_member.dart';
 import "package:gymmanagementsystem/pages/try.dart";
 import "package:gymmanagementsystem/user_provider.dart";
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       create: (context)=>UserProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        darkTheme: ThemeData.dark(),
+       
         theme: ThemeData(
           textTheme: TextTheme(
             bodySmall: TextStyle(

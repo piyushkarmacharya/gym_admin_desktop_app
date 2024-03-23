@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:gymmanagementsystem/pages/member_pages/member_dialog.dart';
 import 'package:http/http.dart' as http;
 
 class MemberDetails extends StatefulWidget {
@@ -43,21 +44,7 @@ class _MemberDetailsState extends State<MemberDetails> {
                     )
                   : GestureDetector(
                       onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return Dialog(
-                                child: ListView(
-                                  children: List.generate(
-                                    keys.length - 1,
-                                    (index) => ListTile(
-                                      title: Text("${keys[index + 1].toString()} : ${obj[i][keys[index + 1]].toString()}"
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            });
+                        creatMemberDialog(obj, i);
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -80,6 +67,14 @@ class _MemberDetailsState extends State<MemberDetails> {
         );
       },
     );
+  }
+
+  Future<dynamic> creatMemberDialog(List<dynamic> obj, int i) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return MemberDialog(keys:keys,obj:obj,i:i);
+        });
   }
 
   Future<List> getMembersDetail() async {
