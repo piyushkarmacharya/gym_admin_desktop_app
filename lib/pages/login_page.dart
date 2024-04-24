@@ -152,7 +152,9 @@ class _LoginPageState extends State<LoginPage> {
                                       if (data.length == 0) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
+                                            
                                           const SnackBar(
+                                            duration: Duration(seconds: 1),
                                             content:
                                                 Text("Email doesnot Exists"),
                                           ),
@@ -172,6 +174,8 @@ class _LoginPageState extends State<LoginPage> {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
+                                              
+                                              duration: Duration(seconds: 1),
                                               content:
                                                   Text("Incorrect Password"),
                                             ),

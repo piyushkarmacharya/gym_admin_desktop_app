@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gymmanagementsystem/pages/home_page.dart';
+import 'package:gymmanagementsystem/pages/member_pages/member_details.dart';
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class MemberDialog extends StatefulWidget {
   final List<String> keys;
@@ -13,6 +16,29 @@ class MemberDialog extends StatefulWidget {
 }
 
 class _MemberDialogState extends State<MemberDialog> {
+  Future<void> delete(int mid) async {
+    final Response = await http.get(
+      Uri.parse("http://127.0.0.1:8000/api/Member/delete/$mid"),
+    );
+    if (Response.statusCode == 200) {
+      Navigator.of(context).pop();
+      Navigator
+        .pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) {
+              return HomePage();
+            },
+          ),
+        );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Deleted")));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Failed")));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -78,30 +104,54 @@ class _MemberDialogState extends State<MemberDialog> {
                               padding: const EdgeInsets.all(16.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
-                                
-                              children: [
-                                Text("Are you sure ?"),
-                                
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(8,8,8,0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: ElevatedButton(onPressed: (){}, child: Text("Confirm")),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: ElevatedButton(onPressed: (){Navigator.of(context).pop();}, child: Text("Cancel")),
-                                      ),
-                                    ],
+                                children: [
+                                  Text("Are you sure ?"),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+
+                                              delete(
+                                                widget.obj[widget.i]['mid'],
+                                              );
+                                            },
+                                            child: Text("Confirm"),
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStatePropertyAll<
+                                                      Color>(Colors.red),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text("Cancel"),
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStatePropertyAll<
+                                                      Color>(Colors.lightGreen),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
-                                                      ),
-                            ),);
+                                ],
+                              ),
+                            ),
+                          );
                         },
                       );
                     },
