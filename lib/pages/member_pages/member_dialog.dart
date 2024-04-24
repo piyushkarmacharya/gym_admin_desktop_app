@@ -70,10 +70,10 @@ class _MemberDialogState extends State<MemberDialog> {
                   child: ElevatedButton(
                     onPressed: () {
                       showDialog(
+                        barrierDismissible: false,
                         context: context,
                         builder: (context) {
                           return Dialog(
-                            
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Column(

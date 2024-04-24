@@ -29,7 +29,6 @@ class _MemberDetailsState extends State<MemberDetails> {
   TextEditingController ctr = TextEditingController();
   String name = "";
 
-
   Future<List> getMembersDetail() async {
     //setting condition if user uses quick search i.e email!=""
     String url = (name == "")
@@ -108,7 +107,6 @@ class _MemberDetailsState extends State<MemberDetails> {
                                 ],
                               ),
                             ),
-                           
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -120,7 +118,19 @@ class _MemberDetailsState extends State<MemberDetails> {
                                       padding: const EdgeInsets.fromLTRB(
                                           50, 8, 50, 8),
                                       child: GestureDetector(
-                                        onTap: () {showDialog(context: context, builder: (context){return Dialog(child:MemberDialog(keys: keys, obj:snapshot.data, i: index),);});},
+                                        onTap: () {
+                                          showDialog(
+                                            barrierDismissible: false,
+                                              context: context,
+                                              builder: (context) {
+                                                return Dialog(
+                                                  child: MemberDialog(
+                                                      keys: keys,
+                                                      obj: snapshot.data,
+                                                      i: index),
+                                                );
+                                              });
+                                        },
                                         child: Card(
                                           elevation: 10,
                                           child: Row(
