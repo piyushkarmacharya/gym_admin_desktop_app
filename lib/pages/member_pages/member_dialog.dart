@@ -23,7 +23,12 @@ class _MemberDialogState extends State<MemberDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                GestureDetector(child: Icon(Icons.close),onTap: (){Navigator.of(context).pop();},),
+                GestureDetector(
+                  child: Icon(Icons.close),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
               ],
             ),
             Expanded(
@@ -51,21 +56,56 @@ class _MemberDialogState extends State<MemberDialog> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              
               children: [
                 ElevatedButton(
                   onPressed: () {},
-                  style: ButtonStyle(
+                  style: const ButtonStyle(
                     backgroundColor:
                         MaterialStatePropertyAll<Color>(Colors.lightBlueAccent),
                   ),
                   child: Text("Edit"),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16,0,0,0),
+                  padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
                   child: ElevatedButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                
+                              children: [
+                                Text("Are you sure ?"),
+                                
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(8,8,8,0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: ElevatedButton(onPressed: (){}, child: Text("Confirm")),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: ElevatedButton(onPressed: (){Navigator.of(context).pop();}, child: Text("Cancel")),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                                                      ),
+                            ),);
+                        },
+                      );
+                    },
+                    style: const ButtonStyle(
                       backgroundColor:
                           MaterialStatePropertyAll<Color>(Colors.red),
                     ),

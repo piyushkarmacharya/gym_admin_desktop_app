@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'PlayFairDisplay',
           useMaterial3: true,
         ),
-        home: LoginPage(),
+        home: HomePage(),
       ),
     );
   }
