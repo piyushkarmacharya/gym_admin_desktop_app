@@ -27,61 +27,14 @@ class _MemberDetailsState extends State<MemberDetails> {
   ];
 
   TextEditingController ctr = TextEditingController();
-  String email = "";
-  //Return datarow for datatable using list.generate
-  // List<DataRow> getDataRow(List obj) {
-  //   return List.generate(
-  //     obj.length,
-  //     (i) {
-  //       return DataRow(
-  //         cells: List.generate(
-  //           3,
-  //           (j) => DataCell(
-  //             keys[j] != "photo"
-  //                 ? Padding(
-  //                     padding: const EdgeInsets.all(16.0),
-  //                     child: Text(obj[i][keys[j]].toString()),
-  //                   )
-  //                 : GestureDetector(
-  //                     onTap: () {
-  //                       creatMemberDialog(obj, i);
-  //                     },
-  //                     child: Padding(
-  //                       padding: const EdgeInsets.all(8.0),
-  //                       child: MouseRegion(
-  //                         cursor: SystemMouseCursors.click,
-  //                         child: Container(
-  //                             width: 60,
-  //                             height: 60,
-  //                             decoration: BoxDecoration(
-  //                                 borderRadius: BorderRadius.circular(40)),
-  //                             child: ClipOval(
-  //                               child: Image.memory(
-  //                                   base64Decode(obj[i][keys[j]].toString())),
-  //                             )),
-  //                       ),
-  //                     ),
-  //                   ),
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
+  String name = "";
 
-  Future<dynamic> creatMemberDialog(List<dynamic> obj, int i) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return MemberDialog(keys: keys, obj: obj, i: i);
-        });
-  }
 
   Future<List> getMembersDetail() async {
     //setting condition if user uses quick search i.e email!=""
-    String url = (email == "")
+    String url = (name == "")
         ? 'http://127.0.0.1:8000/api/Member/details'
-        : 'http://127.0.0.1:8000/api/Member/details/$email';
+        : 'http://127.0.0.1:8000/api/Member/details/$name';
     final res = await http.get(Uri.parse(url));
     if (res.statusCode == 200) {
       List data = jsonDecode(res.body);
@@ -103,93 +56,115 @@ class _MemberDetailsState extends State<MemberDetails> {
               } else if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               } else {
-                return SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
+                return SafeArea(
                   child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Text("Quick search : "),
-                                SizedBox(
-                                  width: 300,
-                                  child: TextField(
-                                    controller: ctr,
-                                    decoration: InputDecoration(
+                    scrollDirection: Axis.vertical,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Quick search : "),
+                                  SizedBox(
+                                    width: 300,
+                                    child: TextField(
+                                      controller: ctr,
+                                      decoration: InputDecoration(
                                         contentPadding: EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 0),
-                                        label: Text("Email"),
+                                        prefixIcon: Icon(Icons.search),
+                                        label: Text("Enter Name"),
                                         border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(20),
-                                        )),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        email = ctr.text;
-                                      });
-                                    },
-                                    child: Text("Search"),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          // DataTable(
-                          //   border: TableBorder.all(),
-                          //   columns: List.generate(
-                          //     3,
-                          //     (index) => DataColumn(
-                          //       label: Text(keys[index]),
-                          //     ),
-                          //   ),
-                          //   rows: getDataRow(snapshot.data),
-                          // )
-                          Expanded(
-                            child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (context, index) {
-                                return Card(
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 200,
-                                        height: 200,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(40),
-                                        ),
-                                        child: Image.memory(
-                                          base64Decode(snapshot.data[index]
-                                                  ['photo']
-                                              .toString()),
                                         ),
                                       ),
-                                      Column(
-                                        children: [
-                                          Text(snapshot.data[index]['name']),
-                                          Text(snapshot.data[index]['email']),
-                                        ],
-                                      )
-                                    ],
+                                      onSubmitted: (value) {
+                                        setState(() {
+                                          name = value;
+                                        });
+                                      },
+                                    ),
                                   ),
-                                );
-                              },
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          name = ctr.text;
+                                        });
+                                      },
+                                      child: Text("Search"),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                           
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          50, 8, 50, 8),
+                                      child: GestureDetector(
+                                        onTap: () {showDialog(context: context, builder: (context){return Dialog(child:MemberDialog(keys: keys, obj:snapshot.data, i: index),);});},
+                                        child: Card(
+                                          elevation: 10,
+                                          child: Row(
+                                            children: [
+                                              Spacer(),
+                                              Container(
+                                                width: 200,
+                                                height: 200,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(40),
+                                                ),
+                                                child: Image.memory(
+                                                  base64Decode(snapshot
+                                                      .data[index][keys[0]]
+                                                      .toString()),
+                                                ),
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Text(snapshot.data[index]
+                                                      [keys[1]]),
+                                                  Text(snapshot.data[index]
+                                                      [keys[2]]),
+                                                  Text(snapshot.data[index]
+                                                          [keys[6]]
+                                                      .toString()),
+                                                ],
+                                              ),
+                                              Spacer()
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 30,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

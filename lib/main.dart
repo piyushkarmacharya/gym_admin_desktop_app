@@ -19,7 +19,9 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+
+
+    return ChangeNotifierProvider( //ChangeNotifierProvider is used to manage state
       create: (context)=>UserProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'PlayFairDisplay',
           useMaterial3: true,
         ),
-        home: HomePage(),
+        home: LoginPage(),
       ),
     );
   }

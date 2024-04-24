@@ -1,9 +1,14 @@
+
 import "dart:convert";
+//Required for jsonDecode
 
 import "package:flutter/material.dart";
 import "package:gymmanagementsystem/pages/home_page.dart";
 import "package:gymmanagementsystem/user_provider.dart";
+
 import "package:http/http.dart" as http;
+//required for connecting to backend
+
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
