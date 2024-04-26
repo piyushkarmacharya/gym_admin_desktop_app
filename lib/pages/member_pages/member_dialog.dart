@@ -1,38 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:gymmanagementsystem/pages/home_page.dart';
 import 'package:gymmanagementsystem/pages/member_pages/member_details.dart';
+import 'package:gymmanagementsystem/pages/member_pages/member_update.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class MemberDialog extends StatefulWidget {
   final List<String> keys;
-  final List<dynamic> obj;
-  final int i;
+  final Map<String,dynamic> obj;
+
   const MemberDialog(
-      {super.key, required this.keys, required this.obj, required this.i});
+      {super.key, required this.keys, required this.obj});
 
   @override
   State<MemberDialog> createState() => _MemberDialogState();
 }
 
 class _MemberDialogState extends State<MemberDialog> {
+  
   Future<void> delete(int mid) async {
     final Response = await http.get(
       Uri.parse("http://127.0.0.1:8000/api/Member/delete/$mid"),
     );
     if (Response.statusCode == 200) {
       Navigator.of(context).pop();
-      Navigator
-        .pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) {
-              return HomePage();
-            },
-          ),
-        );
+
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Deleted")));
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return HomePage();
+          },
+        ),
+      );
     } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Failed")));
@@ -71,10 +73,10 @@ class _MemberDialogState extends State<MemberDialog> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(40)),
                               child: Image.memory(base64Decode(widget
-                                  .obj[widget.i][widget.keys[index]]
+                                  .obj[widget.keys[index]]
                                   .toString())))
                           : Text(
-                              "${widget.keys[index]} : ${widget.obj[widget.i][widget.keys[index]].toString()}"),
+                              "${widget.keys[index]} : ${widget.obj[widget.keys[index]].toString()}"),
                     ),
                   ),
                 ),
@@ -83,14 +85,28 @@ class _MemberDialogState extends State<MemberDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+
+                //for editttt
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            child:MemberUpdate(keys: widget.keys, obj: widget.obj),
+                          );
+                        });
+                  },
                   style: const ButtonStyle(
                     backgroundColor:
                         MaterialStatePropertyAll<Color>(Colors.lightBlueAccent),
                   ),
                   child: Text("Edit"),
                 ),
+
+
+                //for deletee
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
                   child: ElevatedButton(
@@ -120,7 +136,7 @@ class _MemberDialogState extends State<MemberDialog> {
                                               Navigator.of(context).pop();
 
                                               delete(
-                                                widget.obj[widget.i]['mid'],
+                                                widget.obj['mid'],
                                               );
                                             },
                                             child: Text("Confirm"),

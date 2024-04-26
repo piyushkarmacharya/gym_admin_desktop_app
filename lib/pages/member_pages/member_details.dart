@@ -126,8 +126,8 @@ class _MemberDetailsState extends State<MemberDetails> {
                                                 return Dialog(
                                                   child: MemberDialog(
                                                       keys: keys,
-                                                      obj: snapshot.data,
-                                                      i: index),
+                                                      obj: snapshot.data[index],
+                                                      ),
                                                 );
                                               });
                                         },

@@ -5,6 +5,8 @@ import 'package:gymmanagementsystem/pages/register_member.dart';
 import "package:gymmanagementsystem/pages/trainers.dart";
 import 'package:gymmanagementsystem/pages/member_pages/member_details.dart';
 import 'package:gymmanagementsystem/pages/create_staff_acc.dart';
+import 'package:gymmanagementsystem/user_provider.dart';
+import 'package:provider/provider.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -20,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> pages = [Dashboard(), Trainers(), MemberDetails(), RegisterMember(),CreateStaffAcc()];
   @override
   Widget build(BuildContext context) {
+    
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

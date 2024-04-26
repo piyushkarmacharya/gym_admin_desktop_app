@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gymmanagementsystem/pages/home_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 
 class RegisterMember extends StatefulWidget {
+  const RegisterMember({super.key});
   @override
   State<RegisterMember> createState() => _RegisterMemberState();
 }
@@ -96,6 +98,16 @@ class _RegisterMemberState extends State<RegisterMember> {
     if (Response.statusCode == 200) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Success")));
+          Navigator
+        .pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) {
+              return HomePage();
+            },
+          ),
+        );
+          
     } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Failed")));
