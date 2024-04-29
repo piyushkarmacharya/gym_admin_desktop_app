@@ -27,6 +27,7 @@ class _RegisterMemberState extends State<RegisterMember> {
     TextEditingController(),
     TextEditingController(),
     TextEditingController(),
+    TextEditingController(),
   ];
   InputDecoration tfdec = InputDecoration(
     contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
@@ -88,7 +89,8 @@ class _RegisterMemberState extends State<RegisterMember> {
       "address": ctr[3].text,
       "weight": ctr[4].text,
       "height": ctr[5].text,
-      'photo': imgstr
+      'photo': imgstr,
+      'password':ctr[6].text
     };
     final Response = await http.post(
       Uri.parse("http://127.0.0.1:8000/api/Member/register"),
@@ -296,6 +298,20 @@ class _RegisterMemberState extends State<RegisterMember> {
                                 } catch (e) {
                                   return "Enter valid Height";
                                 }
+                              }
+                              return null;
+                            },
+                          ),
+                          Text("Password"),
+                           TextFormField(
+                            obscureText: true,
+                            controller: ctr[6],
+                            decoration: tfdec,
+                            validator: (value) {
+                              if (!(value == null || value.isEmpty)) {
+                                  if (value.length<8) {
+                                    return "Password must be minimum 8 word";
+                                  }
                               }
                               return null;
                             },
