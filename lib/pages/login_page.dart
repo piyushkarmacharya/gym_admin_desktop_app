@@ -23,10 +23,11 @@ class _LoginPageState extends State<LoginPage> {
     TextEditingController(),
     TextEditingController()
   ];
-  List data = [];
+  Map<String,dynamic> data = {};
   String? email;
-  Future fetchData(String url) async {
-    final res = await http.get(Uri.parse(url));
+  Future login(String url) async {
+    final res = await http.post(Uri.parse(url),headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email':ctr[0].text,'password':ctr[1].text}),);
     if (res.statusCode == 200) {
       setState(() {
         data = jsonDecode(res.body);
@@ -147,40 +148,26 @@ class _LoginPageState extends State<LoginPage> {
                                   onPressed: () async {
                                     if (_formKey.currentState!.validate()) {
                                       email = ctr[0].text;
-                                      await fetchData(
-                                          "http://127.0.0.1:8000/api/$user/login/$email");
-                                      if (data.length == 0) {
+                                      await login(
+                                          "http://127.0.0.1:8000/api/$user/login");
+                                      if (data['login'] == false) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                             
                                           const SnackBar(
                                             duration: Duration(seconds: 1),
                                             content:
-                                                Text("Email doesnot Exists"),
+                                                Text("Email and password donot match"),
                                           ),
                                         );
                                       } else {
-                                        if (data[0]['email'] == email &&
-                                            data[0]['password'] ==
-                                                ctr[1].text) {
-                                          Navigator.of(context).push(
+                                        Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (context) {
                                                 return HomePage();
                                               },
                                             ),
                                           );
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              
-                                              duration: Duration(seconds: 1),
-                                              content:
-                                                  Text("Incorrect Password"),
-                                            ),
-                                          );
-                                        }
                                       }
                                     }
                                   },
