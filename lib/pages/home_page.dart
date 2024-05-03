@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:gymmanagementsystem/pages/attendance_qr.dart';
 import "package:gymmanagementsystem/pages/dashboard.dart";
 import "package:gymmanagementsystem/pages/members.dart";
 import 'package:gymmanagementsystem/pages/register_member.dart';
@@ -18,8 +19,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selected = 0;
-  List<String> heading = ["Dashboard", "Trainers", "Members", "Register Member","New Staff"];
-  List<Widget> pages = [Dashboard(), Trainers(), MemberDetails(), RegisterMember(),CreateStaffAcc()];
+  List<String> heading = ["Dashboard", "Attendance QR", "Members", "Register Member","New Staff"];
+  List<Widget> pages = [Dashboard(), AttendanceQr(), MemberDetails(), RegisterMember(),CreateStaffAcc()];
   @override
   Widget build(BuildContext context) {
     
@@ -52,7 +53,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              title: Text("Trainers"),
+              title: Text("Attendance QR"),
               onTap: () {
                 setState(() {});
                 selected = 1;
