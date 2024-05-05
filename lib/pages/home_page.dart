@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:flutter/widgets.dart';
 import 'package:gymmanagementsystem/pages/attendance_qr.dart';
 import "package:gymmanagementsystem/pages/dashboard.dart";
 import "package:gymmanagementsystem/pages/members.dart";
@@ -23,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> pages = [Dashboard(), AttendanceQr(), MemberDetails(), RegisterMember(),CreateStaffAcc()];
   @override
   Widget build(BuildContext context) {
-    
+    String user=Provider.of<UserProvider>(context,listen: false).getUser();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -77,14 +78,18 @@ class _HomePageState extends State<HomePage> {
                 });
               },
             ),
-            ListTile(
-              title: Text("New Staff"),
-              onTap: () {
-                setState(() {
-                  selected = 4;
-                  Navigator.of(context).pop();
-                });
-              },
+            
+            Visibility(
+              visible: user=="Admin",
+              child: ListTile(
+                title: Text("New Staff"),
+                onTap: () {
+                  setState(() {
+                    selected = 4;
+                    Navigator.of(context).pop();
+                  });
+                },
+              ),
             ),
             ExpansionTile(
               title: Text("sub"),

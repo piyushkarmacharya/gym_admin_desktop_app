@@ -1,4 +1,3 @@
-
 import "dart:convert";
 //Required for jsonDecode
 
@@ -23,11 +22,15 @@ class _LoginPageState extends State<LoginPage> {
     TextEditingController(),
     TextEditingController()
   ];
-  Map<String,dynamic> data = {};
+  Map<String, dynamic> data = {};
   String? email;
   Future login(String url) async {
-    final res = await http.post(Uri.parse(url),headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'email':ctr[0].text,'password':ctr[1].text}),);
+    final res = await http.post(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email': ctr[0].text, 'password': ctr[1].text}),
+    );
+    
     if (res.statusCode == 200) {
       setState(() {
         data = jsonDecode(res.body);
@@ -130,11 +133,15 @@ class _LoginPageState extends State<LoginPage> {
                                     return null;
                                   },
                                 ),
-                                SizedBox(height: 10,),
+                                SizedBox(
+                                  height: 10,
+                                ),
                                 TextFormField(
                                   obscureText: true,
-                                  decoration:
-                                      InputDecoration(labelText: "Password",prefixIcon: Icon(Icons.lock),),
+                                  decoration: InputDecoration(
+                                    labelText: "Password",
+                                    prefixIcon: Icon(Icons.lock),
+                                  ),
                                   controller: ctr[1],
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
@@ -143,7 +150,9 @@ class _LoginPageState extends State<LoginPage> {
                                     return null;
                                   },
                                 ),
-                                SizedBox(height: 10,),
+                                SizedBox(
+                                  height: 10,
+                                ),
                                 ElevatedButton(
                                   onPressed: () async {
                                     if (_formKey.currentState!.validate()) {
@@ -153,21 +162,20 @@ class _LoginPageState extends State<LoginPage> {
                                       if (data['login'] == false) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
-                                            
                                           const SnackBar(
                                             duration: Duration(seconds: 1),
-                                            content:
-                                                Text("Email and password donot match"),
+                                            content: Text(
+                                                "Email and password donot match"),
                                           ),
                                         );
                                       } else {
                                         Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) {
-                                                return HomePage();
-                                              },
-                                            ),
-                                          );
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return HomePage();
+                                            },
+                                          ),
+                                        );
                                       }
                                     }
                                   },
