@@ -25,7 +25,8 @@ class _LoginPageState extends State<LoginPage> {
   Map<String, dynamic> data = {};
   String? email;
   Future login(String url) async {
-    final res = await http.post(
+    try{
+        final res = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': ctr[0].text, 'password': ctr[1].text}),
@@ -36,8 +37,13 @@ class _LoginPageState extends State<LoginPage> {
         data = jsonDecode(res.body);
       });
     } else {
-      print("Cannot connect to that api");
+            ScaffoldMessenger.of(context,).showSnackBar(SnackBar(duration: Duration(seconds: 1),content: Text("Connection problem"),),);
+
     }
+    }catch(e){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: Duration(seconds: 1),content: Text("Connection problem"),),);
+    }
+    
   }
 
   @override
@@ -157,9 +163,18 @@ class _LoginPageState extends State<LoginPage> {
                                   onPressed: () async {
                                     if (_formKey.currentState!.validate()) {
                                       email = ctr[0].text;
+                                      
                                       await login(
                                           "http://127.0.0.1:8000/api/$user/login");
-                                      if (data['login'] == false) {
+                                      if (data['login'] == true) {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return HomePage();
+                                            },
+                                          ),
+                                        );
+                                      } else if(data.length==0){}else{
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
@@ -168,15 +183,9 @@ class _LoginPageState extends State<LoginPage> {
                                                 "Email and password donot match"),
                                           ),
                                         );
-                                      } else {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) {
-                                              return HomePage();
-                                            },
-                                          ),
-                                        );
                                       }
+                                        
+                                      
                                     }
                                   },
                                   child: Text("Login"),

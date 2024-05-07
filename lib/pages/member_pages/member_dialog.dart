@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gymmanagementsystem/pages/home_page.dart';
-import 'package:gymmanagementsystem/pages/member_pages/member_details.dart';
 import 'package:gymmanagementsystem/pages/member_pages/member_update.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
