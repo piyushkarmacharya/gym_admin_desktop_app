@@ -37,7 +37,7 @@ class _MemberDetailsState extends State<MemberDetails> {
     final res = await http.get(Uri.parse(url));
     if (res.statusCode == 200) {
       List data = jsonDecode(res.body);
-      await Future.delayed(Duration(seconds: 2));
+      
       return data;
     } else {
       throw res.statusCode;
@@ -46,6 +46,7 @@ class _MemberDetailsState extends State<MemberDetails> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
         body: FutureBuilder(
             future: getMembersDetail(),
@@ -110,63 +111,65 @@ class _MemberDetailsState extends State<MemberDetails> {
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: ListView.builder(
-                                  scrollDirection: Axis.vertical,
-                                  itemCount: snapshot.data.length,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          50, 8, 50, 8),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          showDialog(
-                                            barrierDismissible: false,
-                                              context: context,
-                                              builder: (context) {
-                                                return Dialog(
-                                                  child: MemberDialog(
-                                                      keys: keys,
-                                                      obj: snapshot.data[index],
-                                                      ),
-                                                );
-                                              });
-                                        },
-                                        child: Card(
-                                          elevation: 10,
-                                          child: Row(
-                                            children: [
-                                              Spacer(),
-                                              Container(
-                                                width: 200,
-                                                height: 200,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(40),
+                                child: GridView.count(
+                                  crossAxisCount: MediaQuery.of(context).size.width<=935?(MediaQuery.of(context).size.width<=584?1:2):3,
+                                  children: List.generate(
+                                    snapshot.data.length,
+                                  (index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            50, 8, 50, 8),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            showDialog(
+                                              barrierDismissible: false,
+                                                context: context,
+                                                builder: (context) {
+                                                  return Dialog(
+                                                    child: MemberDialog(
+                                                        keys: keys,
+                                                        obj: snapshot.data[index],
+                                                        ),
+                                                  );
+                                                });
+                                          },
+                                          child: Card(
+                                            elevation: 10,
+                                            child: Column(
+                                              children: [
+                                                Spacer(),
+                                                Container(
+                                                  width: 200,
+                                                  height: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(40),
+                                                  ),
+                                                  child: Image.memory(
+                                                    base64Decode(snapshot
+                                                        .data[index][keys[0]]
+                                                        .toString()),
+                                                  ),
                                                 ),
-                                                child: Image.memory(
-                                                  base64Decode(snapshot
-                                                      .data[index][keys[0]]
-                                                      .toString()),
+                                                Column(
+                                                  children: [
+                                                    Text(snapshot.data[index]
+                                                        [keys[1]]),
+                                                    Text(snapshot.data[index]
+                                                        [keys[2]]),
+                                                    Text(snapshot.data[index]
+                                                            [keys[6]]
+                                                        .toString()),
+                                                  ],
                                                 ),
-                                              ),
-                                              Column(
-                                                children: [
-                                                  Text(snapshot.data[index]
-                                                      [keys[1]]),
-                                                  Text(snapshot.data[index]
-                                                      [keys[2]]),
-                                                  Text(snapshot.data[index]
-                                                          [keys[6]]
-                                                      .toString()),
-                                                ],
-                                              ),
-                                              Spacer()
-                                            ],
+                                                Spacer()
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  },
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                             ),

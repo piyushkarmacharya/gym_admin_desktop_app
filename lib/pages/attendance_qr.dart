@@ -25,7 +25,7 @@ class _AttendanceQrState extends State<AttendanceQr> {
       final res = await http.get(Uri.parse(url));
       if (res.statusCode == 200) {
         List data = jsonDecode(res.body);
-        await Future.delayed(Duration(seconds: 2));
+        
         setState(() {
           str = data[0]["qrstr"];
         });

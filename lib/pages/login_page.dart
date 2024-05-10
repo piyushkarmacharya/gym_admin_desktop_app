@@ -108,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Text(
-                                "$user Login..",
+                                "$user",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 30,
@@ -152,6 +152,8 @@ class _LoginPageState extends State<LoginPage> {
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return "Please enter password";
+                                    }else if(value.length<8){
+                                      return "Password cannot be less than 8 character";
                                     }
                                     return null;
                                   },

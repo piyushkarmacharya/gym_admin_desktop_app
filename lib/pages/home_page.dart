@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:flutter/widgets.dart';
 import 'package:gymmanagementsystem/pages/attendance_qr.dart';
+import 'package:gymmanagementsystem/pages/change_password.dart';
 import "package:gymmanagementsystem/pages/dashboard.dart";
 import 'package:gymmanagementsystem/pages/register_member.dart';
 import 'package:gymmanagementsystem/pages/member_pages/member_details.dart';
@@ -18,16 +19,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selected = 0;
-  List<String> heading = ["Dashboard", "Attendance QR", "Members", "Register Member","New Staff"];
-  List<Widget> pages = [Dashboard(), AttendanceQr(), MemberDetails(), RegisterMember(),CreateStaffAcc()];
+  List<String> heading = ["Dashboard", "Attendance QR", "Members", "Register Member","New Staff","Change Password"];
+  List<Widget> pages = [Dashboard(), AttendanceQr(), MemberDetails(), RegisterMember(),CreateStaffAcc(),ChangePassword()];
   @override
   Widget build(BuildContext context) {
     String user=Provider.of<UserProvider>(context,listen: false).getUser();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          
+          centerTitle: true,
           title: Text(heading[selected]),
-          actions: [
+          actions: [Text("Logout"),
             GestureDetector(
               child: MouseRegion(
                   cursor: SystemMouseCursors.click,
@@ -42,7 +45,7 @@ class _HomePageState extends State<HomePage> {
         drawer: Drawer(
             child: ListView(
           children: [
-            DrawerHeader(child: Text("Heading")),
+            DrawerHeader(child: Text("Welcome ${user}"),),
             ListTile(
               title: Text("Dashboard"),
               onTap: () {
@@ -59,16 +62,19 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).pop();
               },
             ),
-            ListTile(
-              title: Text("Members"),
+            ExpansionTile(
+              title: Text("Member"),
+              children: [
+                ListTile(
+              title: Text("Members detail"),
               onTap: () {
                 setState(() {});
                 selected = 2;
                 Navigator.of(context).pop();
               },
             ),
-            ListTile(
-              title: Text("Register Member"),
+                ListTile(
+              title: Text("Register new member"),
               onTap: () {
                 setState(() {
                   selected = 3;
@@ -76,6 +82,10 @@ class _HomePageState extends State<HomePage> {
                 });
               },
             ),
+              ],
+            ),
+            
+            
             
             Visibility(
               visible: user=="Admin",
@@ -89,17 +99,16 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             ),
-            ExpansionTile(
-              title: Text("sub"),
-              children: [
-                ListTile(
-                  title: Text("okok"),
-                ),
-                ListTile(
-                  title: Text("okok"),
-                ),
-              ],
-            )
+            ListTile(
+              title: Text("Change Password"),
+              onTap: () {
+                setState(() {
+                  selected = 5;
+                  Navigator.of(context).pop();
+                });
+              },
+            ),
+            
           ],
         )),
         body: pages[selected],

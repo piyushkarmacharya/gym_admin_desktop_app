@@ -61,10 +61,10 @@ class _RegisterMemberState extends State<RegisterMember> {
           img = temp;
           if (getImageSize(img!) < 500) {
             imgstr = base64Encode(File(img!.path).readAsBytesSync());
-            imgSizeExceed=false;
-          }else{
-            imgstr=null;
-            imgSizeExceed=true;
+            imgSizeExceed = false;
+          } else {
+            imgstr = null;
+            imgSizeExceed = true;
           }
         },
       );
@@ -90,7 +90,7 @@ class _RegisterMemberState extends State<RegisterMember> {
       "weight": ctr[4].text,
       "height": ctr[5].text,
       'photo': imgstr,
-      'password':ctr[6].text
+      'password': ctr[6].text
     };
     final Response = await http.post(
       Uri.parse("http://127.0.0.1:8000/api/Member/register"),
@@ -100,16 +100,14 @@ class _RegisterMemberState extends State<RegisterMember> {
     if (Response.statusCode == 200) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Success")));
-          Navigator
-        .pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) {
-              return HomePage();
-            },
-          ),
-        );
-          
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return HomePage();
+          },
+        ),
+      );
     } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Failed")));
@@ -303,15 +301,15 @@ class _RegisterMemberState extends State<RegisterMember> {
                             },
                           ),
                           Text("Password"),
-                           TextFormField(
+                          TextFormField(
                             obscureText: true,
                             controller: ctr[6],
                             decoration: tfdec,
                             validator: (value) {
-                              if (!(value == null || value.isEmpty)) {
-                                  if (value.length<8) {
-                                    return "Password must be minimum 8 word";
-                                  }
+                              if (value == null || value.isEmpty) {
+                                return "Password cannot be empty";
+                              } else if (value.length < 8) {
+                                return "Password must be minimum 8 character";
                               }
                               return null;
                             },
@@ -338,10 +336,15 @@ class _RegisterMemberState extends State<RegisterMember> {
                                   ),
                                 ),
                               ],
-                            
                             ),
                           ),
-                          imgSizeExceed==true?Center(child: Text("File size exceed 500Kb",style: Theme.of(context).textTheme.bodySmall,)):Text(""),
+                          imgSizeExceed == true
+                              ? Center(
+                                  child: Text(
+                                  "File size exceed 500Kb",
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ))
+                              : Text(""),
                           ElevatedButton(
                               onPressed: () {
                                 setState(() {});
@@ -357,10 +360,10 @@ class _RegisterMemberState extends State<RegisterMember> {
                                 }
                                 if (_formKey.currentState!.validate() &&
                                     genderError == false &&
-                                    ageError == false&&imgstr!=null) {
+                                    ageError == false &&
+                                    imgstr != null) {
                                   registerMember();
-                                }
-                                else{
+                                } else {
                                   print("Error");
                                 }
                               },

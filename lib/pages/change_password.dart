@@ -7,6 +7,11 @@ class ChangePassword extends StatefulWidget {
 
 class _ChangePasswordState extends State<ChangePassword> {
   final _formKey = GlobalKey<FormState>();
+  final List<TextEditingController> ctr =[
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController()
+  ];
   @override
   Widget build(BuildContext) {
     return Scaffold(
@@ -23,6 +28,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 child: Column(
                   children: [
                     TextFormField(
+                      controller: ctr[0],
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: "Current password",
@@ -31,12 +37,17 @@ class _ChangePasswordState extends State<ChangePassword> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Please enter password";
+                        } else if (value.length < 8) {
+                          return "Password must me minimum 8 character";
                         }
                         return null;
                       },
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     TextFormField(
+                      controller: ctr[1],
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: "New password",
@@ -45,12 +56,19 @@ class _ChangePasswordState extends State<ChangePassword> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Please enter password";
+                        } else if (value.length < 8) {
+                          return "Password must me minimum 8 character";
+                        }else if(ctr[0].text==value){
+                          return "Old password and new password cannot be same";
                         }
                         return null;
                       },
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     TextFormField(
+                      controller: ctr[2],
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: "Confirm password",
@@ -59,13 +77,27 @@ class _ChangePasswordState extends State<ChangePassword> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Please enter password";
+                        } else if (value.length < 8) {
+                          return "Password must me minimum 8 character";
+                        }else if(ctr[1].text!=value){
+                          return "New password and confirm password donot match";
                         }
                         return null;
                       },
                     ),
-                    SizedBox(height: 20,),
-                    ElevatedButton(onPressed: (){}, child: Text("Change Password"),),
-                    
+                    SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          if (_formKey.currentState!.validate()) {
+                            print("Success");
+                          }
+                        });
+                      },
+                      child: Text("Change Password"),
+                    ),
                   ],
                 ),
               ),
