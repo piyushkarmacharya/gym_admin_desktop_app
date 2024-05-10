@@ -25,25 +25,35 @@ class _LoginPageState extends State<LoginPage> {
   Map<String, dynamic> data = {};
   String? email;
   Future login(String url) async {
-    try{
-        final res = await http.post(
-      Uri.parse(url),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'email': ctr[0].text, 'password': ctr[1].text}),
-    );
-    
-    if (res.statusCode == 200) {
-      setState(() {
-        data = jsonDecode(res.body);
-      });
-    } else {
-            ScaffoldMessenger.of(context,).showSnackBar(SnackBar(duration: Duration(seconds: 1),content: Text("Connection problem"),),);
+    try {
+      final res = await http.post(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'email': ctr[0].text, 'password': ctr[1].text}),
+      );
 
+      if (res.statusCode == 200) {
+        setState(() {
+          data = jsonDecode(res.body);
+        });
+      } else {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 1),
+            content: Text("Connection problem"),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: Duration(seconds: 1),
+          content: Text("Connection problem"),
+        ),
+      );
     }
-    }catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: Duration(seconds: 1),content: Text("Connection problem"),),);
-    }
-    
   }
 
   @override
@@ -117,12 +127,24 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           Spacer(),
+                          Text(
+                            "Welcome!",
+                            style: TextStyle(
+                                color: Color.fromRGBO(255, 102, 178, 1),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22),
+                          ),
+                          Text("Please login to your account"),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Form(
                             key: _formKey,
                             child: Column(
                               children: [
                                 TextFormField(
                                   decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
                                     labelText: "Email",
                                     prefixIcon: Icon(Icons.email),
                                   ),
@@ -145,6 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                                 TextFormField(
                                   obscureText: true,
                                   decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
                                     labelText: "Password",
                                     prefixIcon: Icon(Icons.lock),
                                   ),
@@ -152,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return "Please enter password";
-                                    }else if(value.length<8){
+                                    } else if (value.length < 8) {
                                       return "Password cannot be less than 8 character";
                                     }
                                     return null;
@@ -161,36 +184,48 @@ class _LoginPageState extends State<LoginPage> {
                                 SizedBox(
                                   height: 10,
                                 ),
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      email = ctr[0].text;
-                                      
-                                      await login(
-                                          "http://127.0.0.1:8000/api/$user/login");
-                                      if (data['login'] == true) {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) {
-                                              return HomePage();
-                                            },
-                                          ),
-                                        );
-                                      } else if(data.length==0){}else{
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            duration: Duration(seconds: 1),
-                                            content: Text(
-                                                "Email and password donot match"),
-                                          ),
-                                        );
+                                Container(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.blueGrey.shade200),
+                                      shape: MaterialStateProperty.all<
+                                          OutlinedBorder>(
+                                        RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.zero),
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        email = ctr[0].text;
+
+                                        await login(
+                                            "http://127.0.0.1:8000/api/$user/login");
+                                        if (data['login'] == true) {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return HomePage();
+                                              },
+                                            ),
+                                          );
+                                        } else if (data.length == 0) {
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              duration: Duration(seconds: 1),
+                                              content: Text(
+                                                  "Email and password donot match"),
+                                            ),
+                                          );
+                                        }
                                       }
-                                        
-                                      
-                                    }
-                                  },
-                                  child: Text("Login"),
+                                    },
+                                    child: Text("Login"),
+                                  ),
                                 )
                               ],
                             ),

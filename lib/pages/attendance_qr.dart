@@ -24,10 +24,10 @@ class _AttendanceQrState extends State<AttendanceQr> {
       String url = 'http://127.0.0.1:8000/api/AttendanceQr';
       final res = await http.get(Uri.parse(url));
       if (res.statusCode == 200) {
-        List data = jsonDecode(res.body);
+        Map data = jsonDecode(res.body);
         
         setState(() {
-          str = data[0]["qrstr"];
+          str = data["qrstr"];
         });
       } else {
         throw Exception('Failed to load data');
