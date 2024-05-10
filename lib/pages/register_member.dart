@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gymmanagementsystem/pages/home_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -116,6 +117,7 @@ class _RegisterMemberState extends State<RegisterMember> {
 
   @override
   Widget build(BuildContext context) {
+    print(MediaQuery.of(context).size);
     DateTime dob = _dob ?? DateTime.now();
     String formateddob = DateFormat("yyyy-MM-dd").format(dob);
     String today = DateFormat("yyyy-MM-dd").format(DateTime.now());
@@ -124,12 +126,21 @@ class _RegisterMemberState extends State<RegisterMember> {
         backgroundColor: Colors.black,
         body: Row(
           children: [
-            Expanded(
-                child: Container(
-              child: Image.asset(
-                "assets/images/quote.jpg",
-              ),
-            )),
+            MediaQuery.of(context).size.width<800?
+            Visibility(
+              visible: false,
+              child: Expanded(
+                  child: Container(
+                child: Image.asset(
+                  "assets/images/quote.jpg",
+                ),
+              )),
+            ):Expanded(
+                  child: Container(
+                child: Image.asset(
+                  "assets/images/quote.jpg",
+                ),
+              )),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 40, 20),
@@ -182,48 +193,38 @@ class _RegisterMemberState extends State<RegisterMember> {
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                           Text("Gender : "),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: RadioListTile<String>(
-                                  title: Text("Male"),
-                                  value: "M",
-                                  groupValue: _selectedGender,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _selectedGender = value;
-                                      genderError = false;
-                                    });
-                                  },
-                                ),
-                              ),
-                              Expanded(
-                                child: RadioListTile<String>(
-                                  title: Text("Female"),
-                                  value: "F",
-                                  groupValue: _selectedGender,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _selectedGender = value;
-                                      genderError = false;
-                                    });
-                                  },
-                                ),
-                              ),
-                              Expanded(
-                                child: RadioListTile<String>(
-                                  title: Text("Other"),
-                                  value: "O",
-                                  groupValue: _selectedGender,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _selectedGender = value;
-                                      genderError = false;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ],
+                          RadioListTile<String>(
+                            title: Text("Male"),
+                            value: "M",
+                            groupValue: _selectedGender,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedGender = value;
+                                genderError = false;
+                              });
+                            },
+                          ),
+                          RadioListTile<String>(
+                            title: Text("Female"),
+                            value: "F",
+                            groupValue: _selectedGender,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedGender = value;
+                                genderError = false;
+                              });
+                            },
+                          ),
+                          RadioListTile<String>(
+                            title: Text("Other"),
+                            value: "O",
+                            groupValue: _selectedGender,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedGender = value;
+                                genderError = false;
+                              });
+                            },
                           ),
                           Text(
                             genderError == true ? "Must select a gender" : "",
