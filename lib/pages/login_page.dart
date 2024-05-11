@@ -200,10 +200,16 @@ class _LoginPageState extends State<LoginPage> {
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
                                         email = ctr[0].text;
-
+                                        setState(() {
+                                            
+                                          });
                                         await login(
                                             "http://127.0.0.1:8000/api/$user/login");
                                         if (data['login'] == true) {
+                                          setState(() {
+                                            
+                                          });
+                                          Provider.of<UserProvider>(context,listen: false).setUserId(data['id']);
                                           Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (context) {
@@ -211,8 +217,7 @@ class _LoginPageState extends State<LoginPage> {
                                               },
                                             ),
                                           );
-                                        } else if (data.length == 0) {
-                                        } else {
+                                        }else {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             const SnackBar(

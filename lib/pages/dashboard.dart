@@ -64,7 +64,7 @@ class _DashboardState extends State<Dashboard> {
         crossAxisCount: 5,
         children: [
           Card(
-            child: numOfMembers == 0
+            child: numOfMembers == -1
               ? CircularProgressIndicator()
               : Padding(
                 padding: const EdgeInsets.all(30.0),
@@ -74,7 +74,7 @@ class _DashboardState extends State<Dashboard> {
           Card(
             child: qrStr == ""
             ? CircularProgressIndicator()
-            : Expanded(child: Container(child: QrImageView(data: qrStr,version: QrVersions.auto,size:200,)))
+            : Container(child: QrImageView(data: qrStr,version: QrVersions.auto,size:200,))
           ),
           
         ],

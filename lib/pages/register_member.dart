@@ -4,9 +4,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gymmanagementsystem/pages/home_page.dart';
+import 'package:gymmanagementsystem/user_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class RegisterMember extends StatefulWidget {
   const RegisterMember({super.key});
@@ -101,6 +103,9 @@ class _RegisterMemberState extends State<RegisterMember> {
     if (Response.statusCode == 200) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Success")));
+          setState(() {
+            Provider.of<UserProvider>(context,listen: false).setCurrentPage(2);
+          });
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -117,7 +122,7 @@ class _RegisterMemberState extends State<RegisterMember> {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size);
+    
     DateTime dob = _dob ?? DateTime.now();
     String formateddob = DateFormat("yyyy-MM-dd").format(dob);
     String today = DateFormat("yyyy-MM-dd").format(DateTime.now());

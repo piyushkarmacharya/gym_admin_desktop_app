@@ -1,3 +1,5 @@
+
+
 import "package:flutter/material.dart";
 import 'package:flutter/widgets.dart';
 import 'package:gymmanagementsystem/pages/attendance_qr.dart';
@@ -18,11 +20,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int selected = 0;
+  
   List<String> heading = ["Dashboard", "Attendance QR", "Members", "Register Member","New Staff","Change Password"];
   List<Widget> pages = [Dashboard(), AttendanceQr(), MemberDetails(), RegisterMember(),CreateStaffAcc(),ChangePassword()];
   @override
   Widget build(BuildContext context) {
+    int selected = Provider.of<UserProvider>(context,listen: false).getCurrentPage();
     String user=Provider.of<UserProvider>(context,listen: false).getUser();
     return SafeArea(
       child: Scaffold(
@@ -50,7 +53,7 @@ class _HomePageState extends State<HomePage> {
               title: Text("Dashboard"),
               onTap: () {
                 setState(() {});
-                selected = 0;
+                Provider.of<UserProvider>(context,listen: false).setCurrentPage(0);
                 Navigator.of(context).pop();
               },
             ),
@@ -58,7 +61,7 @@ class _HomePageState extends State<HomePage> {
               title: Text("Attendance QR"),
               onTap: () {
                 setState(() {});
-                selected = 1;
+                Provider.of<UserProvider>(context,listen: false).setCurrentPage(1);
                 Navigator.of(context).pop();
               },
             ),
@@ -69,7 +72,7 @@ class _HomePageState extends State<HomePage> {
               title: Text("Members detail"),
               onTap: () {
                 setState(() {});
-                selected = 2;
+                Provider.of<UserProvider>(context,listen: false).setCurrentPage(2);
                 Navigator.of(context).pop();
               },
             ),
@@ -77,7 +80,7 @@ class _HomePageState extends State<HomePage> {
               title: Text("Register new member"),
               onTap: () {
                 setState(() {
-                  selected = 3;
+                  Provider.of<UserProvider>(context,listen: false).setCurrentPage(3);
                   Navigator.of(context).pop();
                 });
               },
@@ -93,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                 title: Text("New Staff"),
                 onTap: () {
                   setState(() {
-                    selected = 4;
+                    Provider.of<UserProvider>(context,listen: false).setCurrentPage(4);
                     Navigator.of(context).pop();
                   });
                 },
@@ -103,7 +106,7 @@ class _HomePageState extends State<HomePage> {
               title: Text("Change Password"),
               onTap: () {
                 setState(() {
-                  selected = 5;
+                  Provider.of<UserProvider>(context,listen: false).setCurrentPage(5);
                   Navigator.of(context).pop();
                 });
               },
