@@ -159,14 +159,14 @@ class _LoginPageState extends State<LoginPage> {
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: const BorderSide(
                                           color: Color(0xFF332F64),
-                                          width: 3,
+                                          width: 2,
                                         ),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: const BorderSide(
                                           color: Color(0xFF332F64),
-                                          width: 4,
+                                          width: 2,
                                         ),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -220,14 +220,14 @@ class _LoginPageState extends State<LoginPage> {
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: const BorderSide(
                                           color: Color(0xFF332F64),
-                                          width: 3,
+                                          width: 2,
                                         ),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: const BorderSide(
                                           color: Color(0xFF332F64),
-                                          width: 4,
+                                          width: 2,
                                         ),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -274,7 +274,7 @@ class _LoginPageState extends State<LoginPage> {
                                         Provider.of<UserProvider>(context,
                                                 listen: false)
                                             .setUserId(data['id']);
-                                        Navigator.of(context).push(
+                                        Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                             builder: (context) {
                                               return HomePage();
