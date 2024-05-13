@@ -46,6 +46,7 @@ class _MemberDetailsState extends State<MemberDetails> {
 
   @override
   Widget build(BuildContext context) {
+    print(MediaQuery.of(context).size);
     
     return Scaffold(
         body: FutureBuilder(
@@ -59,125 +60,140 @@ class _MemberDetailsState extends State<MemberDetails> {
                 return SafeArea(
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("Quick search : "),
-                                  SizedBox(
-                                    width: 300,
-                                    child: TextField(
-                                      controller: ctr,
-                                      decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 0),
-                                        prefixIcon: Icon(Icons.search),
-                                        label: Text("Enter Name"),
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width-224,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Quick search : "),
+                                SizedBox(
+                                  width:0.2*MediaQuery.of(context).size.width,
+                                  child: TextField(
+                                    controller: ctr,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 0),
+                                      prefixIcon: Icon(Icons.search),
+                                      label: Text("Enter Name"),
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20),
                                       ),
-                                      onSubmitted: (value) {
-                                        setState(() {
-                                          name = value;
-                                        });
-                                      },
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          name = ctr.text;
-                                        });
-                                      },
-                                      child: Text("Search"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: GridView.count(
-                                  crossAxisCount: MediaQuery.of(context).size.width<=935?(MediaQuery.of(context).size.width<=584?1:2):3,
-                                  children: List.generate(
-                                    snapshot.data.length,
-                                  (index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            50, 8, 50, 8),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            showDialog(
-                                              barrierDismissible: false,
-                                                context: context,
-                                                builder: (context) {
-                                                  return Dialog(
-                                                    child: MemberDialog(
-                                                        keys: keys,
-                                                        obj: snapshot.data[index],
-                                                        ),
-                                                  );
-                                                });
-                                          },
-                                          child: Card(
-                                            elevation: 10,
-                                            child: Column(
-                                              children: [
-                                                Spacer(),
-                                                Container(
-                                                  width: 200,
-                                                  height: 200,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(40),
-                                                  ),
-                                                  child: Image.memory(
-                                                    base64Decode(snapshot
-                                                        .data[index][keys[0]]
-                                                        .toString()),
-                                                  ),
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Text(snapshot.data[index]
-                                                        [keys[1]]),
-                                                    Text(snapshot.data[index]
-                                                        [keys[2]]),
-                                                    Text(snapshot.data[index]
-                                                            [keys[6]]
-                                                        .toString()),
-                                                  ],
-                                                ),
-                                                Spacer()
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
+                                    onSubmitted: (value) {
+                                      setState(() {
+                                        name = value;
+                                      });
                                     },
                                   ),
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Color(0xFF1A1363)),
+                                    shape: MaterialStateProperty.all<
+                                        OutlinedBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(24)),
+                                    ),
+                                  ),
+                                    onPressed: () {
+                                      setState(() {
+                                        name = ctr.text;
+                                      });
+                                    },
+                                    child: Text("Search",style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        ),
+                                  ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: GridView.count(
+                                
+                                crossAxisCount: MediaQuery.of(context).size.width<=1100?(MediaQuery.of(context).size.width<=855?1:2):3,
+                                children: List.generate(
+                                  snapshot.data.length,
+                                (index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10, 8, 10, 8),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          showDialog(
+                                            barrierDismissible: false,
+                                              context: context,
+                                              builder: (context) {
+                                                return Dialog(
+                                                  child: MemberDialog(
+                                                      keys: keys,
+                                                      obj: snapshot.data[index],
+                                                      ),
+                                                );
+                                              });
+                                        },
+                                        child: Card(
+                                          color: Colors.white,
+                                          elevation: 10,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Spacer(),
+                                              Container(
+                                                width: 200,
+                                                height: 200,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(40),
+                                                ),
+                                                child: Image.memory(
+                                                  base64Decode(snapshot
+                                                      .data[index][keys[0]]
+                                                      .toString()),
+                                                ),
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Text(snapshot.data[index]
+                                                      [keys[1]]),
+                                                  Text(snapshot.data[index]
+                                                      [keys[2]]),
+                                                  Text(snapshot.data[index]
+                                                          [keys[6]]
+                                                      .toString()),
+                                                ],
+                                              ),
+                                              Spacer()
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ),
-                            SizedBox(
-                              height: 30,
-                            )
-                          ],
-                        ),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          )
+                        ],
                       ),
                     ),
                   ),
