@@ -37,7 +37,7 @@ class _MemberDetailsState extends State<MemberDetails> {
     final res = await http.get(Uri.parse(url));
     if (res.statusCode == 200) {
       List data = jsonDecode(res.body);
-      
+
       return data;
     } else {
       throw res.statusCode;
@@ -47,7 +47,7 @@ class _MemberDetailsState extends State<MemberDetails> {
   @override
   Widget build(BuildContext context) {
     print(MediaQuery.of(context).size);
-    
+
     return Scaffold(
         body: FutureBuilder(
             future: getMembersDetail(),
@@ -62,7 +62,7 @@ class _MemberDetailsState extends State<MemberDetails> {
                     scrollDirection: Axis.vertical,
                     child: SizedBox(
                       height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width-224,
+                      width: MediaQuery.of(context).size.width - 224,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -73,7 +73,8 @@ class _MemberDetailsState extends State<MemberDetails> {
                               children: [
                                 Text("Quick search : "),
                                 SizedBox(
-                                  width:0.2*MediaQuery.of(context).size.width,
+                                  width:
+                                      0.2 * MediaQuery.of(context).size.width,
                                   child: TextField(
                                     controller: ctr,
                                     decoration: InputDecoration(
@@ -82,8 +83,7 @@ class _MemberDetailsState extends State<MemberDetails> {
                                       prefixIcon: Icon(Icons.search),
                                       label: Text("Enter Name"),
                                       border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(20),
                                       ),
                                     ),
                                     onSubmitted: (value) {
@@ -97,26 +97,28 @@ class _MemberDetailsState extends State<MemberDetails> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: ElevatedButton(
                                     style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Color(0xFF1A1363)),
-                                    shape: MaterialStateProperty.all<
-                                        OutlinedBorder>(
-                                      RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(24)),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Color(0xFF1A1363)),
+                                      shape: MaterialStateProperty.all<
+                                          OutlinedBorder>(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(24)),
+                                      ),
                                     ),
-                                  ),
                                     onPressed: () {
                                       setState(() {
                                         name = ctr.text;
                                       });
                                     },
-                                    child: Text("Search",style: TextStyle(
+                                    child: Text(
+                                      "Search",
+                                      style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 15,
-                                        ),
-                                  ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -126,25 +128,30 @@ class _MemberDetailsState extends State<MemberDetails> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: GridView.count(
-                                
-                                crossAxisCount: MediaQuery.of(context).size.width<=1100?(MediaQuery.of(context).size.width<=855?1:2):3,
+                                crossAxisCount:
+                                    MediaQuery.of(context).size.width <= 1100
+                                        ? (MediaQuery.of(context).size.width <=
+                                                855
+                                            ? 1
+                                            : 2)
+                                        : 3,
                                 children: List.generate(
                                   snapshot.data.length,
-                                (index) {
+                                  (index) {
                                     return Padding(
                                       padding: const EdgeInsets.fromLTRB(
                                           10, 8, 10, 8),
                                       child: GestureDetector(
                                         onTap: () {
                                           showDialog(
-                                            barrierDismissible: false,
+                                              barrierDismissible: false,
                                               context: context,
                                               builder: (context) {
                                                 return Dialog(
                                                   child: MemberDialog(
-                                                      keys: keys,
-                                                      obj: snapshot.data[index],
-                                                      ),
+                                                    keys: keys,
+                                                    obj: snapshot.data[index],
+                                                  ),
                                                 );
                                               });
                                         },

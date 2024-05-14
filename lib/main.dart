@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:gymmanagementsystem/pages/attendance_details.dart";
 import "package:gymmanagementsystem/pages/attendance_qr.dart";
 import "package:gymmanagementsystem/pages/change_password.dart";
 import "package:gymmanagementsystem/pages/home_page.dart";
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Poppins',
           useMaterial3: true,
         ),
-        home: const LoginPage(),
+        home: const AttendanceDetails(),
       ),
     );
   }
