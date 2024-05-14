@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/widgets.dart';
+import 'package:gymmanagementsystem/pages/attendance_details.dart';
 import 'package:gymmanagementsystem/pages/attendance_qr.dart';
 import 'package:gymmanagementsystem/pages/change_password.dart';
 import "package:gymmanagementsystem/pages/dashboard.dart";
@@ -23,14 +24,16 @@ class _HomePageState extends State<HomePage> {
   List<String> heading = [
     "Dashboard",
     "Attendance QR",
+    "Attendance Detail",
     "Members",
     "Register Member",
     "New Staff",
-    "Change Password"
+    "Change Password",
   ];
   List<Widget> pages = [
     Dashboard(),
     AttendanceQr(),
+    AttendanceDetails(),
     MemberDetails(),
     RegisterMember(),
     CreateStaffAcc(),
@@ -75,17 +78,26 @@ class _HomePageState extends State<HomePage> {
                               .setCurrentPage(1);
                         },
                       ),
+                      ListTile(
+                        leading: Icon(Icons.assignment,color: Colors.white,),
+                        title: Text("Attendance Details",style: drawerTextStyle,),
+                        onTap: () {
+                          setState(() {});
+                          Provider.of<UserProvider>(context, listen: false)
+                              .setCurrentPage(2);
+                        },
+                      ),
                       ExpansionTile(
                         leading: Icon(Icons.people,color: Colors.white,),
                         title: Text("Member",style: drawerTextStyle,),
                         children: [
                           ListTile(
-                            leading: Icon(Icons.info,color: Colors.white,),
+                            leading: Icon(Icons.assignment_ind,color: Colors.white,),
                             title: Text("Members detail",style: drawerTextStyle,),
                             onTap: () {
                               setState(() {});
                               Provider.of<UserProvider>(context, listen: false)
-                                  .setCurrentPage(2);
+                                  .setCurrentPage(3);
                             },
                           ),
                           ListTile(
@@ -95,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                               setState(() {
                                 Provider.of<UserProvider>(context,
                                         listen: false)
-                                    .setCurrentPage(3);
+                                    .setCurrentPage(4);
                               });
                             },
                           ),
@@ -110,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                               () {
                                 Provider.of<UserProvider>(context,
                                         listen: false)
-                                    .setCurrentPage(4);
+                                    .setCurrentPage(5);
                               },
                             );
                           },
@@ -122,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           setState(() {
                             Provider.of<UserProvider>(context, listen: false)
-                                .setCurrentPage(5);
+                                .setCurrentPage(6);
                           });
                         },
                       ),

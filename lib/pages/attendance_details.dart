@@ -16,7 +16,8 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
   List attendanceDetails=[];
   String _formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime? temp = await showDatePicker(
+    try{
+      final DateTime? temp = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(1930),
@@ -25,8 +26,13 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
       setState(() {
         DateTime _selectedDate = temp;
         _formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDate);
+        _getAttendanceDetails();
       });
     }
+    }catch(e){
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString()),),);
+    }
+    
   }
   TableRow getDataRow(int i) {
     TextStyle rowTextStyle=TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.normal);
