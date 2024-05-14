@@ -40,7 +40,7 @@ class _ChangePasswordState extends State<ChangePassword> {
         if (msg == "success") {
           setState(() {
             Provider.of<UserProvider>(context, listen: false).setCurrentPage(0);
-            Navigator.of(context).push(
+            Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => HomePage(),
               ),
