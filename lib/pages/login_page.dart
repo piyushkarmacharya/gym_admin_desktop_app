@@ -26,10 +26,10 @@ class _LoginPageState extends State<LoginPage> {
   ];
   Map<String, dynamic> data = {};
   String? email;
-  Future login(String url) async {
+  Future login() async {
     try {
       final res = await http.post(
-        Uri.parse(url),
+        Uri.parse("http://127.0.0.1:8000/api/admin/login"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'email': ctr[0].text, 'password': ctr[1].text}),
       );
@@ -60,44 +60,14 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context, listen: false).getUser();
     return Scaffold(
         appBar: AppBar(
           actions: [
-            MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: GestureDetector(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.admin_panel_settings_sharp,
-                    color: user == "Admin" ? Color(0xFF1A1363) : Colors.grey,
-                  ),
-                ),
-                onTap: () {
-                  setState(() {
-                    Provider.of<UserProvider>(context, listen: false)
-                        .setUser("Admin");
-                  });
-                },
-              ),
-            ),
-            MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: GestureDetector(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Icon(
-                    Icons.people,
-                    color: user == "Staff" ? Color(0xFF1A1363) : Colors.grey,
-                  ),
-                ),
-                onTap: () {
-                  setState(() {
-                    Provider.of<UserProvider>(context, listen: false)
-                        .setUser("Staff");
-                  });
-                },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.admin_panel_settings_sharp,
+                color: Color(0xFF1A1363),
               ),
             ),
           ],
@@ -114,33 +84,20 @@ class _LoginPageState extends State<LoginPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Center(
-                        //   child: Padding(
-                        //     padding: const EdgeInsets.all(16.0),
-                        //     child: Text(
-                        //       "$user",
-                        //       style: TextStyle(
-                        //         fontWeight: FontWeight.bold,
-                        //         fontSize: 30,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        // Spacer(),
-                        Text(
+                        const Text(
                           "Sign-in",
                           style: TextStyle(
                               color: Color(0xFF1A1363),
                               fontWeight: FontWeight.bold,
                               fontSize: 36),
                         ),
-                        SizedBox(height: 55),
+                        const SizedBox(height: 55),
                         Form(
                           key: _formKey,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 "Email*",
                                 style: TextStyle(
                                     fontSize: 24,
@@ -154,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                                   width: 406,
                                   height: 69,
                                   child: TextFormField(
-                                    style: TextStyle(fontSize: 18),
+                                    style: const TextStyle(fontSize: 18),
                                     decoration: InputDecoration(
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: const BorderSide(
@@ -170,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                                         ),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
-                                      prefixIcon: Icon(Icons.email),
+                                      prefixIcon: const Icon(Icons.email),
                                     ),
                                     controller: ctr[0],
                                     validator: (value) {
@@ -187,10 +144,10 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
-                              Text(
+                              const Text(
                                 "Password*",
                                 style: TextStyle(
                                     fontSize: 24,
@@ -204,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                                   width: 406,
                                   height: 69,
                                   child: TextFormField(
-                                    style: TextStyle(fontSize: 18),
+                                    style: const TextStyle(fontSize: 18),
                                     obscureText: !_showPassword,
                                     decoration: InputDecoration(
                                       suffixIcon: IconButton(
@@ -231,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                                         ),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
-                                      prefixIcon: Icon(Icons.lock),
+                                      prefixIcon: const Icon(Icons.lock),
                                     ),
                                     controller: ctr[1],
                                     validator: (value) {
@@ -245,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Container(
@@ -255,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
                                   style: ButtonStyle(
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(
-                                            Color(0xFF1A1363)),
+                                            const Color(0xFF1A1363)),
                                     shape: MaterialStateProperty.all<
                                         OutlinedBorder>(
                                       RoundedRectangleBorder(
@@ -267,8 +224,7 @@ class _LoginPageState extends State<LoginPage> {
                                     if (_formKey.currentState!.validate()) {
                                       email = ctr[0].text;
                                       setState(() {});
-                                      await login(
-                                          "http://127.0.0.1:8000/api/$user/login");
+                                      await login();
                                       if (data['login'] == true) {
                                         setState(() {});
                                         Provider.of<UserProvider>(context,
@@ -277,7 +233,7 @@ class _LoginPageState extends State<LoginPage> {
                                         Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                             builder: (context) {
-                                              return HomePage();
+                                              return const HomePage();
                                             },
                                           ),
                                         );
@@ -293,7 +249,7 @@ class _LoginPageState extends State<LoginPage> {
                                       }
                                     }
                                   },
-                                  child: Text(
+                                  child: const Text(
                                     "Login",
                                     style: TextStyle(
                                         color: Colors.white,

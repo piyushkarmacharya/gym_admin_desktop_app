@@ -8,7 +8,6 @@ import "package:gymmanagementsystem/pages/dashboard.dart";
 import 'package:gymmanagementsystem/pages/login_page.dart';
 import 'package:gymmanagementsystem/pages/register_member.dart';
 import 'package:gymmanagementsystem/pages/member_pages/member_details.dart';
-import 'package:gymmanagementsystem/pages/create_staff_acc.dart';
 import 'package:gymmanagementsystem/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +26,6 @@ class _HomePageState extends State<HomePage> {
     "Attendance Detail",
     "Members",
     "Register Member",
-    "New Staff",
     "Change Password",
   ];
   List<Widget> pages = [
@@ -36,14 +34,12 @@ class _HomePageState extends State<HomePage> {
     AttendanceDetails(),
     MemberDetails(),
     RegisterMember(),
-    CreateStaffAcc(),
     ChangePassword()
   ];
   @override
   Widget build(BuildContext context) {
     int selected =
         Provider.of<UserProvider>(context, listen: false).getCurrentPage();
-    String user = Provider.of<UserProvider>(context, listen: false).getUser();
     return SafeArea(
       child: Scaffold(
         body: Row(
@@ -58,7 +54,7 @@ class _HomePageState extends State<HomePage> {
                     
                     children: [
                       DrawerHeader(
-                        child: Text("Welcome ${user}",style: drawerTextStyle,),
+                        child: Text("Welcome Admin",style: drawerTextStyle,),
                       ),
                       ListTile(
                         leading: Icon(Icons.dashboard,color: Colors.white,),
@@ -113,28 +109,14 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      Visibility(
-                        visible: user == "Admin",
-                        child: ListTile(
-                          title: Text("New Staff",style: drawerTextStyle,),
-                          onTap: () {
-                            setState(
-                              () {
-                                Provider.of<UserProvider>(context,
-                                        listen: false)
-                                    .setCurrentPage(5);
-                              },
-                            );
-                          },
-                        ),
-                      ),
+                      
                       ListTile(
                         leading: Icon(Icons.password,color: Colors.white,),
                         title: Text("Change Password",style: drawerTextStyle,),
                         onTap: () {
                           setState(() {
                             Provider.of<UserProvider>(context, listen: false)
-                                .setCurrentPage(6);
+                                .setCurrentPage(5);
                           });
                         },
                       ),

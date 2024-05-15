@@ -12,15 +12,8 @@ class UserProvider extends ChangeNotifier{
     return currentPage;
   }
   
-  String user="Admin";
   int userId=0;
-  void setUser(String user){
-    this.user=user;
-    notifyListeners();
-  }
-  String getUser(){
-    return user;
-  }
+ 
 
   void setUserId(int userId){
     this.userId=userId;
