@@ -19,7 +19,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  TextStyle drawerTextStyle=TextStyle(color: Colors.white,fontSize: 10,fontWeight: FontWeight.normal);
+  TextStyle drawerTextStyle = TextStyle(
+      color: Colors.white, fontSize: 10, fontWeight: FontWeight.normal);
   List<String> heading = [
     "Dashboard",
     "Attendance QR",
@@ -51,14 +52,22 @@ class _HomePageState extends State<HomePage> {
                   shape: BeveledRectangleBorder(
                       borderRadius: BorderRadius.circular(0)),
                   child: ListView(
-                    
                     children: [
                       DrawerHeader(
-                        child: Text("Welcome Admin",style: drawerTextStyle,),
+                        child: Text(
+                          "Welcome Admin",
+                          style: drawerTextStyle,
+                        ),
                       ),
                       ListTile(
-                        leading: Icon(Icons.dashboard,color: Colors.white,),
-                        title: Text("Dashboard",style: drawerTextStyle,),
+                        leading: Icon(
+                          Icons.dashboard,
+                          color: Colors.white,
+                        ),
+                        title: Text(
+                          "Dashboard",
+                          style: drawerTextStyle,
+                        ),
                         onTap: () {
                           setState(() {});
                           Provider.of<UserProvider>(context, listen: false)
@@ -66,8 +75,14 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        leading: Icon(Icons.qr_code,color: Colors.white,),
-                        title: Text("Attendance QR",style: drawerTextStyle,),
+                        leading: Icon(
+                          Icons.qr_code,
+                          color: Colors.white,
+                        ),
+                        title: Text(
+                          "Attendance QR",
+                          style: drawerTextStyle,
+                        ),
                         onTap: () {
                           setState(() {});
                           Provider.of<UserProvider>(context, listen: false)
@@ -75,8 +90,14 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        leading: Icon(Icons.assignment,color: Colors.white,),
-                        title: Text("Attendance Details",style: drawerTextStyle,),
+                        leading: Icon(
+                          Icons.assignment,
+                          color: Colors.white,
+                        ),
+                        title: Text(
+                          "Attendance Details",
+                          style: drawerTextStyle,
+                        ),
                         onTap: () {
                           setState(() {});
                           Provider.of<UserProvider>(context, listen: false)
@@ -84,12 +105,24 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ExpansionTile(
-                        leading: Icon(Icons.people,color: Colors.white,),
-                        title: Text("Member",style: drawerTextStyle,),
+                        leading: Icon(
+                          Icons.people,
+                          color: Colors.white,
+                        ),
+                        title: Text(
+                          "Member",
+                          style: drawerTextStyle,
+                        ),
                         children: [
                           ListTile(
-                            leading: Icon(Icons.assignment_ind,color: Colors.white,),
-                            title: Text("Members detail",style: drawerTextStyle,),
+                            leading: Icon(
+                              Icons.assignment_ind,
+                              color: Colors.white,
+                            ),
+                            title: Text(
+                              "Members detail",
+                              style: drawerTextStyle,
+                            ),
                             onTap: () {
                               setState(() {});
                               Provider.of<UserProvider>(context, listen: false)
@@ -97,8 +130,14 @@ class _HomePageState extends State<HomePage> {
                             },
                           ),
                           ListTile(
-                            leading: Icon(Icons.person_add,color: Colors.white,),
-                            title: Text("Register new member",style: drawerTextStyle,),
+                            leading: Icon(
+                              Icons.person_add,
+                              color: Colors.white,
+                            ),
+                            title: Text(
+                              "Register new member",
+                              style: drawerTextStyle,
+                            ),
                             onTap: () {
                               setState(() {
                                 Provider.of<UserProvider>(context,
@@ -109,10 +148,15 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      
                       ListTile(
-                        leading: Icon(Icons.password,color: Colors.white,),
-                        title: Text("Change Password",style: drawerTextStyle,),
+                        leading: Icon(
+                          Icons.password,
+                          color: Colors.white,
+                        ),
+                        title: Text(
+                          "Change Password",
+                          style: drawerTextStyle,
+                        ),
                         onTap: () {
                           setState(() {
                             Provider.of<UserProvider>(context, listen: false)
@@ -126,26 +170,21 @@ class _HomePageState extends State<HomePage> {
             Expanded(
                 child: Scaffold(
               appBar: AppBar(
+                toolbarHeight: 111,
                 centerTitle: true,
-                title: Text(heading[selected]),
-                actions: [
-                  Text("Logout"),
-                  GestureDetector(
-                    onTap:(){Navigator.of(context).pushReplacement(
-                                          MaterialPageRoute(
-                                            builder: (context) {
-                                              return LoginPage();
-                                            },
-                                          ),
-                                        );},
-                    child: const MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(Icons.exit_to_app),
-                        )),
-                  )
-                ],
+                title: Row(
+                  children: [
+                    Container(
+                      height: 78,
+                      width: 111,
+                      child: Image.asset(
+                        "assets/images/logo.png",
+                      ),
+                    ),
+                    Text("CLUB\nDESPERADO",style: TextStyle(color: Color(0xFF1A1363),fontSize: 20,fontWeight: FontWeight.bold),)
+                  ],
+                ),
+                
               ),
               body: pages[selected],
             ))
