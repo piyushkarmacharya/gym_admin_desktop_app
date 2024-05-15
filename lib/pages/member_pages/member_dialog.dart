@@ -42,144 +42,149 @@ class _MemberDialogState extends State<MemberDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  child: Icon(Icons.close),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                child: ListView(
-                  children: List.generate(
-                    widget.keys.length,
-                    (index) => ListTile(
-                      title: index == 0
-                          ? Container(
-                              width: 200,
-                              height: 200,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(40)),
-                              child: Image.memory(base64Decode(widget
-                                  .obj[widget.keys[index]]
-                                  .toString())))
-                          : Text(
-                              "${widget.keys[index]} : ${widget.obj[widget.keys[index]].toString()}"),
+    return Container(
+      height: 500,
+      width:700,
+      child: Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    child: Icon(Icons.close),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  child: ListView(
+                    children: List.generate(
+                      widget.keys.length,
+                      (index) => ListTile(
+                        title: index == 0
+                            ? Container(
+                                width: 200,
+                                height: 200,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(40)),
+                                child: Image.memory(base64Decode(widget
+                                    .obj[widget.keys[index]]
+                                    .toString())))
+                            : Text(
+                                "${widget.keys[index]} : ${widget.obj[widget.keys[index]].toString()}"),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-
-                //for editttt
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return Dialog(
-                            child:MemberUpdate(keys: widget.keys, obj: widget.obj),
-                          );
-                        });
-                  },
-                  style: const ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll<Color>(Colors.lightBlueAccent),
-                  ),
-                  child: Text("Edit"),
-                ),
-
-
-                //for deletee
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                  child: ElevatedButton(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+      
+                  //for editttt
+                  ElevatedButton(
                     onPressed: () {
+                      Navigator.of(context).pop();
                       showDialog(
                         barrierDismissible: false,
-                        context: context,
-                        builder: (context) {
-                          return Dialog(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text("Are you sure ?"),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-
-                                              delete(
-                                                widget.obj['mid'],
-                                              );
-                                            },
-                                            child: Text("Confirm"),
-                                            style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStatePropertyAll<
-                                                      Color>(Colors.red),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Text("Cancel"),
-                                            style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStatePropertyAll<
-                                                      Color>(Colors.lightGreen),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      );
+                          context: context,
+                          builder: (context) {
+                            return Dialog(
+                              child:MemberUpdate(keys: widget.keys, obj: widget.obj),
+                            );
+                          });
                     },
                     style: const ButtonStyle(
                       backgroundColor:
-                          MaterialStatePropertyAll<Color>(Colors.red),
+                          MaterialStatePropertyAll<Color>(Colors.lightBlueAccent),
                     ),
-                    child: Text("Delete"),
+                    child: Text("Edit"),
                   ),
-                ),
-              ],
-            )
-          ],
+      
+      
+                  //for deletee
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) {
+                            return Dialog(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text("Are you sure ?"),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+      
+                                                delete(
+                                                  widget.obj['mid'],
+                                                );
+                                              },
+                                              child: Text("Confirm"),
+                                              style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStatePropertyAll<
+                                                        Color>(Colors.red),
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text("Cancel"),
+                                              style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStatePropertyAll<
+                                                        Color>(Colors.lightGreen),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      style: const ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll<Color>(Colors.red),
+                      ),
+                      child: Text("Delete"),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

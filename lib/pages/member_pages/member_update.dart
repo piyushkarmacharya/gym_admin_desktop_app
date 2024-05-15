@@ -135,254 +135,235 @@ void initState(){
     String formateddob = DateFormat("yyyy-MM-dd").format(dob);
     String today = DateFormat("yyyy-MM-dd").format(DateTime.now());
 
-    return Dialog(
-      backgroundColor: Colors.black,
-       
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
+    return Container(
+      height: 500,
+      width: 700,
+      child: Dialog(
+          child: Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16,16,16,0),
+                child: GestureDetector(onTap: (){Navigator.of(context).pop();},child: Row(mainAxisAlignment: MainAxisAlignment.end,children: [Icon(Icons.close)],)),
+              ),
               Expanded(
-                  child: Container(
-                child: Image.asset(
-                  "assets/images/quote1.png",
-                ),
-              )),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    elevation: 24,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(16,16,16,0),
-                          child: GestureDetector(onTap: (){Navigator.of(context).pop();},child: Row(mainAxisAlignment: MainAxisAlignment.end,children: [Icon(Icons.close)],)),
+                child: Form(
+                  key: _formKey,
+                  child: ListView(
+                    padding: EdgeInsets.all(30),
+                    children: [
+                      Text("Name"),
+                      SizedBox(
+                        height: 50,
+                        child: TextFormField(
+                          controller: ctr[0],
+                          decoration: tfdec,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Enter your name";
+                            }
+                            if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value)) {
+                              return "Enter proper name";
+                            }
+                            return null;
+                          },
                         ),
-                        Expanded(
-                          child: Form(
-                            key: _formKey,
-                            child: ListView(
-                              padding: EdgeInsets.all(30),
-                              children: [
-                                Text("Name"),
-                                SizedBox(
-                                  height: 50,
-                                  child: TextFormField(
-                                    controller: ctr[0],
-                                    decoration: tfdec,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return "Enter your name";
-                                      }
-                                      if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value)) {
-                                        return "Enter proper name";
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                          "Date of Birth: ${formateddob != today ? formateddob : "Select date"}"),
-                                    ),
-                                    Expanded(
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            _selectDate(context);
-                                          });
-                                        },
-                                        child: Text("Select DOB"),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  ageError == true ? "Minimum age must be 12 yr" : "",
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                                Text("Gender : "),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: RadioListTile<String>(
-                                        title: Text("Male"),
-                                        value: "M",
-                                        groupValue: _selectedGender,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _selectedGender = value;
-                                            genderError = false;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: RadioListTile<String>(
-                                        title: Text("Female"),
-                                        value: "F",
-                                        groupValue: _selectedGender,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _selectedGender = value;
-                                            genderError = false;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: RadioListTile<String>(
-                                        title: Text("Other"),
-                                        value: "O",
-                                        groupValue: _selectedGender,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _selectedGender = value;
-                                            genderError = false;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  genderError == true ? "Must select a gender" : "",
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                                Text("Email"),
-                                TextFormField(
-                                  controller: ctr[1],
-                                  decoration: tfdec,
-                                  validator: (v) {
-                                    if (v == null || v.isEmpty) {
-                                      return "Enter email";
-                                    }
-                                    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                        .hasMatch(v)) {
-                                      return "Please enter valid email";
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                Text("Contact Number"),
-                                TextFormField(
-                                  controller: ctr[2],
-                                  decoration: tfdec,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "Enter phone number";
-                                    }
-                                    if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
-                                      return "Enter valid number";
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                Text("Address"),
-                                TextFormField(
-                                  controller: ctr[3],
-                                  decoration: tfdec,
-                                ),
-                                Text("Weight (in kg)"),
-                                TextFormField(
-                                  controller: ctr[4],
-                                  decoration: tfdec,
-                                  validator: (value) {
-                                    if (!(value == null || value.isEmpty)) {
-                                      try {
-                                        double w = double.parse(value);
-                                        if (w < 0 || w > 1000) {
-                                          return "Enter valid weight";
-                                        }
-                                      } catch (e) {
-                                        return "Enter valid weight";
-                                      }
-                                    }
-                        
-                                    return null;
-                                  },
-                                ),
-                                Text("Height (in foot)"),
-                                TextFormField(
-                                  controller: ctr[5],
-                                  decoration: tfdec,
-                                  validator: (value) {
-                                    if (!(value == null || value.isEmpty)) {
-                                      try {
-                                        double h = double.parse(value);
-                                        if (h < 0 || h > 10) {
-                                          return "Enter valid height";
-                                        }
-                                      } catch (e) {
-                                        return "Enter valid Height";
-                                      }
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      Expanded(child: Text("Select image :")),
-                                      Expanded(
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            getImage();
-                                          },
-                                          child: Text("Open gallery"),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: SizedBox(
-                                          height: 100,
-                                          child: imgstr == null
-                                              ? Text("no img")
-                                              : Image.memory(base64Decode(imgstr!)),
-                                        ),
-                                      ),
-                                    ],
-                                  
-                                  ),
-                                ),
-                                imgSizeExceed==true?Center(child: Text("File size exceed 500Kb",style: Theme.of(context).textTheme.bodySmall,)):Text(""),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      setState(() {});
-                                      if (_selectedGender == null) {
-                                        genderError = true;
-                                      } else {
-                                        genderError = false;
-                                      }
-                                      if (DateTime.now().year - dob.year < 12) {
-                                        ageError = true;
-                                      } else {
-                                        ageError = false;
-                                      }
-                                      if (_formKey.currentState!.validate() &&
-                                          genderError == false &&
-                                          ageError == false&&imgstr!=null) {
-                                        updateMember();
-                                      }
-                                      else{
-                                        print("Error");
-                                      }
-                                    },
-                                    child: Text("Update")),
-                              ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                                "Date of Birth: ${formateddob != today ? formateddob : "Select date"}"),
+                          ),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  _selectDate(context);
+                                });
+                              },
+                              child: Text("Select DOB"),
                             ),
                           ),
+                        ],
+                      ),
+                      Text(
+                        ageError == true ? "Minimum age must be 12 yr" : "",
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      Text("Gender : "),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: RadioListTile<String>(
+                              title: Text("Male"),
+                              value: "M",
+                              groupValue: _selectedGender,
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedGender = value;
+                                  genderError = false;
+                                });
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            child: RadioListTile<String>(
+                              title: Text("Female"),
+                              value: "F",
+                              groupValue: _selectedGender,
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedGender = value;
+                                  genderError = false;
+                                });
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            child: RadioListTile<String>(
+                              title: Text("Other"),
+                              value: "O",
+                              groupValue: _selectedGender,
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedGender = value;
+                                  genderError = false;
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        genderError == true ? "Must select a gender" : "",
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      Text("Email"),
+                      TextFormField(
+                        controller: ctr[1],
+                        decoration: tfdec,
+                        validator: (v) {
+                          if (v == null || v.isEmpty) {
+                            return "Enter email";
+                          }
+                          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                              .hasMatch(v)) {
+                            return "Please enter valid email";
+                          }
+                          return null;
+                        },
+                      ),
+                      Text("Contact Number"),
+                      TextFormField(
+                        controller: ctr[2],
+                        decoration: tfdec,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Enter phone number";
+                          }
+                          if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
+                            return "Enter valid number";
+                          }
+                          return null;
+                        },
+                      ),
+                      Text("Address"),
+                      TextFormField(
+                        controller: ctr[3],
+                        decoration: tfdec,
+                      ),
+                      Text("Weight (in kg)"),
+                      TextFormField(
+                        controller: ctr[4],
+                        decoration: tfdec,
+                        validator: (value) {
+                          if (!(value == null || value.isEmpty)) {
+                            try {
+                              double w = double.parse(value);
+                              if (w < 0 || w > 1000) {
+                                return "Enter valid weight";
+                              }
+                            } catch (e) {
+                              return "Enter valid weight";
+                            }
+                          }
+              
+                          return null;
+                        },
+                      ),
+                      Text("Height (in foot)"),
+                      TextFormField(
+                        controller: ctr[5],
+                        decoration: tfdec,
+                        validator: (value) {
+                          if (!(value == null || value.isEmpty)) {
+                            try {
+                              double h = double.parse(value);
+                              if (h < 0 || h > 10) {
+                                return "Enter valid height";
+                              }
+                            } catch (e) {
+                              return "Enter valid Height";
+                            }
+                          }
+                          return null;
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Expanded(child: Text("Select image :")),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  getImage();
+                                },
+                                child: Text("Open gallery"),
+                              ),
+                            ),
+                            Expanded(
+                              child: SizedBox(
+                                height: 100,
+                                child: imgstr == null
+                                    ? Text("no img")
+                                    : Image.memory(base64Decode(imgstr!)),
+                              ),
+                            ),
+                          ],
+                        
                         ),
-                      ],
-                    ),
+                      ),
+                      imgSizeExceed==true?Center(child: Text("File size exceed 500Kb",style: Theme.of(context).textTheme.bodySmall,)):Text(""),
+                      ElevatedButton(
+                          onPressed: () {
+                            setState(() {});
+                            if (_selectedGender == null) {
+                              genderError = true;
+                            } else {
+                              genderError = false;
+                            }
+                            if (DateTime.now().year - dob.year < 12) {
+                              ageError = true;
+                            } else {
+                              ageError = false;
+                            }
+                            if (_formKey.currentState!.validate() &&
+                                genderError == false &&
+                                ageError == false&&imgstr!=null) {
+                              updateMember();
+                            }
+                            else{
+                              print("Error");
+                            }
+                          },
+                          child: Text("Update")),
+                    ],
                   ),
                 ),
               ),
             ],
-          ),
-        ));
+          )),
+    );
   }
 }
