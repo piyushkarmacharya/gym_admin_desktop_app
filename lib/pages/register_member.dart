@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gymmanagementsystem/pages/home_page.dart';
 import 'package:gymmanagementsystem/user_provider.dart';
 import 'package:http/http.dart' as http;
@@ -32,9 +33,11 @@ class _RegisterMemberState extends State<RegisterMember> {
     TextEditingController(),
   ];
   InputDecoration tfdec = InputDecoration(
+    filled: true,
+    fillColor: Color(0xFFE9E9E9),
     contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(12),
     ),
   );
 
@@ -102,9 +105,9 @@ class _RegisterMemberState extends State<RegisterMember> {
     if (Response.statusCode == 200) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Success")));
-          setState(() {
-            Provider.of<UserProvider>(context,listen: false).setCurrentPage(2);
-          });
+      setState(() {
+        Provider.of<UserProvider>(context, listen: false).setCurrentPage(3);
+      });
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -119,19 +122,39 @@ class _RegisterMemberState extends State<RegisterMember> {
     }
   }
 
+  final TextStyle tstyle = TextStyle(
+      color: Color(0xFF2B2B2B), fontWeight: FontWeight.bold, fontSize: 16);
+  bool _showPassword = false;
+
   @override
   Widget build(BuildContext context) {
-    
     DateTime dob = _dob ?? DateTime.now();
     String formateddob = DateFormat("yyyy-MM-dd").format(dob);
     String today = DateFormat("yyyy-MM-dd").format(DateTime.now());
 
     return Scaffold(
-        body: Expanded(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 40, 20),
+        body: Padding(
+      padding: const EdgeInsets.fromLTRB(20, 20, 40, 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Add New Member!",
+            style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFFDEBA3B)),
+          ),
+          Text(
+            "Register",
+            style: TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1A1363),
+            ),
+          ),
+          Expanded(
             child: Card(
-              elevation: 24,
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Form(
@@ -139,28 +162,36 @@ class _RegisterMemberState extends State<RegisterMember> {
                   child: ListView(
                     padding: EdgeInsets.all(50),
                     children: [
-                      Text("Name"),
-                      SizedBox(
-                        height: 50,
-                        child: TextFormField(
-                          controller: ctr[0],
-                          decoration: tfdec,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Enter your name";
-                            }
-                            if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value)) {
-                              return "Enter proper name";
-                            }
-                            return null;
-                          },
+                      Text(
+                        "Name",
+                        style: tstyle,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
+                        child: SizedBox(
+                          height: 33,
+                          child: TextFormField(
+                            controller: ctr[0],
+                            decoration: tfdec,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Enter your name";
+                              }
+                              if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value)) {
+                                return "Enter proper name";
+                              }
+                              return null;
+                            },
+                          ),
                         ),
                       ),
                       Row(
                         children: [
                           Expanded(
                             child: Text(
-                                "Date of Birth: ${formateddob != today ? formateddob : "Select date"}"),
+                              "Date of Birth: ${formateddob != today ? formateddob : "Select date"}",
+                              style: tstyle,
+                            ),
                           ),
                           Expanded(
                             child: ElevatedButton(
@@ -169,7 +200,20 @@ class _RegisterMemberState extends State<RegisterMember> {
                                   _selectDate(context);
                                 });
                               },
-                              child: Text("Select DOB"),
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        const Color(0xFF1A1363)),
+                                shape:
+                                    MaterialStateProperty.all<OutlinedBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(24)),
+                                ),
+                              ),
+                              child: Text(
+                                "Select DOB",
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           ),
                         ],
@@ -178,9 +222,15 @@ class _RegisterMemberState extends State<RegisterMember> {
                         ageError == true ? "Minimum age must be 12 yr" : "",
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
-                      Text("Gender : "),
+                      Text(
+                        "Gender : ",
+                        style: tstyle,
+                      ),
                       RadioListTile<String>(
-                        title: Text("Male"),
+                        title: Text(
+                          "Male",
+                          style: tstyle,
+                        ),
                         value: "M",
                         groupValue: _selectedGender,
                         onChanged: (value) {
@@ -191,7 +241,10 @@ class _RegisterMemberState extends State<RegisterMember> {
                         },
                       ),
                       RadioListTile<String>(
-                        title: Text("Female"),
+                        title: Text(
+                          "Female",
+                          style: tstyle,
+                        ),
                         value: "F",
                         groupValue: _selectedGender,
                         onChanged: (value) {
@@ -202,7 +255,10 @@ class _RegisterMemberState extends State<RegisterMember> {
                         },
                       ),
                       RadioListTile<String>(
-                        title: Text("Other"),
+                        title: Text(
+                          "Other",
+                          style: tstyle,
+                        ),
                         value: "O",
                         groupValue: _selectedGender,
                         onChanged: (value) {
@@ -216,109 +272,202 @@ class _RegisterMemberState extends State<RegisterMember> {
                         genderError == true ? "Must select a gender" : "",
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
-                      Text("Email"),
-                      TextFormField(
-                        controller: ctr[1],
-                        decoration: tfdec,
-                        validator: (v) {
-                          if (v == null || v.isEmpty) {
-                            return "Enter email";
-                          }
-                          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                              .hasMatch(v)) {
-                            return "Please enter valid email";
-                          }
-                          return null;
-                        },
+                      Text(
+                        "Email",
+                        style: tstyle,
                       ),
-                      Text("Contact Number"),
-                      TextFormField(
-                        controller: ctr[2],
-                        decoration: tfdec,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Enter phone number";
-                          }
-                          if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
-                            return "Enter valid number";
-                          }
-                          return null;
-                        },
-                      ),
-                      Text("Address"),
-                      TextFormField(
-                        controller: ctr[3],
-                        decoration: tfdec,
-                      ),
-                      Text("Weight (in kg)"),
-                      TextFormField(
-                        controller: ctr[4],
-                        decoration: tfdec,
-                        validator: (value) {
-                          if (!(value == null || value.isEmpty)) {
-                            try {
-                              double w = double.parse(value);
-                              if (w < 0 || w > 1000) {
-                                return "Enter valid weight";
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
+                        child: SizedBox(
+                          height: 33,
+                          child: TextFormField(
+                            controller: ctr[1],
+                            decoration: tfdec,
+                            validator: (v) {
+                              if (v == null || v.isEmpty) {
+                                return "Enter email";
                               }
-                            } catch (e) {
-                              return "Enter valid weight";
-                            }
-                          }
-        
-                          return null;
-                        },
-                      ),
-                      Text("Height (in foot)"),
-                      TextFormField(
-                        controller: ctr[5],
-                        decoration: tfdec,
-                        validator: (value) {
-                          if (!(value == null || value.isEmpty)) {
-                            try {
-                              double h = double.parse(value);
-                              if (h < 0 || h > 10) {
-                                return "Enter valid height";
+                              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                  .hasMatch(v)) {
+                                return "Please enter valid email";
                               }
-                            } catch (e) {
-                              return "Enter valid Height";
-                            }
-                          }
-                          return null;
-                        },
+                              return null;
+                            },
+                          ),
+                        ),
                       ),
-                      Text("Password"),
-                      TextFormField(
-                        obscureText: true,
-                        controller: ctr[6],
-                        decoration: tfdec,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Password cannot be empty";
-                          } else if (value.length < 8) {
-                            return "Password must be minimum 8 character";
-                          }
-                          return null;
-                        },
+                      Text(
+                        "Contact Number",
+                        style: tstyle,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
+                        child: SizedBox(
+                          height: 33,
+                          child: TextFormField(
+                            controller: ctr[2],
+                            decoration: tfdec,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Enter phone number";
+                              }
+                              if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
+                                return "Enter valid number";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "Address",
+                        style: tstyle,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
+                        child: SizedBox(
+                          height: 33,
+                          child: TextFormField(
+                            controller: ctr[3],
+                            decoration: tfdec,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "Weight (in kg)",
+                        style: tstyle,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
+                        child: SizedBox(
+                          height: 33,
+                          child: TextFormField(
+                            controller: ctr[4],
+                            decoration: tfdec,
+                            validator: (value) {
+                              if (!(value == null || value.isEmpty)) {
+                                try {
+                                  double w = double.parse(value);
+                                  if (w < 0 || w > 1000) {
+                                    return "Enter valid weight";
+                                  }
+                                } catch (e) {
+                                  return "Enter valid weight";
+                                }
+                              }
+
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "Height (in foot)",
+                        style: tstyle,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
+                        child: SizedBox(
+                          height: 33,
+                          child: TextFormField(
+                            controller: ctr[5],
+                            decoration: tfdec,
+                            validator: (value) {
+                              if (!(value == null || value.isEmpty)) {
+                                try {
+                                  double h = double.parse(value);
+                                  if (h < 0 || h > 10) {
+                                    return "Enter valid height";
+                                  }
+                                } catch (e) {
+                                  return "Enter valid Height";
+                                }
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "Password",
+                        style: tstyle,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
+                        child: SizedBox(
+                          height: 33,
+                          child: TextFormField(
+                            obscureText: !_showPassword,
+                            controller: ctr[6],
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Color(0xFFE9E9E9),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 10),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _showPassword = !_showPassword;
+                                  });
+                                },
+                                icon: Icon(_showPassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Password cannot be empty";
+                              } else if (value.length < 8) {
+                                return "Password must be minimum 8 character";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            Expanded(child: Text("Select image :")),
+                            Expanded(
+                                child: Text(
+                              "Select image :",
+                              style: tstyle,
+                            )),
                             Expanded(
                               child: ElevatedButton(
                                 onPressed: () {
                                   getImage();
                                 },
-                                child: Text("Open gallery"),
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          const Color(0xFF1A1363)),
+                                  shape:
+                                      MaterialStateProperty.all<OutlinedBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(24)),
+                                  ),
+                                ),
+                                child: Text(
+                                  "Open gallery",
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
                             ),
                             Expanded(
                               child: SizedBox(
                                 height: 100,
                                 child: imgstr == null
-                                    ? Text("no img")
+                                    ? Text(
+                                        "no img",
+                                        style: tstyle,
+                                      )
                                     : Image.memory(base64Decode(imgstr!)),
                               ),
                             ),
@@ -332,35 +481,88 @@ class _RegisterMemberState extends State<RegisterMember> {
                               style: Theme.of(context).textTheme.bodySmall,
                             ))
                           : Text(""),
-                      ElevatedButton(
-                          onPressed: () {
-                            setState(() {});
-                            if (_selectedGender == null) {
-                              genderError = true;
-                            } else {
-                              genderError = false;
-                            }
-                            if (DateTime.now().year - dob.year < 12) {
-                              ageError = true;
-                            } else {
-                              ageError = false;
-                            }
-                            if (_formKey.currentState!.validate() &&
-                                genderError == false &&
-                                ageError == false &&
-                                imgstr != null) {
-                              registerMember();
-                            } else {
-                              print("Error");
-                            }
-                          },
-                          child: Text("Submit")),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        const Color(0xFF1A1363)),
+                                shape:
+                                    MaterialStateProperty.all<OutlinedBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(24)),
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {});
+                                if (_selectedGender == null) {
+                                  genderError = true;
+                                } else {
+                                  genderError = false;
+                                }
+                                if (DateTime.now().year - dob.year < 12) {
+                                  ageError = true;
+                                } else {
+                                  ageError = false;
+                                }
+                                if (_formKey.currentState!.validate() &&
+                                    genderError == false &&
+                                    ageError == false &&
+                                    imgstr != null) {
+                                  registerMember();
+                                } else {
+                                  print("Error");
+                                }
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Submit",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                                style: ButtonStyle(
+                                  side: MaterialStateProperty.all<BorderSide>(
+                                    BorderSide(
+                                        color: Color(0xFF1A1363), width: 2.0),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    Provider.of<UserProvider>(context,
+                                            listen: false)
+                                        .setCurrentPage(0);
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (context) => HomePage(),
+                                      ),
+                                    );
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text("Cancel"),
+                                )),
+                          )
+                        ],
+                      ),
                     ],
                   ),
                 ),
               ),
             ),
           ),
-        ));
+        ],
+      ),
+    ));
   }
 }
