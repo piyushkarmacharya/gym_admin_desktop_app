@@ -77,8 +77,8 @@ class _MemberDialogState extends State<MemberDialog> {
                                 child: Image.memory(base64Decode(widget
                                     .obj[widget.keys[index]]
                                     .toString())))
-                            : Text(
-                                "${widget.keys[index]} : ${widget.obj[widget.keys[index]].toString()}"),
+                            : Row(children: [Text(
+                                "${widget.keys[index][0].toUpperCase()}${widget.keys[index].substring(1)} : "),Text(" ${widget.obj[widget.keys[index]].toString()}"),],),
                       ),
                     ),
                   ),

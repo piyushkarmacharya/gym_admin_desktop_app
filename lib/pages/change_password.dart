@@ -57,6 +57,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     }
   }
 
+  List<bool> _showPassword=[false,false,false];
   @override
   Widget build(BuildContext) {
     return Scaffold(
@@ -74,9 +75,19 @@ class _ChangePasswordState extends State<ChangePassword> {
                   children: [
                     TextFormField(
                       controller: ctr[0],
-                      obscureText: true,
+                      obscureText: !_showPassword[0],
                       decoration: InputDecoration(
                         labelText: "Current password",
+                        suffixIcon: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _showPassword[0] = !_showPassword[0];
+                                          });
+                                        },
+                                        icon: Icon(_showPassword[0]
+                                            ? Icons.visibility_off
+                                            : Icons.visibility),
+                                      ),
                         prefixIcon: Icon(Icons.lock),
                       ),
                       validator: (value) {
@@ -93,8 +104,18 @@ class _ChangePasswordState extends State<ChangePassword> {
                     ),
                     TextFormField(
                       controller: ctr[1],
-                      obscureText: true,
+                      obscureText: !_showPassword[1],
                       decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _showPassword[1] = !_showPassword[1];
+                                          });
+                                        },
+                                        icon: Icon(_showPassword[1]
+                                            ? Icons.visibility_off
+                                            : Icons.visibility),
+                                      ),
                         labelText: "New password",
                         prefixIcon: Icon(Icons.lock),
                       ),
@@ -114,8 +135,18 @@ class _ChangePasswordState extends State<ChangePassword> {
                     ),
                     TextFormField(
                       controller: ctr[2],
-                      obscureText: true,
+                      obscureText: !_showPassword[2],
                       decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _showPassword[2] = !_showPassword[2];
+                                          });
+                                        },
+                                        icon: Icon(_showPassword[2]
+                                            ? Icons.visibility_off
+                                            : Icons.visibility),
+                                      ),
                         labelText: "Confirm password",
                         prefixIcon: Icon(Icons.lock),
                       ),
@@ -134,6 +165,16 @@ class _ChangePasswordState extends State<ChangePassword> {
                       height: 20,
                     ),
                     ElevatedButton(
+                      style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        const Color(0xFF1A1363)),
+                                shape:
+                                    MaterialStateProperty.all<OutlinedBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(24)),
+                                ),
+                              ),
                       onPressed: () {
                         setState(() {
                           if (_formKey.currentState!.validate()) {
@@ -141,7 +182,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           }
                         });
                       },
-                      child: Text("Change Password"),
+                      child: Text("Change Password",style: TextStyle(color: Colors.white),),
                     ),
                   ],
                 ),
