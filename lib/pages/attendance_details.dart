@@ -72,7 +72,7 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Connection problem"),),);
     }
     }catch(e){
-           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString()),),);
+           print(e.toString());
 
     }
       

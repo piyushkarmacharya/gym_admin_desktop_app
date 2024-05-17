@@ -11,6 +11,7 @@ class AttendanceQr extends StatefulWidget {
 }
 
 class _AttendanceQrState extends State<AttendanceQr> {
+  final _formKey=GlobalKey<FormState>();
   String str = "";
   TextEditingController ctr = TextEditingController();
 
@@ -59,12 +60,9 @@ class _AttendanceQrState extends State<AttendanceQr> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        elevation: 5,
+      padding: const EdgeInsets.fromLTRB(20,0,20,20),
+      child: Container(
+        
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Scaffold(
@@ -86,45 +84,70 @@ class _AttendanceQrState extends State<AttendanceQr> {
               Spacer(),
               Expanded(
                 flex: 1,
-                child: Row(
-                  children: [
-                    Spacer(
-                      flex: 3,
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: TextField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          label: Text("Enter a string"),
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
+                child: Form(
+                  key: _formKey,
+                  child: ListView(
+                    children:[ Row(
+                      children: [
+                        Spacer(
+                          flex: 3,
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: TextFormField(
+                            obscureText: true,
+                            validator: (value){
+                              if(value==null||value==""){
+                                return "Please enter a string";
+                              }
+                            },
+                            decoration: InputDecoration(
+                              label: Text("Enter a string"),
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                            controller: ctr,
                           ),
                         ),
-                        controller: ctr,
-                      ),
+                        Spacer(
+                          flex: 1,
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                const Color(0xFF1A1363)),
+                                        shape: MaterialStateProperty.all<
+                                            OutlinedBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(24)),
+                                        ),
+                                      ),
+                            onPressed: () {
+                              if(_formKey.currentState!.validate()){
+                                setState(() {
+                                str = ctr.text;
+                                updateQr();
+                              });
+                              }
+                              
+                            },
+                            child: Text("Generate",style: TextStyle(color: Colors.white),),
+                          ),
+                        ),
+                        Spacer(
+                          flex: 3,
+                        ),
+                      ],
                     ),
-                    Spacer(
-                      flex: 1,
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            str = ctr.text;
-                            updateQr();
-                          });
-                        },
-                        child: Text("Generate"),
-                      ),
-                    ),
-                    Spacer(
-                      flex: 3,
-                    ),
-                  ],
+                    ]
+                  ),
                 ),
               ),
               Spacer(),

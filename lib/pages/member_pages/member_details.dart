@@ -46,7 +46,7 @@ class _MemberDetailsState extends State<MemberDetails> {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size);
+  
 
     return Scaffold(
         body: FutureBuilder(
