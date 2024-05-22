@@ -57,7 +57,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     }
   }
 
-  List<bool> _showPassword=[false,false,false];
+  List<bool> _showPassword = [false, false, false];
   @override
   Widget build(BuildContext) {
     return Scaffold(
@@ -79,22 +79,22 @@ class _ChangePasswordState extends State<ChangePassword> {
                       decoration: InputDecoration(
                         labelText: "Current password",
                         suffixIcon: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            _showPassword[0] = !_showPassword[0];
-                                          });
-                                        },
-                                        icon: Icon(_showPassword[0]
-                                            ? Icons.visibility_off
-                                            : Icons.visibility),
-                                      ),
+                          onPressed: () {
+                            setState(() {
+                              _showPassword[0] = !_showPassword[0];
+                            });
+                          },
+                          icon: Icon(_showPassword[0]
+                              ? Icons.visibility_off
+                              : Icons.visibility),
+                        ),
                         prefixIcon: Icon(Icons.lock),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Please enter password";
                         } else if (value.length < 8) {
-                          return "Password must me minimum 8 character";
+                          return "Password must be minimum 8 character";
                         }
                         return null;
                       },
@@ -107,15 +107,15 @@ class _ChangePasswordState extends State<ChangePassword> {
                       obscureText: !_showPassword[1],
                       decoration: InputDecoration(
                         suffixIcon: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            _showPassword[1] = !_showPassword[1];
-                                          });
-                                        },
-                                        icon: Icon(_showPassword[1]
-                                            ? Icons.visibility_off
-                                            : Icons.visibility),
-                                      ),
+                          onPressed: () {
+                            setState(() {
+                              _showPassword[1] = !_showPassword[1];
+                            });
+                          },
+                          icon: Icon(_showPassword[1]
+                              ? Icons.visibility_off
+                              : Icons.visibility),
+                        ),
                         labelText: "New password",
                         prefixIcon: Icon(Icons.lock),
                       ),
@@ -138,15 +138,15 @@ class _ChangePasswordState extends State<ChangePassword> {
                       obscureText: !_showPassword[2],
                       decoration: InputDecoration(
                         suffixIcon: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            _showPassword[2] = !_showPassword[2];
-                                          });
-                                        },
-                                        icon: Icon(_showPassword[2]
-                                            ? Icons.visibility_off
-                                            : Icons.visibility),
-                                      ),
+                          onPressed: () {
+                            setState(() {
+                              _showPassword[2] = !_showPassword[2];
+                            });
+                          },
+                          icon: Icon(_showPassword[2]
+                              ? Icons.visibility_off
+                              : Icons.visibility),
+                        ),
                         labelText: "Confirm password",
                         prefixIcon: Icon(Icons.lock),
                       ),
@@ -166,15 +166,13 @@ class _ChangePasswordState extends State<ChangePassword> {
                     ),
                     ElevatedButton(
                       style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        const Color(0xFF1A1363)),
-                                shape:
-                                    MaterialStateProperty.all<OutlinedBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(24)),
-                                ),
-                              ),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            const Color(0xFF1A1363)),
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24)),
+                        ),
+                      ),
                       onPressed: () {
                         setState(() {
                           if (_formKey.currentState!.validate()) {
@@ -182,7 +180,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                           }
                         });
                       },
-                      child: Text("Change Password",style: TextStyle(color: Colors.white),),
+                      child: Text(
+                        "Change Password",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ],
                 ),

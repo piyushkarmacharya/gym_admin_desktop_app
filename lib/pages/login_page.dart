@@ -1,4 +1,6 @@
+import "dart:collection";
 import "dart:convert";
+import "dart:ffi";
 //Required for jsonDecode
 
 import "package:flutter/material.dart";
@@ -27,6 +29,8 @@ class _LoginPageState extends State<LoginPage> {
   Map<String, dynamic> data = {};
   String? email;
   Future login() async {
+     final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     try {
       final res = await http.post(
         Uri.parse("http://127.0.0.1:8000/api/admin/login"),
@@ -43,6 +47,16 @@ class _LoginPageState extends State<LoginPage> {
           context,
         ).showSnackBar(
           SnackBar(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(0),
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(0))),
+            backgroundColor: Colors.red,
+            margin: EdgeInsets.fromLTRB(
+                0.8 * screenWidth, 0, 0, 0.8 * screenHeight),
+            behavior: SnackBarBehavior.floating,
             duration: Duration(seconds: 1),
             content: Text("Connection problem"),
           ),
@@ -51,6 +65,16 @@ class _LoginPageState extends State<LoginPage> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(0),
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(0))),
+          backgroundColor: Colors.red,
+          margin:
+              EdgeInsets.fromLTRB(0.8 * screenWidth, 0, 0, 0.8 * screenHeight),
+          behavior: SnackBarBehavior.floating,
           duration: Duration(seconds: 1),
           content: Text("Connection problem"),
         ),
@@ -58,8 +82,13 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  
+
+
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
           actions: [
@@ -240,7 +269,21 @@ class _LoginPageState extends State<LoginPage> {
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
-                                          const SnackBar(
+                                          SnackBar(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                    bottomLeft:
+                                                        Radius.circular(20),
+                                                    bottomRight:
+                                                        Radius.circular(0),
+                                                    topLeft:
+                                                        Radius.circular(20),
+                                                    topRight:
+                                                        Radius.circular(0))),
+                                            backgroundColor: Colors.red,
+                                            margin: EdgeInsets.fromLTRB(
+                                                0.8*screenWidth, 0, 0, 0.8*screenHeight),
+                                            behavior: SnackBarBehavior.floating,
                                             duration: Duration(seconds: 1),
                                             content: Text(
                                                 "Email and password donot match"),
