@@ -273,16 +273,16 @@ class _LoginPageState extends State<LoginPage> {
                                             shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.only(
                                                     bottomLeft:
-                                                        Radius.circular(20),
-                                                    bottomRight:
                                                         Radius.circular(0),
-                                                    topLeft:
+                                                    bottomRight:
                                                         Radius.circular(20),
+                                                    topLeft:
+                                                        Radius.circular(0),
                                                     topRight:
-                                                        Radius.circular(0))),
+                                                        Radius.circular(20))),
                                             backgroundColor: Colors.red,
                                             margin: EdgeInsets.fromLTRB(
-                                                0.8*screenWidth, 0, 0, 0.8*screenHeight),
+                                                0, 0, 0.7*screenWidth, 0.05*screenHeight),
                                             behavior: SnackBarBehavior.floating,
                                             duration: Duration(seconds: 1),
                                             content: Text(
