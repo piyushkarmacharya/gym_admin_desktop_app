@@ -138,10 +138,17 @@ class _LoginPageState extends State<LoginPage> {
                                     horizontal: 0, vertical: 8),
                                 child: Container(
                                   width: 406,
-                                  height: 69,
+                                  
                                   child: TextFormField(
                                     style: const TextStyle(fontSize: 18),
                                     decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          color: Color(0xFF332F64),
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: const BorderSide(
                                           color: Color(0xFF332F64),

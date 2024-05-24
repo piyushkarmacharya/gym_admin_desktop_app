@@ -90,8 +90,8 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Container(
-          height: 362,
-          width: 597,
+          height: 0.7*MediaQuery.of(context).size.height,
+          width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: Color(0xFF77749B),
