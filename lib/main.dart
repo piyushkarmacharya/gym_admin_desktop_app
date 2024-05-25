@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          scaffoldBackgroundColor: Color(0xFFECE9E9),
+          scaffoldBackgroundColor:const Color(0xFFECE9E9),
           textTheme: TextTheme(
               bodySmall: TextStyle(
             color: Colors.red[900],
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Poppins',
           useMaterial3: true,
         ),
-        home:  LoginPage(),
+        home:  const LoginPage(),
       ),
     );
   }

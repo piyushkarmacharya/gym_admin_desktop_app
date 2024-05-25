@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gymmanagementsystem/pages/home_page.dart';
 import 'package:gymmanagementsystem/user_provider.dart';
 import 'package:http/http.dart' as http;
@@ -34,8 +34,8 @@ class _RegisterMemberState extends State<RegisterMember> {
   ];
   InputDecoration tfdec = InputDecoration(
     filled: true,
-    fillColor: Color(0xFFE9E9E9),
-    contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+    fillColor: const Color(0xFFE9E9E9),
+    contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
     ),
@@ -57,12 +57,14 @@ class _RegisterMemberState extends State<RegisterMember> {
   //For image
   XFile? img;
   String? imgstr;
+  bool imgSelected = false;
 
   Future<void> getImage() async {
     final temp = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (temp != null) {
       setState(
         () {
+          imgSelected = true;
           img = temp;
           if (getImageSize(img!) < 500) {
             imgstr = base64Encode(File(img!.path).readAsBytesSync());
@@ -73,8 +75,6 @@ class _RegisterMemberState extends State<RegisterMember> {
           }
         },
       );
-    } else {
-      print("select img");
     }
   }
 
@@ -83,6 +83,8 @@ class _RegisterMemberState extends State<RegisterMember> {
     int fileSizeInByte = imgfile.lengthSync();
     return (fileSizeInByte / 1024);
   }
+
+  Map error = {};
 
   Future<void> registerMember() async {
     final Map<String, dynamic> data = {
@@ -104,7 +106,7 @@ class _RegisterMemberState extends State<RegisterMember> {
     );
     if (Response.statusCode == 200) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Success")));
+          .showSnackBar(const SnackBar(content: Text("Success")));
       setState(() {
         Provider.of<UserProvider>(context, listen: false).setCurrentPage(3);
       });
@@ -112,13 +114,15 @@ class _RegisterMemberState extends State<RegisterMember> {
         context,
         MaterialPageRoute(
           builder: (BuildContext context) {
-            return HomePage();
+            return const HomePage();
           },
         ),
       );
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Failed")));
+      setState(() {
+        error = jsonDecode(Response.body);
+        _formKey.currentState!.validate();
+      });
     }
   }
 
@@ -160,12 +164,10 @@ class _RegisterMemberState extends State<RegisterMember> {
                 child: Form(
                   key: _formKey,
                   child: SingleChildScrollView(
-                    scrollDirection:Axis.vertical,
+                    scrollDirection: Axis.vertical,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      
                       children: [
-
                         Text(
                           "Name",
                           style: tstyle,
@@ -208,7 +210,8 @@ class _RegisterMemberState extends State<RegisterMember> {
                                   shape:
                                       MaterialStateProperty.all<OutlinedBorder>(
                                     RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(24)),
+                                        borderRadius:
+                                            BorderRadius.circular(24)),
                                   ),
                                 ),
                                 child: Text(
@@ -290,10 +293,21 @@ class _RegisterMemberState extends State<RegisterMember> {
                                   .hasMatch(v)) {
                                 return "Please enter valid email";
                               }
+                              if (error.containsKey('error') &&
+                                  error['error'].containsKey('email') &&
+                                  error['error']['email'] is List &&
+                                  error['error']['email'].isNotEmpty) {
+                                  String temp=error['error']['email'][0];
+                                  setState(() {
+                                    error['error']['email']=[];
+                                  });
+                                return temp;
+                              }
                               return null;
                             },
                           ),
                         ),
+                        
                         Text(
                           "Contact Number",
                           style: tstyle,
@@ -345,7 +359,7 @@ class _RegisterMemberState extends State<RegisterMember> {
                                   return "Enter valid weight";
                                 }
                               }
-                                              
+
                               return null;
                             },
                           ),
@@ -430,8 +444,8 @@ class _RegisterMemberState extends State<RegisterMember> {
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(
                                             const Color(0xFF1A1363)),
-                                    shape:
-                                        MaterialStateProperty.all<OutlinedBorder>(
+                                    shape: MaterialStateProperty.all<
+                                        OutlinedBorder>(
                                       RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(24)),
@@ -457,13 +471,21 @@ class _RegisterMemberState extends State<RegisterMember> {
                             ],
                           ),
                         ),
-                        imgSizeExceed == true
-                            ? Center(
+                        Visibility(
+                          visible: imgSizeExceed,
+                          child: Center(
+                              child: Text(
+                            "File size exceed 500Kb",
+                            style: Theme.of(context).textTheme.bodySmall,
+                          )),
+                        ),
+                        Visibility(
+                            visible: !imgSelected,
+                            child: Center(
                                 child: Text(
-                                "File size exceed 500Kb",
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ))
-                            : Text(""),
+                              "Please Select image",
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ))),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -477,7 +499,8 @@ class _RegisterMemberState extends State<RegisterMember> {
                                   shape:
                                       MaterialStateProperty.all<OutlinedBorder>(
                                     RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(24)),
+                                        borderRadius:
+                                            BorderRadius.circular(24)),
                                   ),
                                 ),
                                 onPressed: () {
