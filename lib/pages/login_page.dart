@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
   Map<String, dynamic> data = {};
   String? email;
   Future login() async {
-     final screenHeight = MediaQuery.of(context).size.height;
+    final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     try {
       final res = await http.post(
@@ -81,9 +81,6 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
   }
-
-  
-
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +135,6 @@ class _LoginPageState extends State<LoginPage> {
                                     horizontal: 0, vertical: 8),
                                 child: Container(
                                   width: 406,
-                                  
                                   child: TextFormField(
                                     style: const TextStyle(fontSize: 18),
                                     decoration: InputDecoration(
@@ -197,6 +193,57 @@ class _LoginPageState extends State<LoginPage> {
                                   width: 406,
                                   height: 69,
                                   child: TextFormField(
+                                    onFieldSubmitted: (value) async {
+                                      if (_formKey.currentState!.validate()) {
+                                        email = ctr[0].text;
+                                        setState(() {});
+                                        await login();
+                                        if (data['login'] == true) {
+                                          setState(() {});
+                                          Provider.of<UserProvider>(context,
+                                                  listen: false)
+                                              .setUserId(data['id']);
+                                          Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return const HomePage();
+                                              },
+                                            ),
+                                          );
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                          bottomLeft: Radius
+                                                              .circular(0),
+                                                          bottomRight:
+                                                              Radius.circular(
+                                                                  20),
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  0),
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  20))),
+                                              backgroundColor: Colors.red,
+                                              margin: EdgeInsets.fromLTRB(
+                                                  0,
+                                                  0,
+                                                  0.7 * screenWidth,
+                                                  0.05 * screenHeight),
+                                              behavior:
+                                                  SnackBarBehavior.floating,
+                                              duration: Duration(seconds: 1),
+                                              content: Text(
+                                                  "Email and password donot match"),
+                                            ),
+                                          );
+                                        }
+                                      }
+                                    },
                                     style: const TextStyle(fontSize: 18),
                                     obscureText: !_showPassword,
                                     decoration: InputDecoration(
@@ -283,13 +330,15 @@ class _LoginPageState extends State<LoginPage> {
                                                         Radius.circular(0),
                                                     bottomRight:
                                                         Radius.circular(20),
-                                                    topLeft:
-                                                        Radius.circular(0),
+                                                    topLeft: Radius.circular(0),
                                                     topRight:
                                                         Radius.circular(20))),
                                             backgroundColor: Colors.red,
                                             margin: EdgeInsets.fromLTRB(
-                                                0, 0, 0.7*screenWidth, 0.05*screenHeight),
+                                                0,
+                                                0,
+                                                0.7 * screenWidth,
+                                                0.05 * screenHeight),
                                             behavior: SnackBarBehavior.floating,
                                             duration: Duration(seconds: 1),
                                             content: Text(

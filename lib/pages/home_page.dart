@@ -164,15 +164,53 @@ class _HomePageState extends State<HomePage> {
                           });
                         },
                       ),
+                      SizedBox(
+                        height: 0.2 * MediaQuery.of(context).size.height,
+                      ),
+                     
                     ],
                   )),
             ),
             Expanded(
                 child: Scaffold(
               appBar: AppBar(
+                actions: [
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: () {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const LoginPage();
+                                },
+                              ),
+                            );
+                          },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Text(
+                                "Logout  ",
+                                style: TextStyle(color: Color(0xFF1A1363)),
+                              ),
+                              Icon(
+                                Icons.logout,
+                                color: Color(0xFF1A1363),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
                 toolbarHeight: 111,
                 centerTitle: true,
                 title: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
                       height: 78,
@@ -181,10 +219,15 @@ class _HomePageState extends State<HomePage> {
                         "assets/images/logo.png",
                       ),
                     ),
-                    Text("CLUB\nDESPERADO",style: TextStyle(color: Color(0xFF1A1363),fontSize: 20,fontWeight: FontWeight.bold),)
+                    Text(
+                      "CLUB\nDESPERADO",
+                      style: TextStyle(
+                          color: Color(0xFF1A1363),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    )
                   ],
                 ),
-                
               ),
               body: pages[selected],
             ))
