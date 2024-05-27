@@ -164,17 +164,17 @@ class _MemberUpdate extends State<MemberUpdate> {
           Expanded(
             child: Form(
               key: _formKey,
-              child: ListView(
-                padding: EdgeInsets.all(30),
-                children: [
-                  Text(
-                    "Name",
-                    style: tstyle,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
-                    child: SizedBox(
-                      height: 33,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Name",
+                      style: tstyle,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
                       child: TextFormField(
                         controller: ctr[0],
                         decoration: tfdec,
@@ -189,110 +189,107 @@ class _MemberUpdate extends State<MemberUpdate> {
                         },
                       ),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          "Date of Birth: ${formateddob != today ? formateddob : "Select date"}",
-                          style: tstyle,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "Date of Birth: ${formateddob != today ? formateddob : "Select date"}",
+                            style: tstyle,
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                const Color(0xFF1A1363)),
-                            shape: MaterialStateProperty.all<OutlinedBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(24)),
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  const Color(0xFF1A1363)),
+                              shape: MaterialStateProperty.all<OutlinedBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(24)),
+                              ),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _selectDate(context);
+                              });
+                            },
+                            child: Text(
+                              "Select DOB",
+                              style: TextStyle(color: Colors.white),
                             ),
                           ),
-                          onPressed: () {
-                            setState(() {
-                              _selectDate(context);
-                            });
-                          },
-                          child: Text(
-                            "Select DOB",
-                            style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      ageError == true ? "Minimum age must be 12 yr" : "",
+                      style: TextStyle(color: Colors.red[900],fontSize: 11),
+                    ),
+                    Text(
+                      "Gender : ",
+                      style: tstyle,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: RadioListTile<String>(
+                            title: Text(
+                              "Male",
+                              style: tstyle,
+                            ),
+                            value: "M",
+                            groupValue: _selectedGender,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedGender = value;
+                                genderError = false;
+                              });
+                            },
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    ageError == true ? "Minimum age must be 12 yr" : "",
-                    style: tstyle,
-                  ),
-                  Text(
-                    "Gender : ",
-                    style: tstyle,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: RadioListTile<String>(
-                          title: Text(
-                            "Male",
-                            style: tstyle,
+                        Expanded(
+                          child: RadioListTile<String>(
+                            title: Text(
+                              "Female",
+                              style: tstyle,
+                            ),
+                            value: "F",
+                            groupValue: _selectedGender,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedGender = value;
+                                genderError = false;
+                              });
+                            },
                           ),
-                          value: "M",
-                          groupValue: _selectedGender,
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedGender = value;
-                              genderError = false;
-                            });
-                          },
                         ),
-                      ),
-                      Expanded(
-                        child: RadioListTile<String>(
-                          title: Text(
-                            "Female",
-                            style: tstyle,
+                        Expanded(
+                          child: RadioListTile<String>(
+                            title: Text(
+                              "Other",
+                              style: tstyle,
+                            ),
+                            value: "O",
+                            groupValue: _selectedGender,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedGender = value;
+                                genderError = false;
+                              });
+                            },
                           ),
-                          value: "F",
-                          groupValue: _selectedGender,
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedGender = value;
-                              genderError = false;
-                            });
-                          },
                         ),
-                      ),
-                      Expanded(
-                        child: RadioListTile<String>(
-                          title: Text(
-                            "Other",
-                            style: tstyle,
-                          ),
-                          value: "O",
-                          groupValue: _selectedGender,
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedGender = value;
-                              genderError = false;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    genderError == true ? "Must select a gender" : "",
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  Text(
-                    "Email",
-                    style: tstyle,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
-                    child: SizedBox(
-                      height: 33,
+                      ],
+                    ),
+                    Text(
+                      genderError == true ? "Must select a gender" : "",
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    Text(
+                      "Email",
+                      style: tstyle,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
                       child: TextFormField(
                         controller: ctr[1],
                         decoration: tfdec,
@@ -308,15 +305,12 @@ class _MemberUpdate extends State<MemberUpdate> {
                         },
                       ),
                     ),
-                  ),
-                  Text(
-                    "Contact Number",
-                    style: tstyle,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
-                    child: SizedBox(
-                      height: 33,
+                    Text(
+                      "Contact Number",
+                      style: tstyle,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
                       child: TextFormField(
                         controller: ctr[2],
                         decoration: tfdec,
@@ -331,29 +325,23 @@ class _MemberUpdate extends State<MemberUpdate> {
                         },
                       ),
                     ),
-                  ),
-                  Text(
-                    "Address",
-                    style: tstyle,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
-                    child: SizedBox(
-                      height: 33,
+                    Text(
+                      "Address",
+                      style: tstyle,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
                       child: TextFormField(
                         controller: ctr[3],
                         decoration: tfdec,
                       ),
                     ),
-                  ),
-                  Text(
-                    "Weight (in kg)",
-                    style: tstyle,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
-                    child: SizedBox(
-                      height: 33,
+                    Text(
+                      "Weight (in kg)",
+                      style: tstyle,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
                       child: TextFormField(
                         controller: ctr[4],
                         decoration: tfdec,
@@ -368,20 +356,17 @@ class _MemberUpdate extends State<MemberUpdate> {
                               return "Enter valid weight";
                             }
                           }
-
+                      
                           return null;
                         },
                       ),
                     ),
-                  ),
-                  Text(
-                    "Height (in foot)",
-                    style: tstyle,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
-                    child: SizedBox(
-                      height: 33,
+                    Text(
+                      "Height (in foot)",
+                      style: tstyle,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 8, 8, 10),
                       child: TextFormField(
                         controller: ctr[5],
                         decoration: tfdec,
@@ -400,17 +385,60 @@ class _MemberUpdate extends State<MemberUpdate> {
                         },
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Expanded(
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Text(
+                            "Select image :",
+                            style: tstyle,
+                          )),
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(
+                                    const Color(0xFF1A1363)),
+                                shape: MaterialStateProperty.all<OutlinedBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(24)),
+                                ),
+                              ),
+                              onPressed: () {
+                                getImage();
+                              },
+                              child: Text(
+                                "Open gallery",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: SizedBox(
+                              height: 100,
+                              child: imgstr == null
+                                  ? Text(
+                                      "no img",
+                                      style: tstyle,
+                                    )
+                                  : Image.memory(base64Decode(imgstr!)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    imgSizeExceed == true
+                        ? Center(
                             child: Text(
-                          "Select image :",
-                          style: tstyle,
-                        )),
-                        Expanded(
+                            "File size exceed 500Kb",
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ))
+                        : Text(""),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: ElevatedButton(
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(
@@ -421,88 +449,45 @@ class _MemberUpdate extends State<MemberUpdate> {
                               ),
                             ),
                             onPressed: () {
-                              getImage();
+                              setState(() {});
+                              if (_selectedGender == null) {
+                                genderError = true;
+                              } else {
+                                genderError = false;
+                              }
+                              if (DateTime.now().year - dob.year < 12) {
+                                ageError = true;
+                              } else {
+                                ageError = false;
+                              }
+                              if (_formKey.currentState!.validate() &&
+                                  genderError == false &&
+                                  ageError == false &&
+                                  imgstr != null) {
+                                updateMember();
+                              } else {
+                                print("validate please");
+                              }
                             },
                             child: Text(
-                              "Open gallery",
+                              "Update",
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
                         ),
-                        Expanded(
-                          child: SizedBox(
-                            height: 100,
-                            child: imgstr == null
-                                ? Text(
-                                    "no img",
-                                    style: tstyle,
-                                  )
-                                : Image.memory(base64Decode(imgstr!)),
-                          ),
-                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(onPressed: (){
+                            setState(() {
+                              Provider.of<UserProvider>(context,listen: false).setCurrentPage(0);
+                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>HomePage(),),);
+                            });
+                          }, child: Text("Cancel",)),
+                        )
                       ],
                     ),
-                  ),
-                  imgSizeExceed == true
-                      ? Center(
-                          child: Text(
-                          "File size exceed 500Kb",
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ))
-                      : Text(""),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                const Color(0xFF1A1363)),
-                            shape: MaterialStateProperty.all<OutlinedBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(24)),
-                            ),
-                          ),
-                          onPressed: () {
-                            setState(() {});
-                            if (_selectedGender == null) {
-                              genderError = true;
-                            } else {
-                              genderError = false;
-                            }
-                            if (DateTime.now().year - dob.year < 12) {
-                              ageError = true;
-                            } else {
-                              ageError = false;
-                            }
-                            if (_formKey.currentState!.validate() &&
-                                genderError == false &&
-                                ageError == false &&
-                                imgstr != null) {
-                              updateMember();
-                            } else {
-                              print("Error");
-                            }
-                          },
-                          child: Text(
-                            "Update",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(onPressed: (){
-                          setState(() {
-                            Provider.of<UserProvider>(context,listen: false).setCurrentPage(0);
-                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>HomePage(),),);
-                          });
-                        }, child: Text("Cancel",)),
-                      )
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
