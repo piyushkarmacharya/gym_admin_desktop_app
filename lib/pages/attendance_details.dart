@@ -36,7 +36,7 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
   }
   TableRow getDataRow(int i) {
     TextStyle rowTextStyle=TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.normal);
-    DateTime temp=DateFormat("yyyy-MM-dd HH:mm:ss").parse(attendanceDetails[i]['created_at'].toString());
+    DateTime temp=DateFormat("yyyy-MM-dd HH:mm:ss").parse(attendanceDetails[i]['created_at']==null?"${attendanceDetails[i]['date']} 00:00:00":attendanceDetails[i]['created_at'].toString());
     String time=DateFormat('HH:mm:ss').format(temp);
     return TableRow(
       children: [
@@ -77,6 +77,7 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
     }
       
   }
+  
 
   @override
   void initState() {
@@ -171,6 +172,7 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
                     ),
                   ),
                 ),
+                Text("Total presence : ${attendanceDetails.length}",style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.normal),)
               ],
             ),
           ),

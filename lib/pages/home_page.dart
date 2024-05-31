@@ -167,7 +167,6 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(
                         height: 0.2 * MediaQuery.of(context).size.height,
                       ),
-                     
                     ],
                   )),
             ),
@@ -179,28 +178,34 @@ class _HomePageState extends State<HomePage> {
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
                       onTap: () {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return const LoginPage();
-                                },
-                              ),
-                            );
-                          },
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const LoginPage();
+                            },
+                          ),
+                        );
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          child: Row(
-                            children: [
-                              Text(
-                                "Logout  ",
-                                style: TextStyle(color: Color(0xFF1A1363)),
-                              ),
-                              Icon(
-                                Icons.logout,
-                                color: Color(0xFF1A1363),
-                              ),
-                            ],
+                          decoration: BoxDecoration(
+                              color: Color(0xFF1A1363),
+                              borderRadius: BorderRadius.circular(24)),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(10.0,8,10,8),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Logout  ",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                Icon(
+                                  Icons.logout,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
