@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
   ];
   @override
   Widget build(BuildContext context) {
+
     int selected =
         Provider.of<UserProvider>(context, listen: false).getCurrentPage();
     return SafeArea(
@@ -54,9 +55,12 @@ class _HomePageState extends State<HomePage> {
                   child: ListView(
                     children: [
                       DrawerHeader(
-                        child: Text(
-                          "Welcome Admin",
-                          style: drawerTextStyle,
+                        child: Center(
+                          child: Text(
+                            "     Welcome\n ${Provider.of<UserProvider>(context,listen:false).getAdminName()}",
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 15, fontWeight: FontWeight.normal),
+                          ),
                         ),
                       ),
                       ListTile(

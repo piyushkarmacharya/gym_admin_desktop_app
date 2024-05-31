@@ -313,6 +313,9 @@ class _LoginPageState extends State<LoginPage> {
                                         Provider.of<UserProvider>(context,
                                                 listen: false)
                                             .setUserId(data['id']);
+                                            Provider.of<UserProvider>(context,
+                                                listen: false)
+                                            .setAdminName(data['name']);
                                         Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                             builder: (context) {
