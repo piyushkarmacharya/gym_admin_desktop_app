@@ -13,7 +13,7 @@ class UserProvider extends ChangeNotifier{
   }
   
   int userId=0;
-  String adminName="aaaa";
+  String adminName="Admin";
   void setAdminName(String i){
     this.adminName=i;
     notifyListeners();

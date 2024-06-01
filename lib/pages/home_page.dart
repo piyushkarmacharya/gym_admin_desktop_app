@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   ];
   @override
   Widget build(BuildContext context) {
-
+    
     int selected =
         Provider.of<UserProvider>(context, listen: false).getCurrentPage();
     return SafeArea(

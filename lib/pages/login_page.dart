@@ -63,22 +63,7 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(0),
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(0))),
-          backgroundColor: Colors.red,
-          margin:
-              EdgeInsets.fromLTRB(0.8 * screenWidth, 0, 0, 0.8 * screenHeight),
-          behavior: SnackBarBehavior.floating,
-          duration: Duration(seconds: 1),
-          content: Text("Connection problem"),
-        ),
-      );
+      print(e);
     }
   }
 
@@ -203,6 +188,10 @@ class _LoginPageState extends State<LoginPage> {
                                           Provider.of<UserProvider>(context,
                                                   listen: false)
                                               .setUserId(data['id']);
+                                              Provider.of<UserProvider>(context,
+                                                  listen: false)
+                                              .setUserId(data['name']);
+                                              
                                           Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(
                                               builder: (context) {
@@ -316,6 +305,7 @@ class _LoginPageState extends State<LoginPage> {
                                             Provider.of<UserProvider>(context,
                                                 listen: false)
                                             .setAdminName(data['name']);
+                                            
                                         Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                             builder: (context) {
