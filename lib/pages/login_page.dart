@@ -58,9 +58,10 @@ class _LoginPageState extends State<LoginPage> {
                 0.8 * screenWidth, 0, 0, 0.8 * screenHeight),
             behavior: SnackBarBehavior.floating,
             duration: Duration(seconds: 1),
-            content: Text("Connection problem"),
+            content: Center(child: Text("Connection problem")),
           ),
         );
+        
       }
     } catch (e) {
       print(e);
@@ -334,8 +335,10 @@ class _LoginPageState extends State<LoginPage> {
                                                 0.05 * screenHeight),
                                             behavior: SnackBarBehavior.floating,
                                             duration: Duration(seconds: 1),
-                                            content: Text(
-                                                "Email and password donot match"),
+                                            content: Center(
+                                              child: Text(
+                                                  "Email and password donot match"),
+                                            ),
                                           ),
                                         );
                                       }

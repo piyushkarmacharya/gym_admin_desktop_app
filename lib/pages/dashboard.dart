@@ -36,8 +36,7 @@ class _DashboardState extends State<Dashboard> {
             .showSnackBar(SnackBar(content: Text("Connection Problem")));
       }
     } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.toString())));
+      print(e);
     }
   }
 

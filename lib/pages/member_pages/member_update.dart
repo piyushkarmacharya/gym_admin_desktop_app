@@ -97,6 +97,8 @@ class _MemberUpdate extends State<MemberUpdate> {
   }
 
   Future<void> updateMember() async {
+      final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     final Map<String, dynamic> data = {
       "name": ctr[0].text,
       "dob": DateFormat('yyyy-MM-dd').format(_dob!),
@@ -114,8 +116,22 @@ class _MemberUpdate extends State<MemberUpdate> {
       body: jsonEncode(data),
     );
     if (Response.statusCode == 200) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("updated")));
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(0),
+                    bottomRight: Radius.circular(20),
+                    topLeft: Radius.circular(0),
+                    topRight: Radius.circular(20))),
+            backgroundColor: Colors.green,
+            margin: EdgeInsets.fromLTRB(
+                0, 0, 0.7 * screenWidth, 0.05 * screenHeight),
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 2),
+            content: Center(child: Text(jsonDecode(Response.body)['message'])),
+          ),
+        );
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
