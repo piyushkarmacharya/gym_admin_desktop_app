@@ -87,6 +87,7 @@ class _RegisterMemberState extends State<RegisterMember> {
   Map error = {};
 
   Future<void> registerMember() async {
+    
     try {
       final screenHeight = MediaQuery.of(context).size.height;
       final screenWidth = MediaQuery.of(context).size.width;
@@ -96,9 +97,9 @@ class _RegisterMemberState extends State<RegisterMember> {
         "gender": _selectedGender,
         "email": ctr[1].text,
         "contact_number": ctr[2].text,
-        "address": ctr[3].text,
-        "weight": ctr[4].text,
-        "height": ctr[5].text,
+        "address":ctr[3].text,
+        "weight": ctr[4].text.isEmpty?"0":ctr[4].text,
+        "height": ctr[5].text.isEmpty?"0": ctr[5].text,
         'photo': imgstr,
         // 'password': ctr[6].text
       };
@@ -372,6 +373,8 @@ class _RegisterMemberState extends State<RegisterMember> {
                                         .hasMatch(value)) {
                                       return "Enter valid address";
                                     }
+                                  }else{
+                                    return "Please enter address";
                                   }
                                   return null;
                                 },
@@ -557,6 +560,7 @@ class _RegisterMemberState extends State<RegisterMember> {
                                           genderError == false &&
                                           ageError == false &&
                                           imgstr != null) {
+                                            
                                         registerMember();
                                       } else {
                                         print("Error");
