@@ -108,6 +108,7 @@ class _RegisterMemberState extends State<RegisterMember> {
         body: jsonEncode(data),
       );
       if (Response.statusCode == 200) {
+        print(jsonDecode(Response.body)['password']);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             shape: const RoundedRectangleBorder(

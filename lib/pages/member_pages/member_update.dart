@@ -95,7 +95,7 @@ class _MemberUpdate extends State<MemberUpdate> {
     int fileSizeInByte = imgfile.lengthSync();
     return (fileSizeInByte / 1024);
   }
-
+    Map error = {};
   Future<void> updateMember() async {
       final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
@@ -141,8 +141,10 @@ class _MemberUpdate extends State<MemberUpdate> {
         ),
       );
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Failed")));
+       setState(() {
+          error = jsonDecode(Response.body);
+          _formKey.currentState!.validate();
+        });
     }
   }
 
@@ -198,7 +200,7 @@ class _MemberUpdate extends State<MemberUpdate> {
                           if (value == null || value.isEmpty) {
                             return "Enter your name";
                           }
-                          if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value)) {
+                          if (!RegExp(r'^[A-Z][a-z]* (?:[A-Z][a-z]* )?[A-Z][a-z]*$').hasMatch(value)) {
                             return "Enter proper name";
                           }
                           return null;
@@ -317,6 +319,16 @@ class _MemberUpdate extends State<MemberUpdate> {
                               .hasMatch(v)) {
                             return "Please enter valid email";
                           }
+                          if (error.containsKey('error') &&
+                                      error['error'].containsKey('email') &&
+                                      error['error']['email'] is List &&
+                                      error['error']['email'].isNotEmpty) {
+                                    String temp = error['error']['email'][0];
+                                    setState(() {
+                                      error['error']['email'] = [];
+                                    });
+                                    return temp;
+                                  }
                           return null;
                         },
                       ),
@@ -350,6 +362,15 @@ class _MemberUpdate extends State<MemberUpdate> {
                       child: TextFormField(
                         controller: ctr[3],
                         decoration: tfdec,
+                        validator: (value) {
+                                  if (!(value == null || value.isEmpty)) {
+                                    if (!RegExp(r'^[A-Za-z]+[A-Za-z0-9, -]*$')
+                                        .hasMatch(value)) {
+                                      return "Enter valid address";
+                                    }
+                                  }
+                                  return null;
+                                },
                       ),
                     ),
                     Text(
