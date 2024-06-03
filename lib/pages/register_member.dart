@@ -85,9 +85,9 @@ class _RegisterMemberState extends State<RegisterMember> {
   }
 
   Map error = {};
+  bool circular = false;
 
   Future<void> registerMember() async {
-    
     try {
       final screenHeight = MediaQuery.of(context).size.height;
       final screenWidth = MediaQuery.of(context).size.width;
@@ -97,9 +97,9 @@ class _RegisterMemberState extends State<RegisterMember> {
         "gender": _selectedGender,
         "email": ctr[1].text,
         "contact_number": ctr[2].text,
-        "address":ctr[3].text,
-        "weight": ctr[4].text.isEmpty?"0":ctr[4].text,
-        "height": ctr[5].text.isEmpty?"0": ctr[5].text,
+        "address": ctr[3].text,
+        "weight": ctr[4].text.isEmpty ? "0" : ctr[4].text,
+        "height": ctr[5].text.isEmpty ? "0" : ctr[5].text,
         'photo': imgstr,
         // 'password': ctr[6].text
       };
@@ -108,7 +108,11 @@ class _RegisterMemberState extends State<RegisterMember> {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(data),
       );
+
       if (Response.statusCode == 200) {
+        setState(() {
+          circular = false;
+        });
         print(jsonDecode(Response.body)['password']);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -139,6 +143,7 @@ class _RegisterMemberState extends State<RegisterMember> {
         );
       } else {
         setState(() {
+          circular = false;
           error = jsonDecode(Response.body);
           _formKey.currentState!.validate();
         });
@@ -157,6 +162,16 @@ class _RegisterMemberState extends State<RegisterMember> {
     DateTime dob = _dob ?? DateTime.now();
     String formateddob = DateFormat("yyyy-MM-dd").format(dob);
     String today = DateFormat("yyyy-MM-dd").format(DateTime.now());
+    if (DateTime.now().year - dob.year < 12) {
+      setState(() {
+        ageError = true;
+      });
+    } else {
+      setState(() {
+        ageError = false;
+      });
+      
+    }
 
     return Scaffold(
         body: Padding(
@@ -187,6 +202,7 @@ class _RegisterMemberState extends State<RegisterMember> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(40, 20, 40, 16),
                     child: Form(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       key: _formKey,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
@@ -373,7 +389,7 @@ class _RegisterMemberState extends State<RegisterMember> {
                                         .hasMatch(value)) {
                                       return "Enter valid address";
                                     }
-                                  }else{
+                                  } else {
                                     return "Please enter address";
                                   }
                                   return null;
@@ -545,14 +561,15 @@ class _RegisterMemberState extends State<RegisterMember> {
                                       ),
                                     ),
                                     onPressed: () {
-                                      setState(() {});
                                       if (_selectedGender == null) {
                                         genderError = true;
                                       } else {
                                         genderError = false;
                                       }
                                       if (DateTime.now().year - dob.year < 12) {
-                                        ageError = true;
+                                        setState(() {
+                                          ageError = true;
+                                        });
                                       } else {
                                         ageError = false;
                                       }
@@ -560,7 +577,9 @@ class _RegisterMemberState extends State<RegisterMember> {
                                           genderError == false &&
                                           ageError == false &&
                                           imgstr != null) {
-                                            
+                                        setState(() {
+                                          circular = true;
+                                        });
                                         registerMember();
                                       } else {
                                         print("Error");
@@ -568,10 +587,17 @@ class _RegisterMemberState extends State<RegisterMember> {
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "Submit",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
+                                      child: circular == false
+                                          ? Text(
+                                              "Submit",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            )
+                                          : Container(
+                                              height: 15,
+                                              width: 15,
+                                              child:
+                                                  CircularProgressIndicator()),
                                     ),
                                   ),
                                 ),
