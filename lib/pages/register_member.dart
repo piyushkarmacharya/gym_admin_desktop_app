@@ -98,8 +98,8 @@ class _RegisterMemberState extends State<RegisterMember> {
         "email": ctr[1].text,
         "contact_number": ctr[2].text,
         "address": ctr[3].text,
-        "weight": ctr[4].text.isEmpty ? "0" : ctr[4].text,
-        "height": ctr[5].text.isEmpty ? "0" : ctr[5].text,
+        "weight": ctr[4].text.isEmpty ? null : ctr[4].text,
+        "height": ctr[5].text.isEmpty ? null : ctr[5].text,
         'photo': imgstr,
         // 'password': ctr[6].text
       };

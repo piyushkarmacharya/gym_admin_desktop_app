@@ -95,7 +95,7 @@ class _MemberDialogState extends State<MemberDialog> {
                                     .obj[widget.keys[index]]
                                     .toString())))
                             : Row(children: [Text(
-                                "${widget.keys[index][0].toUpperCase()}${widget.keys[index].substring(1)} : "),Text(" ${widget.obj[widget.keys[index]].toString()=='0'?'(not given)':widget.obj[widget.keys[index]].toString()}"),],),
+                                "${widget.keys[index][0].toUpperCase()}${widget.keys[index].substring(1)} : "),Text(" ${widget.obj[widget.keys[index]]==null?'(not given)':widget.obj[widget.keys[index]].toString()}"),],),
                       ),
                     ),
                   ),
