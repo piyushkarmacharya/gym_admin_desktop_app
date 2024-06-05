@@ -562,9 +562,15 @@ class _RegisterMemberState extends State<RegisterMember> {
                                     ),
                                     onPressed: () {
                                       if (_selectedGender == null) {
-                                        genderError = true;
+                                        setState(() {
+                                          genderError = true;
+                                        });
+                                        
                                       } else {
-                                        genderError = false;
+                                        setState(() {
+                                          genderError = false;
+                                        });
+                                        
                                       }
                                       if (DateTime.now().year - dob.year < 12) {
                                         setState(() {
@@ -582,7 +588,7 @@ class _RegisterMemberState extends State<RegisterMember> {
                                         });
                                         registerMember();
                                       } else {
-                                        print("Error");
+                                        print("validation error");
                                       }
                                     },
                                     child: Padding(
