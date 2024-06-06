@@ -41,36 +41,51 @@ class _FeedbackPageState extends State<FeedbackPage> {
       body: data.length == 0
           ? CircularProgressIndicator()
           : Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: SizedBox(
+              padding: const EdgeInsets.all(20.0),
+              child: SizedBox(
                 height: double.infinity,
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return Container(
-                        height: 0.2*screenHeight,
+                        height: 0.2 * screenHeight,
                         child: Card(
+                          elevation: 10,
+                          color: Color(0xFF77749B),
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(20,8,8,8),
+                            padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
                             child: Row(
                               children: [
-                                Text(data[index]['date'].toString()),
+                                Text(
+                                  data[index]['date'].toString(),
+                                  style: TextStyle(color: Colors.white),
+                                ),
                                 Expanded(
-                                   
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(20,0,0,0),
-                                      child: SingleChildScrollView(
-                                          scrollDirection: Axis.vertical,
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text("By ${data[index]['name'].toString()} (${data[index]['mid'].toString()}): "),
-                                              Text("- ${data[index]['feedback'].toString()}"
-                                                  ),
-                                            ],
-                                          )),
-                                    )),
+                                    child: Container(
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                    child: SingleChildScrollView(
+                                        scrollDirection: Axis.vertical,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "By ${data[index]['name'].toString()} (${data[index]['mid'].toString()}): ",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            Text(
+                                              "- ${data[index]['feedback'].toString()}",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        )),
+                                  ),
+                                )),
                               ],
                             ),
                           ),
@@ -78,7 +93,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   },
                 ),
               ),
-          ),
+            ),
     );
   }
 }
