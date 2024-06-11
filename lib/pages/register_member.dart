@@ -141,7 +141,26 @@ class _RegisterMemberState extends State<RegisterMember> {
             },
           ),
         );
-      } else {
+      } else if(Response.statusCode==500){
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(0),
+                    bottomRight: Radius.circular(20),
+                    topLeft: Radius.circular(0),
+                    topRight: Radius.circular(20))),
+            backgroundColor: Colors.red,
+            margin:  EdgeInsets.fromLTRB(
+                                                  0,
+                                                  0,
+                                                  0.7 * screenWidth,
+                                                  0.05 * screenHeight),
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 3),
+            content: Center(child:Text(jsonDecode(Response.body)['error']), ),
+          ),);
+          print("password : ${jsonDecode(Response.body)['password']}");
+      }else {
         setState(() {
           circular = false;
           error = jsonDecode(Response.body);

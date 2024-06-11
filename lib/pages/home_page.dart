@@ -5,6 +5,7 @@ import 'package:gymmanagementsystem/pages/attendance_details.dart';
 import 'package:gymmanagementsystem/pages/attendance_qr.dart';
 import 'package:gymmanagementsystem/pages/change_password.dart';
 import "package:gymmanagementsystem/pages/dashboard.dart";
+import 'package:gymmanagementsystem/pages/feedbackPage.dart';
 import 'package:gymmanagementsystem/pages/login_page.dart';
 import 'package:gymmanagementsystem/pages/register_member.dart';
 import 'package:gymmanagementsystem/pages/member_pages/member_details.dart';
@@ -35,7 +36,8 @@ class _HomePageState extends State<HomePage> {
     AttendanceDetails(),
     MemberDetails(),
     RegisterMember(),
-    ChangePassword()
+    ChangePassword(),
+    FeedbackPage()
   ];
   @override
   Widget build(BuildContext context) {
@@ -165,6 +167,22 @@ class _HomePageState extends State<HomePage> {
                           setState(() {
                             Provider.of<UserProvider>(context, listen: false)
                                 .setCurrentPage(5);
+                          });
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          Icons.feedback,
+                          color: Colors.white,
+                        ),
+                        title: Text(
+                          "Feedbacks",
+                          style: drawerTextStyle,
+                        ),
+                        onTap: () {
+                          setState(() {
+                            Provider.of<UserProvider>(context, listen: false)
+                                .setCurrentPage(6);
                           });
                         },
                       ),

@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:flutter/widgets.dart';
+import 'package:gymmanagementsystem/pages/home_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -19,6 +20,23 @@ class _FeedbackPageState extends State<FeedbackPage> {
         setState(() {
           data = jsonDecode(res.body);
         });
+      } else {
+        print("error in connection");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> deleteFeedback(int id) async {
+    try {
+      String url = 'http://127.0.0.1:8000/api/feedback/delete/$id';
+
+      final res = await http.get(Uri.parse(url));
+      if (res.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(jsonDecode(res.body)['message']),
+        ));
       } else {
         print("error in connection");
       }
@@ -86,6 +104,19 @@ class _FeedbackPageState extends State<FeedbackPage> {
                                         )),
                                   ),
                                 )),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: IconButton(
+                                      onPressed: () {
+                                        deleteFeedback(data[index]['id']);
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomePage()));
+                                      },
+                                      icon: Icon(
+                                          color: Colors.white, Icons.delete)),
+                                ),
                               ],
                             ),
                           ),
