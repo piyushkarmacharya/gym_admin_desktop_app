@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
   ];
   @override
   Widget build(BuildContext context) {
+    print(MediaQuery.of(context).size.width);
     
     int selected =
         Provider.of<UserProvider>(context, listen: false).getCurrentPage();
@@ -246,12 +247,15 @@ class _HomePageState extends State<HomePage> {
                         "assets/images/logo.png",
                       ),
                     ),
-                    Text(
-                      "CLUB\nDESPERADO",
-                      style: TextStyle(
-                          color: Color(0xFF1A1363),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                    Visibility(
+                      visible: MediaQuery.of(context).size.width>610,
+                      child: Text(
+                        "CLUB\nDESPERADO",
+                        style: TextStyle(
+                            color: Color(0xFF1A1363),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
                     )
                   ],
                 ),

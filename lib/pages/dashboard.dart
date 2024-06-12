@@ -132,49 +132,52 @@ class _DashboardState extends State<Dashboard> {
               ],
             ),
             Spacer(),
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(12)),
-              width: 500,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "  Calender",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF2B2B2B)),
-                    ),
-                    TableCalendar(
-                      firstDay: DateTime.utc(2010, 10, 16),
-                      lastDay: DateTime.utc(2030, 3, 14),
-                      focusedDay: DateTime.now(),
-                      calendarFormat: _calendarFormat,
-                      selectedDayPredicate: (day) {
-                        return isSameDay(_selectedDay, day);
-                      },
-                      onDaySelected: (selectedDay, focusedDay) {
-                        setState(() {
-                          _selectedDay = selectedDay;
-                          _focusedDay =
-                              focusedDay; // update `_focusedDay` here as well
-                        });
-                      },
-                      onFormatChanged: (format) {
-                        if (_calendarFormat != format) {
+            Visibility(
+              visible: MediaQuery.of(context).size.width>1055,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white, borderRadius: BorderRadius.circular(12)),
+                width: 500,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "  Calender",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF2B2B2B)),
+                      ),
+                      TableCalendar(
+                        firstDay: DateTime.utc(2010, 10, 16),
+                        lastDay: DateTime.utc(2030, 3, 14),
+                        focusedDay: DateTime.now(),
+                        calendarFormat: _calendarFormat,
+                        selectedDayPredicate: (day) {
+                          return isSameDay(_selectedDay, day);
+                        },
+                        onDaySelected: (selectedDay, focusedDay) {
                           setState(() {
-                            _calendarFormat = format;
+                            _selectedDay = selectedDay;
+                            _focusedDay =
+                                focusedDay; // update `_focusedDay` here as well
                           });
-                        }
-                      },
-                      onPageChanged: (focusedDay) {
-                        _focusedDay = focusedDay;
-                      },
-                    ),
-                  ],
+                        },
+                        onFormatChanged: (format) {
+                          if (_calendarFormat != format) {
+                            setState(() {
+                              _calendarFormat = format;
+                            });
+                          }
+                        },
+                        onPageChanged: (focusedDay) {
+                          _focusedDay = focusedDay;
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
