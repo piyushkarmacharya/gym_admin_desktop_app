@@ -30,13 +30,35 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
   Future<void> deleteFeedback(int id) async {
     try {
+      final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
       String url = 'http://127.0.0.1:8000/api/feedback/delete/$id';
 
       final res = await http.get(Uri.parse(url));
       if (res.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(jsonDecode(res.body)['message']),
-        ));
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                    bottomLeft:
+                                                        Radius.circular(0),
+                                                    bottomRight:
+                                                        Radius.circular(20),
+                                                    topLeft: Radius.circular(0),
+                                                    topRight:
+                                                        Radius.circular(20))),
+                                            backgroundColor: Colors.green,
+                                            margin: EdgeInsets.fromLTRB(
+                                                0,
+                                                0,
+                                                0.7 * screenWidth,
+                                                0.05 * screenHeight),
+                                            behavior: SnackBarBehavior.floating,
+                                            duration: Duration(seconds: 1),
+                                            content: Center(
+                                              child: Text(
+                                                  jsonDecode(res.body)['message']),
+                                            ),
+                                          ),);
       } else {
         print("error in connection");
       }

@@ -295,7 +295,7 @@ class _LoginPageState extends State<LoginPage> {
                                       setState(() {});
                                       await login();
                                       if (data['login'] == true) {
-                                        setState(() {});
+                                    
                                         Provider.of<UserProvider>(context,
                                                 listen: false)
                                             .setUserId(data['id']);

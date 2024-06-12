@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Poppins',
           useMaterial3: true,
         ),
-        home:   LoginPage(),
+        home:  const LoginPage(),
       ),
     );
   }
