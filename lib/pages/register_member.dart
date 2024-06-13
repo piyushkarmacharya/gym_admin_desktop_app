@@ -141,8 +141,9 @@ class _RegisterMemberState extends State<RegisterMember> {
             },
           ),
         );
-      } else if(Response.statusCode==500){
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      } else if (Response.statusCode == 500) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(0),
@@ -150,17 +151,17 @@ class _RegisterMemberState extends State<RegisterMember> {
                     topLeft: Radius.circular(0),
                     topRight: Radius.circular(20))),
             backgroundColor: Colors.red,
-            margin:  EdgeInsets.fromLTRB(
-                                                  0,
-                                                  0,
-                                                  0.7 * screenWidth,
-                                                  0.05 * screenHeight),
+            margin: EdgeInsets.fromLTRB(
+                0, 0, 0.7 * screenWidth, 0.05 * screenHeight),
             behavior: SnackBarBehavior.floating,
             duration: Duration(seconds: 3),
-            content: Center(child:Text(jsonDecode(Response.body)['error']), ),
-          ),);
-          print("password : ${jsonDecode(Response.body)['password']}");
-      }else {
+            content: Center(
+              child: Text(jsonDecode(Response.body)['error']),
+            ),
+          ),
+        );
+        print("password : ${jsonDecode(Response.body)['password']}");
+      } else {
         setState(() {
           circular = false;
           error = jsonDecode(Response.body);
@@ -181,16 +182,6 @@ class _RegisterMemberState extends State<RegisterMember> {
     DateTime dob = _dob ?? DateTime.now();
     String formateddob = DateFormat("yyyy-MM-dd").format(dob);
     String today = DateFormat("yyyy-MM-dd").format(DateTime.now());
-    if (DateTime.now().year - dob.year < 12||DateTime.now().year - dob.year > 80) {
-      setState(() {
-        ageError = true;
-      });
-    } else {
-      setState(() {
-        ageError = false;
-      });
-      
-    }
 
     return Scaffold(
         body: Padding(
@@ -581,18 +572,26 @@ class _RegisterMemberState extends State<RegisterMember> {
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                      error={};
-                                    });
+                                        error = {};
+                                      });
+                                      if (DateTime.now().year - dob.year < 12 ||
+                                          DateTime.now().year - dob.year > 80) {
+                                        setState(() {
+                                          ageError = true;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          ageError = false;
+                                        });
+                                      }
                                       if (_selectedGender == null) {
                                         setState(() {
                                           genderError = true;
                                         });
-                                        
                                       } else {
                                         setState(() {
                                           genderError = false;
                                         });
-                                        
                                       }
                                       if (DateTime.now().year - dob.year < 12) {
                                         setState(() {
