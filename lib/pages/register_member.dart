@@ -45,7 +45,7 @@ class _RegisterMemberState extends State<RegisterMember> {
     final DateTime? temp = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(1930),
+        firstDate: DateTime(1900),
         lastDate: DateTime.now());
     if (temp != null && temp != _dob) {
       setState(() {
@@ -181,7 +181,7 @@ class _RegisterMemberState extends State<RegisterMember> {
     DateTime dob = _dob ?? DateTime.now();
     String formateddob = DateFormat("yyyy-MM-dd").format(dob);
     String today = DateFormat("yyyy-MM-dd").format(DateTime.now());
-    if (DateTime.now().year - dob.year < 12) {
+    if (DateTime.now().year - dob.year < 12||DateTime.now().year - dob.year > 80) {
       setState(() {
         ageError = true;
       });
@@ -286,7 +286,7 @@ class _RegisterMemberState extends State<RegisterMember> {
                             ),
                             Text(
                               ageError == true
-                                  ? "Minimum age must be 12 yr"
+                                  ? "Age not valid for GYM (12-80 yr)"
                                   : "",
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
@@ -441,7 +441,7 @@ class _RegisterMemberState extends State<RegisterMember> {
                               ),
                             ),
                             Text(
-                              "Height (in foot)",
+                              "Height (in ft)",
                               style: tstyle,
                             ),
                             Padding(

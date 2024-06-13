@@ -32,8 +32,8 @@ class _MemberUpdate extends State<MemberUpdate> {
       TextEditingController(text: widget.obj['email']),
       TextEditingController(text: widget.obj['contact_number'].toString()),
       TextEditingController(text: widget.obj['address']),
-      TextEditingController(text: widget.obj['weight'].toString()),
-      TextEditingController(text: widget.obj['height'].toString()),
+      TextEditingController(text: widget.obj['weight']==null?"":widget.obj['weight'].toString()),
+      TextEditingController(text: widget.obj['height']==null?"":widget.obj['height'].toString()),
     ];
   }
 
@@ -58,7 +58,7 @@ class _MemberUpdate extends State<MemberUpdate> {
     final DateTime? temp = await showDatePicker(
         context: context,
         initialDate: DateTime.parse(widget.obj['dob']),
-        firstDate: DateTime(1930),
+        firstDate: DateTime(1900),
         lastDate: DateTime.now());
     if (temp != null && temp != _dob) {
       setState(() {
@@ -181,6 +181,7 @@ class _MemberUpdate extends State<MemberUpdate> {
           ),
           Expanded(
             child: Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               key: _formKey,
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
@@ -239,7 +240,7 @@ class _MemberUpdate extends State<MemberUpdate> {
                       ],
                     ),
                     Text(
-                      ageError == true ? "Minimum age must be 12 yr" : "",
+                      ageError == true ? "Invalid age for GYM (12 - 80 yr)" : "",
                       style: TextStyle(color: Colors.red[900],fontSize: 11),
                     ),
                     Text(
@@ -324,9 +325,9 @@ class _MemberUpdate extends State<MemberUpdate> {
                                       error['error']['email'] is List &&
                                       error['error']['email'].isNotEmpty) {
                                     String temp = error['error']['email'][0];
-                                    setState(() {
-                                      error['error']['email'] = [];
-                                    });
+                                    // setState(() {
+                                    //   error['error']['email'] = [];
+                                    // });
                                     return temp;
                                   }
                           return null;
@@ -363,11 +364,13 @@ class _MemberUpdate extends State<MemberUpdate> {
                         controller: ctr[3],
                         decoration: tfdec,
                         validator: (value) {
-                                  if (!(value == null || value.isEmpty)) {
+                                   if (!(value == null || value.isEmpty)) {
                                     if (!RegExp(r'^[A-Za-z]+[A-Za-z0-9, -]*$')
                                         .hasMatch(value)) {
                                       return "Enter valid address";
                                     }
+                                  } else {
+                                    return "Please enter address";
                                   }
                                   return null;
                                 },
@@ -386,7 +389,7 @@ class _MemberUpdate extends State<MemberUpdate> {
                           if (!(value == null || value.isEmpty)) {
                             try {
                               double w = double.parse(value);
-                              if (w < 0 || w > 1000) {
+                              if (w < 20 || w > 300) {
                                 return "Enter valid weight";
                               }
                             } catch (e) {
@@ -399,7 +402,7 @@ class _MemberUpdate extends State<MemberUpdate> {
                       ),
                     ),
                     Text(
-                      "Height (in foot)",
+                      "Height (in ft)",
                       style: tstyle,
                     ),
                     Padding(
@@ -486,22 +489,40 @@ class _MemberUpdate extends State<MemberUpdate> {
                               ),
                             ),
                             onPressed: () {
-                              setState(() {});
+                              setState(() {
+                                      error= {};
+                                    });
+                              
                               if (_selectedGender == null) {
-                                genderError = true;
+                                setState(() {
+                                  genderError = true;
+                                });
+                                
                               } else {
-                                genderError = false;
+                                setState(() {
+                                  genderError = false;
+                                });
+                                
                               }
-                              if (DateTime.now().year - dob.year < 12) {
-                                ageError = true;
+                              if (DateTime.now().year - dob.year < 12||DateTime.now().year - dob.year >80) {
+                                setState(() {
+                                    ageError = true;
+                                });
+                              
                               } else {
-                                ageError = false;
+                                setState(() {
+                                  ageError = false;
+                                });
+                                
                               }
                               if (_formKey.currentState!.validate() &&
                                   genderError == false &&
                                   ageError == false &&
                                   imgstr != null) {
-                                updateMember();
+                                    setState(() {
+                                      updateMember();
+                                    });
+                                
                               } else {
                                 print("validate please");
                               }
