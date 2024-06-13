@@ -363,9 +363,9 @@ class _RegisterMemberState extends State<RegisterMember> {
                                       error['error']['email'] is List &&
                                       error['error']['email'].isNotEmpty) {
                                     String temp = error['error']['email'][0];
-                                    setState(() {
-                                      error['error']['email'] = [];
-                                    });
+                                    // setState(() {
+                                    //   error['error']['email'] = [];
+                                    // });
                                     return temp;
                                   }
                                   return null;
@@ -580,6 +580,9 @@ class _RegisterMemberState extends State<RegisterMember> {
                                       ),
                                     ),
                                     onPressed: () {
+                                      setState(() {
+                                      error={};
+                                    });
                                       if (_selectedGender == null) {
                                         setState(() {
                                           genderError = true;

@@ -41,7 +41,6 @@ class _HomePageState extends State<HomePage> {
   ];
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.width);
     
     int selected =
         Provider.of<UserProvider>(context, listen: false).getCurrentPage();
