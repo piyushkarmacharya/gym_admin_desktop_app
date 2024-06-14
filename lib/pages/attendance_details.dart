@@ -36,8 +36,8 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
   }
   TableRow getDataRow(int i) {
     TextStyle rowTextStyle=TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.normal);
-    DateTime temp=DateFormat("yyyy-MM-dd HH:mm:ss").parse(attendanceDetails[i]['created_at']==null?"${attendanceDetails[i]['date']} 00:00:00":attendanceDetails[i]['created_at'].toString());
-    String time=DateFormat('HH:mm:ss').format(temp);
+    // DateTime temp=DateFormat("yyyy-MM-dd HH:mm:ss").parse(attendanceDetails[i]['created_at']==null?"${attendanceDetails[i]['date']} 00:00:00":attendanceDetails[i]['created_at'].toString());
+    String time=attendanceDetails[i]['time']==null?"00:00:00":attendanceDetails[i]['time'].toString();
     return TableRow(
       children: [
         TableCell(child: Padding(
