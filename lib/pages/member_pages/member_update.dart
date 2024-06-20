@@ -22,6 +22,7 @@ class _MemberUpdate extends State<MemberUpdate> {
   DateTime? _dob;
   String? _selectedGender;
   String? imgstr;
+  @override
   void initState() {
     super.initState();
     imgstr = widget.obj['photo'];
@@ -45,13 +46,13 @@ class _MemberUpdate extends State<MemberUpdate> {
 
   InputDecoration tfdec = InputDecoration(
     filled: true,
-    fillColor: Color(0xFFE9E9E9),
-    contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+    fillColor:const Color(0xFFE9E9E9),
+    contentPadding:const  EdgeInsets.symmetric(vertical: 0, horizontal: 10),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
     ),
   );
-  final TextStyle tstyle = TextStyle(
+  final TextStyle tstyle = const TextStyle(
       color: Color(0xFF2B2B2B), fontWeight: FontWeight.bold, fontSize: 16);
 
   Future<void> _selectDate(BuildContext context) async {
@@ -110,12 +111,12 @@ class _MemberUpdate extends State<MemberUpdate> {
       "height": ctr[5].text,
       'photo': imgstr
     };
-    final Response = await http.post(
+    final response = await http.post(
       Uri.parse("http://127.0.0.1:8000/api/Member/update/${widget.obj['mid']}"),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(data),
     );
-    if (Response.statusCode == 200) {
+    if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             shape: const RoundedRectangleBorder(
@@ -129,20 +130,20 @@ class _MemberUpdate extends State<MemberUpdate> {
                 0, 0, 0.7 * screenWidth, 0.05 * screenHeight),
             behavior: SnackBarBehavior.floating,
             duration: const Duration(seconds: 2),
-            content: Center(child: Text(jsonDecode(Response.body)['message'])),
+            content: Center(child: Text(jsonDecode(response.body)['message'])),
           ),
         );
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (BuildContext context) {
-            return HomePage();
+            return const HomePage();
           },
         ),
       );
     } else {
        setState(() {
-          error = jsonDecode(Response.body);
+          error = jsonDecode(response.body);
           _formKey.currentState!.validate();
         });
     }
@@ -154,13 +155,13 @@ class _MemberUpdate extends State<MemberUpdate> {
     String formateddob = DateFormat("yyyy-MM-dd").format(dob);
     String today = DateFormat("yyyy-MM-dd").format(DateTime.now());
 
-    return Container(
+    return SizedBox(
       height: 500,
       width: 700,
       child: Dialog(
           child: Column(
         children: [
-          Text(
+          const Text(
             "Update Member Information",
             style: TextStyle(
               fontSize: 25,
@@ -174,7 +175,7 @@ class _MemberUpdate extends State<MemberUpdate> {
                 onTap: () {
                   Navigator.of(context).pop();
                 },
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [Icon(Icons.close)],
                 )),
@@ -231,7 +232,7 @@ class _MemberUpdate extends State<MemberUpdate> {
                                 _selectDate(context);
                               });
                             },
-                            child: Text(
+                            child: const Text(
                               "Select DOB",
                               style: TextStyle(color: Colors.white),
                             ),
@@ -447,7 +448,7 @@ class _MemberUpdate extends State<MemberUpdate> {
                               onPressed: () {
                                 getImage();
                               },
-                              child: Text(
+                              child:const  Text(
                                 "Open gallery",
                                 style: TextStyle(color: Colors.white),
                               ),
@@ -473,7 +474,7 @@ class _MemberUpdate extends State<MemberUpdate> {
                             "File size exceed 500Kb",
                             style: Theme.of(context).textTheme.bodySmall,
                           ))
-                        : Text(""),
+                        : const Text(""),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -527,7 +528,7 @@ class _MemberUpdate extends State<MemberUpdate> {
                                 print("validate please");
                               }
                             },
-                            child: Text(
+                            child: const Text(
                               "Update",
                               style: TextStyle(color: Colors.white),
                             ),
@@ -540,7 +541,7 @@ class _MemberUpdate extends State<MemberUpdate> {
                               Provider.of<UserProvider>(context,listen: false).setCurrentPage(0);
                               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>HomePage(),),);
                             });
-                          }, child: Text("Cancel",)),
+                          }, child: const Text("Cancel",)),
                         )
                       ],
                     ),

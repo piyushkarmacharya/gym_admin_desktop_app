@@ -1,6 +1,5 @@
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
-import "package:flutter/widgets.dart";
 import "package:intl/intl.dart";
 import 'package:http/http.dart' as http;
 import "dart:convert";
@@ -24,8 +23,8 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
         lastDate: DateTime.now());
     if (temp != null) {
       setState(() {
-        DateTime _selectedDate = temp;
-        _formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDate);
+       DateTime selectedDate = temp;
+        _formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
         _getAttendanceDetails();
       });
     }
@@ -35,7 +34,7 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
     
   }
   TableRow getDataRow(int i) {
-    TextStyle rowTextStyle=TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.normal);
+    TextStyle rowTextStyle=const TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.normal);
     // DateTime temp=DateFormat("yyyy-MM-dd HH:mm:ss").parse(attendanceDetails[i]['created_at']==null?"${attendanceDetails[i]['date']} 00:00:00":attendanceDetails[i]['created_at'].toString());
     String time=attendanceDetails[i]['time']==null?"00:00:00":attendanceDetails[i]['time'].toString();
     return TableRow(
@@ -69,7 +68,7 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
       });
       
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Connection problem"),),);
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Connection problem"),),);
     }
     }catch(e){
            print(e.toString());
@@ -95,14 +94,14 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: Color(0xFF77749B),
+            color:const  Color(0xFF77749B),
           ),
           child: Padding(
             padding: const EdgeInsets.all(25.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Attendance Details",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -115,25 +114,25 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
                   children: [
                     Text(
                       "$_formattedDate  ",
-                      style: TextStyle(color: Colors.white),
+                      style:const  TextStyle(color: Colors.white),
                     ),
-                    Container(
+                    SizedBox(
                       height: 30,
                       width: 151,
                       child: ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF5D57A3)),
+                          backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF5D57A3)),
                         ),
                         onPressed: () {
                           setState(() {
                             _selectDate(context);
                           });
                         },
-                        child: Text("Select Date",style: TextStyle(color: Colors.white),),
+                        child:const  Text("Select Date",style: TextStyle(color: Colors.white),),
                       ),
                     ),
                     IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.search,
                         color: Colors.white,
                       ),
@@ -147,8 +146,8 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(16,16,16,0),
-                    child: Table(children: [
+                  padding: const EdgeInsets.fromLTRB(16,16,16,0),
+                    child: Table(children: const [
                             TableRow(
                               children: [
                                 TableCell(child: Text('Member ID',style: TextStyle(color: Color(0xFFFFFADF),fontSize: 14,fontWeight: FontWeight.bold,),)),
@@ -172,7 +171,7 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
                     ),
                   ),
                 ),
-                Text("Total presence : ${attendanceDetails.length}",style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.normal),)
+                Text("Total presence : ${attendanceDetails.length}",style:const  TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.normal),)
               ],
             ),
           ),

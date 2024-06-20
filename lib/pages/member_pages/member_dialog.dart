@@ -20,10 +20,10 @@ class _MemberDialogState extends State<MemberDialog> {
   Future<void> delete(int mid) async {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    final Response = await http.get(
+    final response = await http.get(
       Uri.parse("http://127.0.0.1:8000/api/Member/delete/$mid"),
     );
-    if (Response.statusCode == 200) {
+    if (response.statusCode == 200) {
       
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
@@ -39,7 +39,7 @@ class _MemberDialogState extends State<MemberDialog> {
                 0, 0, 0.7 * screenWidth, 0.05 * screenHeight),
             behavior: SnackBarBehavior.floating,
             duration: const Duration(seconds: 2),
-            content: Center(child: Text(jsonDecode(Response.body)['message'])),
+            content: Center(child: Text(jsonDecode(response.body)['message'])),
           ),
         );
 
@@ -47,19 +47,19 @@ class _MemberDialogState extends State<MemberDialog> {
         context,
         MaterialPageRoute(
           builder: (BuildContext context) {
-            return HomePage();
+            return const  HomePage();
           },
         ),
       );
     } else {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Failed")));
+          .showSnackBar(const SnackBar(content: Text("Failed")));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 500,
       width:700,
       child: Dialog(
@@ -71,7 +71,7 @@ class _MemberDialogState extends State<MemberDialog> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   GestureDetector(
-                    child: Icon(Icons.close),
+                    child: const Icon(Icons.close),
                     onTap: () {
                       Navigator.of(context).pop();
                     },
@@ -79,7 +79,7 @@ class _MemberDialogState extends State<MemberDialog> {
                 ],
               ),
               Expanded(
-                child: Container(
+                child: SizedBox(
                   width: double.infinity,
                   child: ListView(
                     children: List.generate(
@@ -122,7 +122,7 @@ class _MemberDialogState extends State<MemberDialog> {
                       backgroundColor:
                           MaterialStatePropertyAll<Color>(Colors.lightBlueAccent),
                     ),
-                    child: Text("Edit"),
+                    child: const Text("Edit"),
                   ),
       
       
@@ -141,7 +141,7 @@ class _MemberDialogState extends State<MemberDialog> {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text("Are you sure ?"),
+                                   const  Text("Are you sure ?"),
                                     Padding(
                                       padding:
                                           const EdgeInsets.fromLTRB(8, 8, 8, 0),
@@ -159,12 +159,13 @@ class _MemberDialogState extends State<MemberDialog> {
                                                   widget.obj['mid'],
                                                 );
                                               },
-                                              child: Text("Confirm"),
-                                              style: ButtonStyle(
+                                              
+                                              style:const ButtonStyle(
                                                 backgroundColor:
                                                     MaterialStatePropertyAll<
                                                         Color>(Colors.red),
                                               ),
+                                              child: const Text("Confirm"),
                                             ),
                                           ),
                                           Padding(
@@ -173,12 +174,12 @@ class _MemberDialogState extends State<MemberDialog> {
                                               onPressed: () {
                                                 Navigator.of(context).pop();
                                               },
-                                              child: Text("Cancel"),
-                                              style: ButtonStyle(
+                                              style:const  ButtonStyle(
                                                 backgroundColor:
                                                     MaterialStatePropertyAll<
                                                         Color>(Colors.lightGreen),
                                               ),
+                                              child:const  Text("Cancel"),
                                             ),
                                           ),
                                         ],
@@ -195,7 +196,7 @@ class _MemberDialogState extends State<MemberDialog> {
                         backgroundColor:
                             MaterialStatePropertyAll<Color>(Colors.red),
                       ),
-                      child: Text("Delete"),
+                      child:const  Text("Delete"),
                     ),
                   ),
                 ],

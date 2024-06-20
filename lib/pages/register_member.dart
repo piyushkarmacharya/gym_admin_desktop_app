@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gymmanagementsystem/pages/home_page.dart';
 import 'package:gymmanagementsystem/user_provider.dart';
@@ -103,17 +101,17 @@ class _RegisterMemberState extends State<RegisterMember> {
         'photo': imgstr,
         // 'password': ctr[6].text
       };
-      final Response = await http.post(
+      final response = await http.post(
         Uri.parse("http://127.0.0.1:8000/api/Member/register"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(data),
       );
 
-      if (Response.statusCode == 200) {
+      if (response.statusCode == 200) {
         setState(() {
           circular = false;
         });
-        print(jsonDecode(Response.body)['password']);
+        print(jsonDecode(response.body)['password']);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             shape: const RoundedRectangleBorder(
@@ -127,7 +125,7 @@ class _RegisterMemberState extends State<RegisterMember> {
                 0, 0, 0.7 * screenWidth, 0.05 * screenHeight),
             behavior: SnackBarBehavior.floating,
             duration: const Duration(seconds: 2),
-            content: Text(jsonDecode(Response.body)['message']),
+            content: Text(jsonDecode(response.body)['message']),
           ),
         );
         setState(() {
@@ -141,7 +139,7 @@ class _RegisterMemberState extends State<RegisterMember> {
             },
           ),
         );
-      } else if (Response.statusCode == 500) {
+      } else if (response.statusCode == 500) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             shape: RoundedRectangleBorder(
@@ -156,15 +154,15 @@ class _RegisterMemberState extends State<RegisterMember> {
             behavior: SnackBarBehavior.floating,
             duration: Duration(seconds: 3),
             content: Center(
-              child: Text(jsonDecode(Response.body)['error']),
+              child: Text(jsonDecode(response.body)['error']),
             ),
           ),
         );
-        print("password : ${jsonDecode(Response.body)['password']}");
+        print("password : ${jsonDecode(response.body)['password']}");
       } else {
         setState(() {
           circular = false;
-          error = jsonDecode(Response.body);
+          error = jsonDecode(response.body);
           _formKey.currentState!.validate();
         });
       }
@@ -267,7 +265,7 @@ class _RegisterMemberState extends State<RegisterMember> {
                                                 BorderRadius.circular(24)),
                                       ),
                                     ),
-                                    child: Text(
+                                    child: const Text(
                                       "Select DOB",
                                       style: TextStyle(color: Colors.white),
                                     ),
@@ -518,7 +516,7 @@ class _RegisterMemberState extends State<RegisterMember> {
                                                   BorderRadius.circular(24)),
                                         ),
                                       ),
-                                      child: Text(
+                                      child:const Text(
                                         "Open gallery",
                                         style: TextStyle(color: Colors.white),
                                       ),
@@ -615,12 +613,12 @@ class _RegisterMemberState extends State<RegisterMember> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: circular == false
-                                          ? Text(
+                                          ? const Text(
                                               "Submit",
                                               style: TextStyle(
                                                   color: Colors.white),
                                             )
-                                          : Container(
+                                          :const SizedBox(
                                               height: 15,
                                               width: 15,
                                               child:
@@ -634,7 +632,7 @@ class _RegisterMemberState extends State<RegisterMember> {
                                       style: ButtonStyle(
                                         side: MaterialStateProperty.all<
                                             BorderSide>(
-                                          BorderSide(
+                                          const BorderSide(
                                               color: Color(0xFF1A1363),
                                               width: 2.0),
                                         ),
@@ -646,13 +644,13 @@ class _RegisterMemberState extends State<RegisterMember> {
                                               .setCurrentPage(0);
                                           Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(
-                                              builder: (context) => HomePage(),
+                                              builder: (context) => const HomePage(),
                                             ),
                                           );
                                         });
                                       },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
                                         child: Text("Cancel"),
                                       )),
                                 )

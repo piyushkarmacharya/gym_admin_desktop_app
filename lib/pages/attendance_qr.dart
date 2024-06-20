@@ -1,12 +1,11 @@
-import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
-import "package:flutter/widgets.dart";
 import "package:qr_flutter/qr_flutter.dart";
 import "package:http/http.dart" as http;
 import 'dart:convert';
 
 class AttendanceQr extends StatefulWidget {
   const AttendanceQr({super.key});
+  @override
   State<AttendanceQr> createState() => _AttendanceQrState();
 }
 
@@ -15,6 +14,7 @@ class _AttendanceQrState extends State<AttendanceQr> {
   String str = "";
   TextEditingController ctr = TextEditingController();
 
+@override
   void initState() {
     super.initState();
     fetchData();
@@ -44,12 +44,12 @@ class _AttendanceQrState extends State<AttendanceQr> {
     final Map<String, dynamic> data = {
       "qrstr":str,
     };
-    final Response = await http.post(
+    final response = await http.post(
       Uri.parse("http://127.0.0.1:8000/api/AttendanceQr/update"),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(data),
     );
-    if (Response.statusCode == 200) {
+    if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             shape: const RoundedRectangleBorder(
@@ -63,7 +63,7 @@ class _AttendanceQrState extends State<AttendanceQr> {
                 0, 0, 0.7 * screenWidth, 0.05 * screenHeight),
             behavior: SnackBarBehavior.floating,
             duration: const Duration(seconds: 2),
-            content: Center(child: Text(jsonDecode(Response.body)['message'])),
+            content: Center(child: Text(jsonDecode(response.body)['message'])),
           ),
         );
       
@@ -81,7 +81,7 @@ class _AttendanceQrState extends State<AttendanceQr> {
                 0, 0, 0.7 * screenWidth, 0.05 * screenHeight),
             behavior: SnackBarBehavior.floating,
             duration: const Duration(seconds: 2),
-            content: Center(child: Text("failed")),
+            content:const  Center(child: Text("failed")),
           ),
         );
     }
@@ -91,19 +91,19 @@ class _AttendanceQrState extends State<AttendanceQr> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20,0,20,20),
-      child: Container(
+      child: SizedBox(
         
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Scaffold(
               body: Column(
             children: [
-              Spacer(),
+              const Spacer(),
               Expanded(
                   flex: 3,
                   child: Container(
                     child: str == ""
-                        ? CircularProgressIndicator(
+                        ? const CircularProgressIndicator(
                             backgroundColor: Colors.grey,
                           )
                         : QrImageView(
@@ -111,7 +111,7 @@ class _AttendanceQrState extends State<AttendanceQr> {
                             version: QrVersions.auto,
                           ),
                   )),
-              Spacer(),
+              const Spacer(),
               Expanded(
                 flex: 1,
                 child: Form(
@@ -119,7 +119,7 @@ class _AttendanceQrState extends State<AttendanceQr> {
                   child: ListView(
                     children:[ Row(
                       children: [
-                        Spacer(
+                       const  Spacer(
                           flex: 3,
                         ),
                         Expanded(
@@ -130,11 +130,12 @@ class _AttendanceQrState extends State<AttendanceQr> {
                               if(value==null||value==""){
                                 return "Please enter a string";
                               }
+                              return null;
                             },
                             decoration: InputDecoration(
-                              label: Text("Enter a string"),
+                              label: const Text("Enter a string"),
                               contentPadding:
-                                  EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                                  const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
                               ),
@@ -142,7 +143,7 @@ class _AttendanceQrState extends State<AttendanceQr> {
                             controller: ctr,
                           ),
                         ),
-                        Spacer(
+                        const Spacer(
                           flex: 1,
                         ),
                         Expanded(
@@ -168,10 +169,10 @@ class _AttendanceQrState extends State<AttendanceQr> {
                               }
                               
                             },
-                            child: Text("Generate",style: TextStyle(color: Colors.white),),
+                            child: const Text("Generate",style: TextStyle(color: Colors.white),),
                           ),
                         ),
-                        Spacer(
+                        const Spacer(
                           flex: 3,
                         ),
                       ],
@@ -180,7 +181,7 @@ class _AttendanceQrState extends State<AttendanceQr> {
                   ),
                 ),
               ),
-              Spacer(),
+              const Spacer(),
             ],
           )),
         ),

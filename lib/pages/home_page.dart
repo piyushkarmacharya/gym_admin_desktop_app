@@ -5,7 +5,7 @@ import 'package:gymmanagementsystem/pages/attendance_details.dart';
 import 'package:gymmanagementsystem/pages/attendance_qr.dart';
 import 'package:gymmanagementsystem/pages/change_password.dart';
 import "package:gymmanagementsystem/pages/dashboard.dart";
-import 'package:gymmanagementsystem/pages/feedbackPage.dart';
+import 'package:gymmanagementsystem/pages/feedback_page.dart';
 import 'package:gymmanagementsystem/pages/login_page.dart';
 import 'package:gymmanagementsystem/pages/register_member.dart';
 import 'package:gymmanagementsystem/pages/member_pages/member_details.dart';
@@ -20,7 +20,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  TextStyle drawerTextStyle = TextStyle(
+  TextStyle drawerTextStyle = const TextStyle(
       color: Colors.white, fontSize: 10, fontWeight: FontWeight.normal);
   List<String> heading = [
     "Dashboard",
@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     "Register Member",
     "Change Password",
   ];
-  List<Widget> pages = [
+  List<Widget> pages = const [
     Dashboard(),
     AttendanceQr(),
     AttendanceDetails(),
@@ -48,10 +48,10 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         body: Row(
           children: [
-            Container(
+            SizedBox(
               width: 226,
               child: Drawer(
-                  backgroundColor: Color(0xFF1A1363),
+                  backgroundColor: const Color(0xFF1A1363),
                   shape: BeveledRectangleBorder(
                       borderRadius: BorderRadius.circular(0)),
                   child: ListView(
@@ -60,13 +60,13 @@ class _HomePageState extends State<HomePage> {
                         child: Center(
                           child: Text(
                             "     Welcome\n ${Provider.of<UserProvider>(context,listen:false).getAdminName()}",
-                            style: TextStyle(
+                            style:const  TextStyle(
                                 color: Colors.white, fontSize: 15, fontWeight: FontWeight.normal),
                           ),
                         ),
                       ),
                       ListTile(
-                        leading: Icon(
+                        leading:const Icon(
                           Icons.dashboard,
                           color: Colors.white,
                         ),
@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        leading: Icon(
+                        leading: const Icon(
                           Icons.qr_code,
                           color: Colors.white,
                         ),
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        leading: Icon(
+                        leading:const Icon(
                           Icons.assignment,
                           color: Colors.white,
                         ),
@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ExpansionTile(
-                        leading: Icon(
+                        leading: const Icon(
                           Icons.people,
                           color: Colors.white,
                         ),
@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         children: [
                           ListTile(
-                            leading: Icon(
+                            leading: const Icon(
                               Icons.assignment_ind,
                               color: Colors.white,
                             ),
@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                             },
                           ),
                           ListTile(
-                            leading: Icon(
+                            leading: const Icon(
                               Icons.person_add,
                               color: Colors.white,
                             ),
@@ -155,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                       ListTile(
-                        leading: Icon(
+                        leading: const Icon(
                           Icons.password,
                           color: Colors.white,
                         ),
@@ -171,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        leading: Icon(
+                        leading: const Icon(
                           Icons.feedback,
                           color: Colors.white,
                         ),
@@ -212,10 +212,10 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Color(0xFF1A1363),
+                              color: const Color(0xFF1A1363),
                               borderRadius: BorderRadius.circular(24)),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10.0,8,10,8),
+                          child: const Padding(
+                            padding: EdgeInsets.fromLTRB(10.0,8,10,8),
                             child: Row(
                               children: [
                                 Text(
@@ -239,7 +239,7 @@ class _HomePageState extends State<HomePage> {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Container(
+                    SizedBox(
                       height: 78,
                       width: 111,
                       child: Image.asset(
@@ -248,7 +248,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Visibility(
                       visible: MediaQuery.of(context).size.width>610,
-                      child: Text(
+                      child:const Text(
                         "CLUB\nDESPERADO",
                         style: TextStyle(
                             color: Color(0xFF1A1363),

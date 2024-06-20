@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
           context,
         ).showSnackBar(
           SnackBar(
-            shape: RoundedRectangleBorder(
+            shape:const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20),
                     bottomRight: Radius.circular(0),
@@ -53,8 +53,8 @@ class _LoginPageState extends State<LoginPage> {
             margin: EdgeInsets.fromLTRB(
                 0.8 * screenWidth, 0, 0, 0.8 * screenHeight),
             behavior: SnackBarBehavior.floating,
-            duration: Duration(seconds: 1),
-            content: Center(child: Text("Connection problem")),
+            duration:const Duration(seconds: 1),
+            content:const Center(child: Text("Connection problem")),
           ),
         );
         
@@ -70,9 +70,9 @@ class _LoginPageState extends State<LoginPage> {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
-          actions: [
+          actions: const [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: Icon(
                 Icons.admin_panel_settings_sharp,
                 color: Color(0xFF1A1363),
@@ -81,12 +81,12 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
         body: Padding(
-          padding: EdgeInsets.fromLTRB(141, 50, 70, 50),
+          padding: const EdgeInsets.fromLTRB(141, 50, 70, 50),
           child: Row(
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                  child: Container(
+                  child: SizedBox(
                     height: 500,
                     width: 500,
                     child: Column(
@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 0, vertical: 8),
-                                child: Container(
+                                child: SizedBox(
                                   width: 406,
                                   child: TextFormField(
                                     style: const TextStyle(fontSize: 18),
@@ -171,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 0, vertical: 8),
-                                child: Container(
+                                child: SizedBox(
                                   width: 406,
                                   height: 69,
                                   child: TextFormField(
@@ -200,7 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
-                                              shape: RoundedRectangleBorder(
+                                              shape: const RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.only(
                                                           bottomLeft: Radius
@@ -222,8 +222,8 @@ class _LoginPageState extends State<LoginPage> {
                                                   0.05 * screenHeight),
                                               behavior:
                                                   SnackBarBehavior.floating,
-                                              duration: Duration(seconds: 1),
-                                              content: Text(
+                                              duration: const Duration(seconds: 1),
+                                              content: const Text(
                                                   "Email and password donot match"),
                                             ),
                                           );
@@ -274,7 +274,7 @@ class _LoginPageState extends State<LoginPage> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Container(
+                              SizedBox(
                                 width: 399,
                                 height: 50,
                                 child: ElevatedButton(
@@ -314,7 +314,7 @@ class _LoginPageState extends State<LoginPage> {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
-                                            shape: RoundedRectangleBorder(
+                                            shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.only(
                                                     bottomLeft:
                                                         Radius.circular(0),
@@ -330,8 +330,8 @@ class _LoginPageState extends State<LoginPage> {
                                                 0.7 * screenWidth,
                                                 0.05 * screenHeight),
                                             behavior: SnackBarBehavior.floating,
-                                            duration: Duration(seconds: 1),
-                                            content: Center(
+                                            duration: const Duration(seconds: 1),
+                                            content: const Center(
                                               child: Text(
                                                   "Email and password donot match"),
                                             ),
@@ -352,7 +352,7 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
                         ),
-                        Spacer(),
+                       const Spacer(),
                       ],
                     ),
                   ),

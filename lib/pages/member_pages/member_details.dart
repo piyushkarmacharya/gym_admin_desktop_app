@@ -53,7 +53,7 @@ class _MemberDetailsState extends State<MemberDetails> {
             future: getMembersDetail(),
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               } else {
@@ -71,17 +71,17 @@ class _MemberDetailsState extends State<MemberDetails> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("Quick search : "),
+                                const Text("Quick search : "),
                                 SizedBox(
                                   width:
                                       0.2 * MediaQuery.of(context).size.width,
                                   child: TextField(
                                     controller: ctr,
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
+                                      contentPadding: const EdgeInsets.symmetric(
                                           horizontal: 10, vertical: 0),
-                                      prefixIcon: Icon(Icons.search),
-                                      label: Text("Enter Name"),
+                                      prefixIcon: const Icon(Icons.search),
+                                      label: const Text("Enter Name"),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(20),
                                       ),
@@ -99,7 +99,7 @@ class _MemberDetailsState extends State<MemberDetails> {
                                     style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStateProperty.all<Color>(
-                                              Color(0xFF1A1363)),
+                                             const  Color(0xFF1A1363)),
                                       shape: MaterialStateProperty.all<
                                           OutlinedBorder>(
                                         RoundedRectangleBorder(
@@ -112,7 +112,7 @@ class _MemberDetailsState extends State<MemberDetails> {
                                         name = ctr.text;
                                       });
                                     },
-                                    child: Text(
+                                    child:const  Text(
                                       "Search",
                                       style: TextStyle(
                                         color: Colors.white,
@@ -161,7 +161,7 @@ class _MemberDetailsState extends State<MemberDetails> {
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Spacer(),
+                                              const Spacer(),
                                               Container(
                                                 width: 200,
                                                 height: 200,
@@ -186,7 +186,7 @@ class _MemberDetailsState extends State<MemberDetails> {
                                                       .toString()),
                                                 ],
                                               ),
-                                              Spacer()
+                                              const Spacer()
                                             ],
                                           ),
                                         ),
@@ -197,7 +197,7 @@ class _MemberDetailsState extends State<MemberDetails> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           )
                         ],

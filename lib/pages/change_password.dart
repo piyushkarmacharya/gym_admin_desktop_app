@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
+  @override
   State<ChangePassword> createState() => _ChangePasswordState();
 }
 
@@ -55,14 +56,14 @@ class _ChangePasswordState extends State<ChangePassword> {
             Provider.of<UserProvider>(context, listen: false).setCurrentPage(0);
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => HomePage(),
+                builder: (context) => const HomePage(),
               ),
             );
           });
         }
       } else {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Connection problem")));
+            .showSnackBar(const SnackBar(content: Text("Connection problem")));
       }
     } catch (e) {
       ScaffoldMessenger.of(context)
@@ -70,9 +71,9 @@ class _ChangePasswordState extends State<ChangePassword> {
     }
   }
 
-  List<bool> _showPassword = [false, false, false];
+  final List<bool> _showPassword = [false, false, false];
   @override
-  Widget build(BuildContext) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
         key: _formKey,
@@ -81,7 +82,7 @@ class _ChangePasswordState extends State<ChangePassword> {
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Container(
+              child: SizedBox(
                 height: 500,
                 width: 500,
                 child: Column(
@@ -101,7 +102,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               ? Icons.visibility_off
                               : Icons.visibility),
                         ),
-                        prefixIcon: Icon(Icons.lock),
+                        prefixIcon: const Icon(Icons.lock),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -112,7 +113,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         return null;
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     TextFormField(
@@ -130,7 +131,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               : Icons.visibility),
                         ),
                         labelText: "New password",
-                        prefixIcon: Icon(Icons.lock),
+                        prefixIcon:const  Icon(Icons.lock),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -143,7 +144,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         return null;
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     TextFormField(
@@ -161,7 +162,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               : Icons.visibility),
                         ),
                         labelText: "Confirm password",
-                        prefixIcon: Icon(Icons.lock),
+                        prefixIcon:const  Icon(Icons.lock),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -174,7 +175,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         return null;
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     ElevatedButton(
@@ -193,7 +194,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           }
                         });
                       },
-                      child: Text(
+                      child:const  Text(
                         "Change Password",
                         style: TextStyle(color: Colors.white),
                       ),

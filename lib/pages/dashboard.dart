@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:table_calendar/table_calendar.dart';
@@ -16,6 +14,8 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int numOfMembers = 0;
   String qrStr = "";
+
+  @override
   void initState() {
     super.initState();
     fetchData();
@@ -33,7 +33,7 @@ class _DashboardState extends State<Dashboard> {
         });
       } else {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Connection Problem")));
+            .showSnackBar(const SnackBar(content: Text("Connection Problem")));
       }
     } catch (e) {
       print(e);
@@ -49,7 +49,7 @@ class _DashboardState extends State<Dashboard> {
         qrStr = jsonDecode(res.body)['qrstr'];
       } else {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Connection Problem")));
+            .showSnackBar(const SnackBar(content: Text("Connection Problem")));
       }
     } catch (e) {
       print(e);
@@ -57,7 +57,6 @@ class _DashboardState extends State<Dashboard> {
   }
 
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   @override
   Widget build(BuildContext context) {
@@ -67,29 +66,29 @@ class _DashboardState extends State<Dashboard> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Spacer(),
+            const Spacer(),
             Column(
               children: [
-                Spacer(),
+                const Spacer(),
                 Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12)),
                   child: numOfMembers == -1
-                      ? CircularProgressIndicator()
+                      ?const  CircularProgressIndicator()
                       : Padding(
                           padding: const EdgeInsets.all(30.0),
                           child: Center(
                               child: Column(
                             children: [
-                              Text(
+                              const Text(
                                 "Total members : ",
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color: Color(0xFF2B2B2B)),
                               ),
-                              Text(numOfMembers.toString(),style: TextStyle(
+                              Text(numOfMembers.toString(),style: const TextStyle(
                         fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF2B2B2B)),
@@ -98,20 +97,20 @@ class _DashboardState extends State<Dashboard> {
                           )),
                         ),
                 ),
-                Spacer(),
+               const  Spacer(),
                 Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12)),
                   child: qrStr == ""
-                      ? CircularProgressIndicator()
-                      : Container(
+                      ? const CircularProgressIndicator()
+                      : SizedBox(
                           child: Padding(
                             padding: const EdgeInsets.all(20.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                const Text(
                                   "  Attendance QR",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -128,10 +127,10 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ),
                 ),
-                Spacer(),
+                const Spacer(),
               ],
             ),
-            Spacer(),
+           const  Spacer(),
             Visibility(
               visible: MediaQuery.of(context).size.width>1055,
               child: Container(
@@ -143,7 +142,7 @@ class _DashboardState extends State<Dashboard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "  Calender",
                         style: TextStyle(
                             fontSize: 18,
@@ -161,8 +160,7 @@ class _DashboardState extends State<Dashboard> {
                         onDaySelected: (selectedDay, focusedDay) {
                           setState(() {
                             _selectedDay = selectedDay;
-                            _focusedDay =
-                                focusedDay; // update `_focusedDay` here as well
+                             // update `_focusedDay` here as well
                           });
                         },
                         onFormatChanged: (format) {
@@ -173,7 +171,7 @@ class _DashboardState extends State<Dashboard> {
                           }
                         },
                         onPageChanged: (focusedDay) {
-                          _focusedDay = focusedDay;
+                        
                         },
                       ),
                     ],
@@ -181,7 +179,7 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
             ),
-            Spacer(),
+           const  Spacer(),
           ],
         ),
       ),
