@@ -43,7 +43,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     bottomRight: Radius.circular(20),
                     topLeft: Radius.circular(0),
                     topRight: Radius.circular(20))),
-            backgroundColor: Colors.green,
+            backgroundColor: msg=="Old password donot match"?Colors.red:Colors.green,
             margin: EdgeInsets.fromLTRB(
                 0, 0, 0.7 * screenWidth, 0.05 * screenHeight),
             behavior: SnackBarBehavior.floating,
