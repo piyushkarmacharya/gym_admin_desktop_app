@@ -24,9 +24,31 @@ class _LoginPageState extends State<LoginPage> {
   ];
   Map<String, dynamic> data = {};
   String? email;
-  Future login() async {
+
+  void _showMessage(String msg) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(
+      SnackBar(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(0),
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(0))),
+        backgroundColor: Colors.red,
+        margin:
+            EdgeInsets.fromLTRB(0.8 * screenWidth, 0, 0, 0.8 * screenHeight),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 1),
+        content: Center(child: Text(msg)),
+      ),
+    );
+  }
+
+  Future login() async {
     try {
       final res = await http.post(
         Uri.parse("http://127.0.0.1:8000/api/admin/login"),
@@ -39,28 +61,10 @@ class _LoginPageState extends State<LoginPage> {
           data = jsonDecode(res.body);
         });
       } else {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(
-          SnackBar(
-            shape:const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(0),
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(0))),
-            backgroundColor: Colors.red,
-            margin: EdgeInsets.fromLTRB(
-                0.8 * screenWidth, 0, 0, 0.8 * screenHeight),
-            behavior: SnackBarBehavior.floating,
-            duration:const Duration(seconds: 1),
-            content:const Center(child: Text("Connection problem")),
-          ),
-        );
-        
+        _showMessage("Connection Problem");
       }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -185,10 +189,10 @@ class _LoginPageState extends State<LoginPage> {
                                           Provider.of<UserProvider>(context,
                                                   listen: false)
                                               .setUserId(data['id']);
-                                              Provider.of<UserProvider>(context,
+                                          Provider.of<UserProvider>(context,
                                                   listen: false)
                                               .setAdminName(data['name']);
-                                              
+
                                           Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(
                                               builder: (context) {
@@ -200,20 +204,22 @@ class _LoginPageState extends State<LoginPage> {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
-                                              shape: const RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                          bottomLeft: Radius
-                                                              .circular(0),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  20),
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  0),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  20))),
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              bottomLeft: Radius
+                                                                  .circular(0),
+                                                              bottomRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          20),
+                                                              topLeft: Radius
+                                                                  .circular(0),
+                                                              topRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          20))),
                                               backgroundColor: Colors.red,
                                               margin: EdgeInsets.fromLTRB(
                                                   0,
@@ -222,7 +228,8 @@ class _LoginPageState extends State<LoginPage> {
                                                   0.05 * screenHeight),
                                               behavior:
                                                   SnackBarBehavior.floating,
-                                              duration: const Duration(seconds: 1),
+                                              duration:
+                                                  const Duration(seconds: 1),
                                               content: const Text(
                                                   "Email and password donot match"),
                                             ),
@@ -280,10 +287,10 @@ class _LoginPageState extends State<LoginPage> {
                                 child: ElevatedButton(
                                   style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStateProperty.all<Color>(
+                                        WidgetStateProperty.all<Color>(
                                             const Color(0xFF1A1363)),
-                                    shape: MaterialStateProperty.all<
-                                        OutlinedBorder>(
+                                    shape:
+                                        WidgetStateProperty.all<OutlinedBorder>(
                                       RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(24)),
@@ -295,14 +302,13 @@ class _LoginPageState extends State<LoginPage> {
                                       setState(() {});
                                       await login();
                                       if (data['login'] == true) {
-                                    
                                         Provider.of<UserProvider>(context,
                                                 listen: false)
                                             .setUserId(data['id']);
-                                            Provider.of<UserProvider>(context,
+                                        Provider.of<UserProvider>(context,
                                                 listen: false)
                                             .setAdminName(data['name']);
-                                            
+
                                         Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                             builder: (context) {
@@ -330,7 +336,8 @@ class _LoginPageState extends State<LoginPage> {
                                                 0.7 * screenWidth,
                                                 0.05 * screenHeight),
                                             behavior: SnackBarBehavior.floating,
-                                            duration: const Duration(seconds: 1),
+                                            duration:
+                                                const Duration(seconds: 1),
                                             content: const Center(
                                               child: Text(
                                                   "Email and password donot match"),
@@ -352,7 +359,7 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
                         ),
-                       const Spacer(),
+                        const Spacer(),
                       ],
                     ),
                   ),

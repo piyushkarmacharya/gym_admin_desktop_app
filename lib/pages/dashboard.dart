@@ -22,6 +22,10 @@ class _DashboardState extends State<Dashboard> {
     getQrString();
   }
 
+  void _showMessage(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
+
   Future<void> fetchData() async {
     try {
       String url = 'http://127.0.0.1:8000/api/Member/details';
@@ -32,11 +36,10 @@ class _DashboardState extends State<Dashboard> {
           numOfMembers = data.length;
         });
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Connection Problem")));
+        _showMessage("Connection Problem");
       }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -48,11 +51,10 @@ class _DashboardState extends State<Dashboard> {
         setState(() {});
         qrStr = jsonDecode(res.body)['qrstr'];
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Connection Problem")));
+        _showMessage("Connection Problem");
       }
     } catch (e) {
-      print(e);
+      _showMessage(e.toString());
     }
   }
 
@@ -75,7 +77,7 @@ class _DashboardState extends State<Dashboard> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12)),
                   child: numOfMembers == -1
-                      ?const  CircularProgressIndicator()
+                      ? const CircularProgressIndicator()
                       : Padding(
                           padding: const EdgeInsets.all(30.0),
                           child: Center(
@@ -88,16 +90,18 @@ class _DashboardState extends State<Dashboard> {
                                     fontWeight: FontWeight.bold,
                                     color: Color(0xFF2B2B2B)),
                               ),
-                              Text(numOfMembers.toString(),style: const TextStyle(
-                        fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF2B2B2B)),
-                    ),
+                              Text(
+                                numOfMembers.toString(),
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF2B2B2B)),
+                              ),
                             ],
                           )),
                         ),
                 ),
-               const  Spacer(),
+                const Spacer(),
                 Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -130,12 +134,13 @@ class _DashboardState extends State<Dashboard> {
                 const Spacer(),
               ],
             ),
-           const  Spacer(),
+            const Spacer(),
             Visibility(
-              visible: MediaQuery.of(context).size.width>1055,
+              visible: MediaQuery.of(context).size.width > 1055,
               child: Container(
                 decoration: BoxDecoration(
-                    color: Colors.white, borderRadius: BorderRadius.circular(12)),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12)),
                 width: 500,
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -160,7 +165,7 @@ class _DashboardState extends State<Dashboard> {
                         onDaySelected: (selectedDay, focusedDay) {
                           setState(() {
                             _selectedDay = selectedDay;
-                             // update `_focusedDay` here as well
+                            // update `_focusedDay` here as well
                           });
                         },
                         onFormatChanged: (format) {
@@ -170,16 +175,14 @@ class _DashboardState extends State<Dashboard> {
                             });
                           }
                         },
-                        onPageChanged: (focusedDay) {
-                        
-                        },
+                        onPageChanged: (focusedDay) {},
                       ),
                     ],
                   ),
                 ),
               ),
             ),
-           const  Spacer(),
+            const Spacer(),
           ],
         ),
       ),

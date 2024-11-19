@@ -10,11 +10,11 @@ class AttendanceQr extends StatefulWidget {
 }
 
 class _AttendanceQrState extends State<AttendanceQr> {
-  final _formKey=GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   String str = "";
   TextEditingController ctr = TextEditingController();
 
-@override
+  @override
   void initState() {
     super.initState();
     fetchData();
@@ -26,7 +26,7 @@ class _AttendanceQrState extends State<AttendanceQr> {
       final res = await http.get(Uri.parse(url));
       if (res.statusCode == 200) {
         Map data = jsonDecode(res.body);
-        
+
         setState(() {
           str = data["qrstr"];
         });
@@ -34,15 +34,34 @@ class _AttendanceQrState extends State<AttendanceQr> {
         throw Exception('Failed to load data');
       }
     } catch (e) {
-      print('Error: $e');
+      debugPrint('Error: $e');
     }
   }
 
-  Future<void> updateQr() async {
+  void _showMessage(String msg) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(0),
+                bottomRight: Radius.circular(20),
+                topLeft: Radius.circular(0),
+                topRight: Radius.circular(20))),
+        backgroundColor: Colors.green,
+        margin:
+            EdgeInsets.fromLTRB(0, 0, 0.7 * screenWidth, 0.05 * screenHeight),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 2),
+        content: Center(child: Text(msg)),
+      ),
+    );
+  }
+
+  Future<void> updateQr() async {
     final Map<String, dynamic> data = {
-      "qrstr":str,
+      "qrstr": str,
     };
     final response = await http.post(
       Uri.parse("http://127.0.0.1:8000/api/AttendanceQr/update"),
@@ -50,49 +69,17 @@ class _AttendanceQrState extends State<AttendanceQr> {
       body: jsonEncode(data),
     );
     if (response.statusCode == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(0),
-                    bottomRight: Radius.circular(20),
-                    topLeft: Radius.circular(0),
-                    topRight: Radius.circular(20))),
-            backgroundColor: Colors.green,
-            margin: EdgeInsets.fromLTRB(
-                0, 0, 0.7 * screenWidth, 0.05 * screenHeight),
-            behavior: SnackBarBehavior.floating,
-            duration: const Duration(seconds: 2),
-            content: Center(child: Text(jsonDecode(response.body)['message'])),
-          ),
-        );
-      
+      _showMessage(jsonDecode(response.body)['message']);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(0),
-                    bottomRight: Radius.circular(20),
-                    topLeft: Radius.circular(0),
-                    topRight: Radius.circular(20))),
-            backgroundColor: Colors.green,
-            margin: EdgeInsets.fromLTRB(
-                0, 0, 0.7 * screenWidth, 0.05 * screenHeight),
-            behavior: SnackBarBehavior.floating,
-            duration: const Duration(seconds: 2),
-            content:const  Center(child: Text("failed")),
-          ),
-        );
+      _showMessage("Failed");
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20,0,20,20),
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
       child: SizedBox(
-        
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Scaffold(
@@ -116,26 +103,26 @@ class _AttendanceQrState extends State<AttendanceQr> {
                 flex: 1,
                 child: Form(
                   key: _formKey,
-                  child: ListView(
-                    children:[ Row(
+                  child: ListView(children: [
+                    Row(
                       children: [
-                       const  Spacer(
+                        const Spacer(
                           flex: 3,
                         ),
                         Expanded(
                           flex: 3,
                           child: TextFormField(
                             obscureText: true,
-                            validator: (value){
-                              if(value==null||value==""){
+                            validator: (value) {
+                              if (value == null || value == "") {
                                 return "Please enter a string";
                               }
                               return null;
                             },
                             decoration: InputDecoration(
                               label: const Text("Enter a string"),
-                              contentPadding:
-                                  const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 10),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
                               ),
@@ -150,26 +137,25 @@ class _AttendanceQrState extends State<AttendanceQr> {
                           flex: 2,
                           child: ElevatedButton(
                             style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                const Color(0xFF1A1363)),
-                                        shape: MaterialStateProperty.all<
-                                            OutlinedBorder>(
-                                          RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(24)),
-                                        ),
-                                      ),
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  const Color(0xFF1A1363)),
+                              shape: MaterialStateProperty.all<OutlinedBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(24)),
+                              ),
+                            ),
                             onPressed: () {
-                              if(_formKey.currentState!.validate()){
+                              if (_formKey.currentState!.validate()) {
                                 setState(() {
-                                str = ctr.text;
-                                updateQr();
-                              });
+                                  str = ctr.text;
+                                  updateQr();
+                                });
                               }
-                              
                             },
-                            child: const Text("Generate",style: TextStyle(color: Colors.white),),
+                            child: const Text(
+                              "Generate",
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ),
                         const Spacer(
@@ -177,8 +163,7 @@ class _AttendanceQrState extends State<AttendanceQr> {
                         ),
                       ],
                     ),
-                    ]
-                  ),
+                  ]),
                 ),
               ),
               const Spacer(),

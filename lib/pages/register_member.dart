@@ -111,7 +111,7 @@ class _RegisterMemberState extends State<RegisterMember> {
         setState(() {
           circular = false;
         });
-        print(jsonDecode(response.body)['password']);
+        debugPrint(jsonDecode(response.body)['password']);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             shape: const RoundedRectangleBorder(
@@ -142,7 +142,7 @@ class _RegisterMemberState extends State<RegisterMember> {
       } else if (response.statusCode == 500) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(0),
                     bottomRight: Radius.circular(20),
@@ -152,13 +152,13 @@ class _RegisterMemberState extends State<RegisterMember> {
             margin: EdgeInsets.fromLTRB(
                 0, 0, 0.7 * screenWidth, 0.05 * screenHeight),
             behavior: SnackBarBehavior.floating,
-            duration: Duration(seconds: 3),
+            duration: const Duration(seconds: 3),
             content: Center(
               child: Text(jsonDecode(response.body)['error']),
             ),
           ),
         );
-        print("password : ${jsonDecode(response.body)['password']}");
+        debugPrint("password : ${jsonDecode(response.body)['password']}");
       } else {
         setState(() {
           circular = false;
@@ -167,7 +167,7 @@ class _RegisterMemberState extends State<RegisterMember> {
         });
       }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -204,7 +204,7 @@ class _RegisterMemberState extends State<RegisterMember> {
           ),
           Expanded(
             child: Center(
-              child: Container(
+              child: SizedBox(
                 width: 0.7 * MediaQuery.of(context).size.width,
                 child: Card(
                   child: Padding(
@@ -256,9 +256,9 @@ class _RegisterMemberState extends State<RegisterMember> {
                                     },
                                     style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStateProperty.all<Color>(
+                                          WidgetStateProperty.all<Color>(
                                               const Color(0xFF1A1363)),
-                                      shape: MaterialStateProperty.all<
+                                      shape: WidgetStateProperty.all<
                                           OutlinedBorder>(
                                         RoundedRectangleBorder(
                                             borderRadius:
@@ -507,16 +507,16 @@ class _RegisterMemberState extends State<RegisterMember> {
                                       },
                                       style: ButtonStyle(
                                         backgroundColor:
-                                            MaterialStateProperty.all<Color>(
+                                            WidgetStateProperty.all<Color>(
                                                 const Color(0xFF1A1363)),
-                                        shape: MaterialStateProperty.all<
+                                        shape: WidgetStateProperty.all<
                                             OutlinedBorder>(
                                           RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(24)),
                                         ),
                                       ),
-                                      child:const Text(
+                                      child: const Text(
                                         "Open gallery",
                                         style: TextStyle(color: Colors.white),
                                       ),
@@ -559,9 +559,9 @@ class _RegisterMemberState extends State<RegisterMember> {
                                   child: ElevatedButton(
                                     style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStateProperty.all<Color>(
+                                          WidgetStateProperty.all<Color>(
                                               const Color(0xFF1A1363)),
-                                      shape: MaterialStateProperty.all<
+                                      shape: WidgetStateProperty.all<
                                           OutlinedBorder>(
                                         RoundedRectangleBorder(
                                             borderRadius:
@@ -607,7 +607,7 @@ class _RegisterMemberState extends State<RegisterMember> {
                                         });
                                         registerMember();
                                       } else {
-                                        print("validation error");
+                                        debugPrint("validation error");
                                       }
                                     },
                                     child: Padding(
@@ -618,7 +618,7 @@ class _RegisterMemberState extends State<RegisterMember> {
                                               style: TextStyle(
                                                   color: Colors.white),
                                             )
-                                          :const SizedBox(
+                                          : const SizedBox(
                                               height: 15,
                                               width: 15,
                                               child:
@@ -630,8 +630,8 @@ class _RegisterMemberState extends State<RegisterMember> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: ElevatedButton(
                                       style: ButtonStyle(
-                                        side: MaterialStateProperty.all<
-                                            BorderSide>(
+                                        side:
+                                            WidgetStateProperty.all<BorderSide>(
                                           const BorderSide(
                                               color: Color(0xFF1A1363),
                                               width: 2.0),
@@ -644,7 +644,8 @@ class _RegisterMemberState extends State<RegisterMember> {
                                               .setCurrentPage(0);
                                           Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(
-                                              builder: (context) => const HomePage(),
+                                              builder: (context) =>
+                                                  const HomePage(),
                                             ),
                                           );
                                         });

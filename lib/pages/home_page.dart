@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
-import 'package:flutter/widgets.dart';
 import 'package:gymmanagementsystem/pages/attendance_details.dart';
 import 'package:gymmanagementsystem/pages/attendance_qr.dart';
 import 'package:gymmanagementsystem/pages/change_password.dart';
@@ -41,7 +39,6 @@ class _HomePageState extends State<HomePage> {
   ];
   @override
   Widget build(BuildContext context) {
-    
     int selected =
         Provider.of<UserProvider>(context, listen: false).getCurrentPage();
     return SafeArea(
@@ -59,14 +56,16 @@ class _HomePageState extends State<HomePage> {
                       DrawerHeader(
                         child: Center(
                           child: Text(
-                            "     Welcome\n ${Provider.of<UserProvider>(context,listen:false).getAdminName()}",
-                            style:const  TextStyle(
-                                color: Colors.white, fontSize: 15, fontWeight: FontWeight.normal),
+                            "     Welcome\n ${Provider.of<UserProvider>(context, listen: false).getAdminName()}",
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal),
                           ),
                         ),
                       ),
                       ListTile(
-                        leading:const Icon(
+                        leading: const Icon(
                           Icons.dashboard,
                           color: Colors.white,
                         ),
@@ -96,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        leading:const Icon(
+                        leading: const Icon(
                           Icons.assignment,
                           color: Colors.white,
                         ),
@@ -215,7 +214,7 @@ class _HomePageState extends State<HomePage> {
                               color: const Color(0xFF1A1363),
                               borderRadius: BorderRadius.circular(24)),
                           child: const Padding(
-                            padding: EdgeInsets.fromLTRB(10.0,8,10,8),
+                            padding: EdgeInsets.fromLTRB(10.0, 8, 10, 8),
                             child: Row(
                               children: [
                                 Text(
@@ -247,8 +246,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Visibility(
-                      visible: MediaQuery.of(context).size.width>610,
-                      child:const Text(
+                      visible: MediaQuery.of(context).size.width > 610,
+                      child: const Text(
                         "CLUB\nDESPERADO",
                         style: TextStyle(
                             color: Color(0xFF1A1363),

@@ -33,8 +33,14 @@ class _MemberUpdate extends State<MemberUpdate> {
       TextEditingController(text: widget.obj['email']),
       TextEditingController(text: widget.obj['contact_number'].toString()),
       TextEditingController(text: widget.obj['address']),
-      TextEditingController(text: widget.obj['weight']==null?"":widget.obj['weight'].toString()),
-      TextEditingController(text: widget.obj['height']==null?"":widget.obj['height'].toString()),
+      TextEditingController(
+          text: widget.obj['weight'] == null
+              ? ""
+              : widget.obj['weight'].toString()),
+      TextEditingController(
+          text: widget.obj['height'] == null
+              ? ""
+              : widget.obj['height'].toString()),
     ];
   }
 
@@ -46,8 +52,8 @@ class _MemberUpdate extends State<MemberUpdate> {
 
   InputDecoration tfdec = InputDecoration(
     filled: true,
-    fillColor:const Color(0xFFE9E9E9),
-    contentPadding:const  EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+    fillColor: const Color(0xFFE9E9E9),
+    contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
     ),
@@ -87,7 +93,7 @@ class _MemberUpdate extends State<MemberUpdate> {
         },
       );
     } else {
-      print("select img");
+      debugPrint("select img");
     }
   }
 
@@ -96,9 +102,10 @@ class _MemberUpdate extends State<MemberUpdate> {
     int fileSizeInByte = imgfile.lengthSync();
     return (fileSizeInByte / 1024);
   }
-    Map error = {};
+
+  Map error = {};
   Future<void> updateMember() async {
-      final screenHeight = MediaQuery.of(context).size.height;
+    final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final Map<String, dynamic> data = {
       "name": ctr[0].text,
@@ -118,21 +125,21 @@ class _MemberUpdate extends State<MemberUpdate> {
     );
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(0),
-                    bottomRight: Radius.circular(20),
-                    topLeft: Radius.circular(0),
-                    topRight: Radius.circular(20))),
-            backgroundColor: Colors.green,
-            margin: EdgeInsets.fromLTRB(
-                0, 0, 0.7 * screenWidth, 0.05 * screenHeight),
-            behavior: SnackBarBehavior.floating,
-            duration: const Duration(seconds: 2),
-            content: Center(child: Text(jsonDecode(response.body)['message'])),
-          ),
-        );
+        SnackBar(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(0),
+                  bottomRight: Radius.circular(20),
+                  topLeft: Radius.circular(0),
+                  topRight: Radius.circular(20))),
+          backgroundColor: Colors.green,
+          margin:
+              EdgeInsets.fromLTRB(0, 0, 0.7 * screenWidth, 0.05 * screenHeight),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 2),
+          content: Center(child: Text(jsonDecode(response.body)['message'])),
+        ),
+      );
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -142,10 +149,10 @@ class _MemberUpdate extends State<MemberUpdate> {
         ),
       );
     } else {
-       setState(() {
-          error = jsonDecode(response.body);
-          _formKey.currentState!.validate();
-        });
+      setState(() {
+        error = jsonDecode(response.body);
+        _formKey.currentState!.validate();
+      });
     }
   }
 
@@ -202,7 +209,9 @@ class _MemberUpdate extends State<MemberUpdate> {
                           if (value == null || value.isEmpty) {
                             return "Enter your name";
                           }
-                          if (!RegExp(r'^[A-Z][a-z]* (?:[A-Z][a-z]* )?[A-Z][a-z]*$').hasMatch(value)) {
+                          if (!RegExp(
+                                  r'^[A-Z][a-z]* (?:[A-Z][a-z]* )?[A-Z][a-z]*$')
+                              .hasMatch(value)) {
                             return "Enter proper name";
                           }
                           return null;
@@ -241,8 +250,10 @@ class _MemberUpdate extends State<MemberUpdate> {
                       ],
                     ),
                     Text(
-                      ageError == true ? "Invalid age for GYM (12 - 80 yr)" : "",
-                      style: TextStyle(color: Colors.red[900],fontSize: 11),
+                      ageError == true
+                          ? "Invalid age for GYM (12 - 80 yr)"
+                          : "",
+                      style: TextStyle(color: Colors.red[900], fontSize: 11),
                     ),
                     Text(
                       "Gender : ",
@@ -322,15 +333,15 @@ class _MemberUpdate extends State<MemberUpdate> {
                             return "Please enter valid email";
                           }
                           if (error.containsKey('error') &&
-                                      error['error'].containsKey('email') &&
-                                      error['error']['email'] is List &&
-                                      error['error']['email'].isNotEmpty) {
-                                    String temp = error['error']['email'][0];
-                                    // setState(() {
-                                    //   error['error']['email'] = [];
-                                    // });
-                                    return temp;
-                                  }
+                              error['error'].containsKey('email') &&
+                              error['error']['email'] is List &&
+                              error['error']['email'].isNotEmpty) {
+                            String temp = error['error']['email'][0];
+                            // setState(() {
+                            //   error['error']['email'] = [];
+                            // });
+                            return temp;
+                          }
                           return null;
                         },
                       ),
@@ -365,16 +376,16 @@ class _MemberUpdate extends State<MemberUpdate> {
                         controller: ctr[3],
                         decoration: tfdec,
                         validator: (value) {
-                                   if (!(value == null || value.isEmpty)) {
-                                    if (!RegExp(r'^[A-Za-z]+[A-Za-z0-9, -]*$')
-                                        .hasMatch(value)) {
-                                      return "Enter valid address";
-                                    }
-                                  } else {
-                                    return "Please enter address";
-                                  }
-                                  return null;
-                                },
+                          if (!(value == null || value.isEmpty)) {
+                            if (!RegExp(r'^[A-Za-z]+[A-Za-z0-9, -]*$')
+                                .hasMatch(value)) {
+                              return "Enter valid address";
+                            }
+                          } else {
+                            return "Please enter address";
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     Text(
@@ -397,7 +408,7 @@ class _MemberUpdate extends State<MemberUpdate> {
                               return "Enter valid weight";
                             }
                           }
-                      
+
                           return null;
                         },
                       ),
@@ -438,9 +449,11 @@ class _MemberUpdate extends State<MemberUpdate> {
                           Expanded(
                             child: ElevatedButton(
                               style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(
-                                    const Color(0xFF1A1363)),
-                                shape: MaterialStateProperty.all<OutlinedBorder>(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        const Color(0xFF1A1363)),
+                                shape:
+                                    MaterialStateProperty.all<OutlinedBorder>(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(24)),
                                 ),
@@ -448,7 +461,7 @@ class _MemberUpdate extends State<MemberUpdate> {
                               onPressed: () {
                                 getImage();
                               },
-                              child:const  Text(
+                              child: const Text(
                                 "Open gallery",
                                 style: TextStyle(color: Colors.white),
                               ),
@@ -491,41 +504,37 @@ class _MemberUpdate extends State<MemberUpdate> {
                             ),
                             onPressed: () {
                               setState(() {
-                                      error= {};
-                                    });
-                              
+                                error = {};
+                              });
+
                               if (_selectedGender == null) {
                                 setState(() {
                                   genderError = true;
                                 });
-                                
                               } else {
                                 setState(() {
                                   genderError = false;
                                 });
-                                
                               }
-                              if (DateTime.now().year - dob.year < 12||DateTime.now().year - dob.year >80) {
+                              if (DateTime.now().year - dob.year < 12 ||
+                                  DateTime.now().year - dob.year > 80) {
                                 setState(() {
-                                    ageError = true;
+                                  ageError = true;
                                 });
-                              
                               } else {
                                 setState(() {
                                   ageError = false;
                                 });
-                                
                               }
                               if (_formKey.currentState!.validate() &&
                                   genderError == false &&
                                   ageError == false &&
                                   imgstr != null) {
-                                    setState(() {
-                                      updateMember();
-                                    });
-                                
+                                setState(() {
+                                  updateMember();
+                                });
                               } else {
-                                print("validate please");
+                                debugPrint("validate please");
                               }
                             },
                             child: const Text(
@@ -536,12 +545,22 @@ class _MemberUpdate extends State<MemberUpdate> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(onPressed: (){
-                            setState(() {
-                              Provider.of<UserProvider>(context,listen: false).setCurrentPage(0);
-                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>HomePage(),),);
-                            });
-                          }, child: const Text("Cancel",)),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  Provider.of<UserProvider>(context,
+                                          listen: false)
+                                      .setCurrentPage(0);
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => const HomePage(),
+                                    ),
+                                  );
+                                });
+                              },
+                              child: const Text(
+                                "Cancel",
+                              )),
                         )
                       ],
                     ),

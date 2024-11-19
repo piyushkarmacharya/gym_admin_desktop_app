@@ -20,9 +20,29 @@ class _ChangePasswordState extends State<ChangePassword> {
     TextEditingController()
   ];
 
-  Future<void> setNewPassword(String oldPass, String newPass) async {
-     final screenHeight = MediaQuery.of(context).size.height;
+  void _showMessage(String msg) {
+    final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(0),
+                bottomRight: Radius.circular(20),
+                topLeft: Radius.circular(0),
+                topRight: Radius.circular(20))),
+        backgroundColor:
+            msg == "Old password donot match" ? Colors.red : Colors.green,
+        margin:
+            EdgeInsets.fromLTRB(0, 0, 0.7 * screenWidth, 0.05 * screenHeight),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 2),
+        content: Center(child: Text(msg)),
+      ),
+    );
+  }
+
+  Future<void> setNewPassword(String oldPass, String newPass) async {
     try {
       final res = await http.post(
         Uri.parse("http://127.0.0.1:8000/api/admin/change-password"),
@@ -35,22 +55,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       );
       String msg = jsonDecode(res.body)['message'];
       if (res.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(0),
-                    bottomRight: Radius.circular(20),
-                    topLeft: Radius.circular(0),
-                    topRight: Radius.circular(20))),
-            backgroundColor: msg=="Old password donot match"?Colors.red:Colors.green,
-            margin: EdgeInsets.fromLTRB(
-                0, 0, 0.7 * screenWidth, 0.05 * screenHeight),
-            behavior: SnackBarBehavior.floating,
-            duration: const Duration(seconds: 2),
-            content: Center(child: Text(msg)),
-          ),
-        );
+        _showMessage(msg);
         if (msg == "Successfully changed password") {
           setState(() {
             Provider.of<UserProvider>(context, listen: false).setCurrentPage(0);
@@ -62,12 +67,10 @@ class _ChangePasswordState extends State<ChangePassword> {
           });
         }
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Connection problem")));
+        _showMessage("Connection Problem");
       }
     } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.toString())));
+      _showMessage(e.toString());
     }
   }
 
@@ -131,7 +134,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               : Icons.visibility),
                         ),
                         labelText: "New password",
-                        prefixIcon:const  Icon(Icons.lock),
+                        prefixIcon: const Icon(Icons.lock),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -162,7 +165,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               : Icons.visibility),
                         ),
                         labelText: "Confirm password",
-                        prefixIcon:const  Icon(Icons.lock),
+                        prefixIcon: const Icon(Icons.lock),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -194,7 +197,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           }
                         });
                       },
-                      child:const  Text(
+                      child: const Text(
                         "Change Password",
                         style: TextStyle(color: Colors.white),
                       ),
